@@ -47,4 +47,7 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+moqup/
+.env
+.idea
 

@@ -1,0 +1,33 @@
+import os
+
+from environs import Env
+from pathlib import Path
+
+env = Env()
+env.read_env()
+
+base_dir = Path(__file__).parent
+
+
+class Config:
+    SECRET_KEY = env.str('SECRET_KEY') or 'test string'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    @staticmethod
+    def init_app(app):
+        pass
+
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = env.str('DEV_DB_URL') or 'sqlite:///' + os.path.join(base_dir, 'dev.sqlite')
+
+
+class ProductionConfig(Config):
+    SQLALCHEMY_DATABASE_URI = env.str('DEV_DB_URL') or 'sqlite:///' + os.path.join(base_dir, 'data.sqlite')
+
+
+config = {
+    'development': DevelopmentConfig,
+    'production': ProductionConfig
+}
