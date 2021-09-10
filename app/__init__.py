@@ -2,8 +2,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from werkzeug.exceptions import HTTPException
 
 from config import config_dict
+
+from .views.error_handling import error_handler
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -24,5 +27,7 @@ def create_app(config_name='development'):
 
     app.register_blueprint(admin_main)
     app.register_blueprint(admin_auth)
+
+    app.register_error_handler(HTTPException, error_handler)
 
     return app

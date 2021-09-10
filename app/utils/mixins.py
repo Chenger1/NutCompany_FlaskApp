@@ -1,7 +1,7 @@
 from flask_login import login_required
 from flask_login.utils import current_user
 
-from flask import Response
+from werkzeug.exceptions import Forbidden
 
 
 class LoginRequiredMixin:
@@ -19,5 +19,5 @@ class AdminPermissionRequiredMixin:
     """
     def dispatch_request(self, *args, **kwargs):
         if not current_user.is_admin:
-            return Response('You don`t have permissions'), 403
+            raise Forbidden()
         return getattr(super(AdminPermissionRequiredMixin, self), 'dispatch_request')(*args, **kwargs)
