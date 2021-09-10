@@ -50,4 +50,6 @@ Thumbs.db
 moqup/
 .env
 .idea
+migrations
+*.db
 

@@ -1,9 +1,7 @@
-from app import create_app, db
-from flask_migrate import Migrate
+from app import create_app
 
 
 app = create_app('development')
-migrate = Migrate(app, db)
 
 
 if __name__ == '__main__':
