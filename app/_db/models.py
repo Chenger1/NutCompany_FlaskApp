@@ -1,36 +1,7 @@
 from app import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
-from enum import Enum
-
-
-class UserTypeChoice(Enum):
-    legal_person = 'Юридическое лицо'
-    physical_person = 'Физические лицо'
-
-
-class DeliveryTypeChoice(Enum):
-    new_mail = 'Новая почта (по Украине, оплата за счет Клиента)'
-    courier = 'Куръер по Одесса'
-    self_pickup = 'Самовывоз со склада'
-
-
-class PaymentChoice(Enum):
-    privat = 'LiqPay/Приват24'
-    cashless = 'Безналичный расчет'
-    cash = 'Наличными при получении (Наложенным платежом)'
-
-
-class OrderStatusChoice(Enum):
-    unpaid = 'Неоплачен'
-    in_progress = 'В обработке'
-    sent = 'Отправлен'
-    done = 'Выполнен'
-
-
-class RequestStatusChoice(Enum):
-    in_progress = 'В обработке'
-    closed = 'Отказано'
-    done = 'Выполнен'
+from .choices import *
 
 
 class User(db.Model):
@@ -39,7 +10,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fio = db.Column(db.String(150))
     email = db.Column(db.String(150))
-    password = db.Column(db.String(255))
+    password_hash = db.Column(db.String(255))
     phone = db.Column(db.String(30))
     photo = db.Column(db.String())
     joined = db.Column(db.Date())
@@ -57,6 +28,17 @@ class User(db.Model):
     credentials = db.Column(db.String(30), nullable=True)
 
     orders = db.relationship('Order', backref='user')
+
+    def verify_password(self, password):
+        return check_password_hash(self.password, password)
+
+    @property
+    def password(self):
+        raise AttributeError('Password it not a readable attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
 
 
 class Product(db.Model):
