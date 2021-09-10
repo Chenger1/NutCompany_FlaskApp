@@ -8,6 +8,7 @@ from config import config_dict
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
+login_manager.login_view = 'admin.admin_auth.admin_login'
 
 
 def create_app(config_name='development'):
@@ -18,9 +19,10 @@ def create_app(config_name='development'):
     migrate.init_app(app, db)
     login_manager.init_app(app)
 
-    from .views.admin import main as admin_main
+    from .views.admin import main as admin_main, admin_auth
     from ._db import models, site_models
 
     app.register_blueprint(admin_main)
+    app.register_blueprint(admin_auth)
 
     return app
