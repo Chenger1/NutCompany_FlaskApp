@@ -1,0 +1,88 @@
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row md-2">
+            <div class="col-sm-6">
+                <h4 class="m-0">В вашем обслуживании</h4>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:40px;">
+            <div class="col-lg-4 col-sm-6 col-xs-12">
+                <div class="small-box bg-primary">
+                    <div class="inner">
+                        <h3>0</h3>
+                        <p>Клиентов</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <a href="" class="small-box-footer">
+                        Перейти в Клиенты <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- /.col-md-6 -->
+            <div class="col-lg-4 col-sm-6 col-xs-12">
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>0</h3>
+                        <p>Открытых Заказов</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <a href="" class="small-box-footer">
+                        Перейти в Заказы <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-xs-12">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>0</h3>
+                        <p>Товаров</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-wrench"></i>
+                    </div>
+                    <a href="" class="small-box-footer">
+                        Перейти в Товары <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">График заказов</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand">
+                                    <div class=""></div>
+                                </div>
+                                <div class="chartjs-size-monitor-shrink">
+                                    <div class=""></div>
+                                </div>
+                            </div>
+                            <canvas id="barChart"
+                                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 572px;"
+                                    width="715" height="312" class="chartjs-render-monitor"></canvas>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /.container-fluid -->
+</div>
+{% endblock %}

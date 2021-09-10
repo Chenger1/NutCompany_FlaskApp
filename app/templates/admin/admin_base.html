@@ -71,7 +71,8 @@
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="" class="nav-link">
+                        <a href=""
+                           class="nav-link {% if request.path == '/admin' %}active{% endif %}">
                             <i class="nav-icon fa fa-chart-line" aria-hidden="true"></i>
                             <p>Статистика</p>
                         </a>
@@ -188,6 +189,7 @@
         <!-- /.content-header -->
 
         <!-- Main content -->
+        {% block content %}
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -196,6 +198,7 @@
                 <!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
+        {% endblock %}
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
