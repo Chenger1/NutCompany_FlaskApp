@@ -1,12 +1,27 @@
 from flask.views import MethodView
-from flask import render_template
+from flask import render_template, redirect, flash
+from flask_login import login_user
 
 from . import admin_auth
+
+from app._db.models import User
+from app.forms.admin.auth import AdminLoginForm
 
 
 class AdminLogin(MethodView):
     def get(self):
-        return render_template('admin/login.html')
+        form = AdminLoginForm()
+        return render_template('admin/login.html', form=form)
+
+    def post(self):
+        form = AdminLoginForm()
+        if form.validate_on_submit():
+            user = User.query.filter_by(email=form.email.data).first()
+            if user and user.verify_password(form.password.data) and user.is_admin:
+                login_user(user)
+                return redirect('main.statistic')
+        flash('Или у вас неверные данные или нет прав доступа')
+        return render_template('admin/login.html', form=form)
 
 
 admin_auth.add_url_rule('/login', view_func=AdminLogin.as_view('admin_login'))
