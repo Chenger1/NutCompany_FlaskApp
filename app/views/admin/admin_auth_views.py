@@ -1,5 +1,5 @@
 from flask.views import MethodView
-from flask import render_template, redirect, flash
+from flask import render_template, redirect, flash, url_for
 from flask_login import login_user
 
 from . import admin_auth
@@ -19,7 +19,7 @@ class AdminLogin(MethodView):
             user = User.query.filter_by(email=form.email.data).first()
             if user and user.verify_password(form.password.data) and user.is_admin:
                 login_user(user)
-                return redirect('main.statistic')
+                return redirect(url_for('main.statistic'))
         flash('Или у вас неверные данные или нет прав доступа')
         return render_template('admin/login.html', form=form)
 

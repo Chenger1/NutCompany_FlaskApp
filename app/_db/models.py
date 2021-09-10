@@ -37,7 +37,7 @@ class User(UserMixin, db.Model):
     orders = db.relationship('Order')
 
     def verify_password(self, password):
-        return check_password_hash(self.password, password)
+        return check_password_hash(self.password_hash, password)
 
     @property
     def password(self):
