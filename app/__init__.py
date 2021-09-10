@@ -8,7 +8,7 @@ from config import config_dict
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
-login_manager.login_view = 'admin.admin_auth.admin_login'
+login_manager.login_view = 'admin_auth.admin_login'
 
 
 def create_app(config_name='development'):

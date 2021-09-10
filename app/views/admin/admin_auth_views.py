@@ -1,11 +1,12 @@
 from flask.views import MethodView
 from flask import render_template, redirect, flash, url_for
-from flask_login import login_user
+from flask_login import login_user, logout_user
 
 from . import admin_auth
 
 from app._db.models import User
 from app.forms.admin.auth import AdminLoginForm
+from app.utils.mixins import LoginRequiredMixin
 
 
 class AdminLogin(MethodView):
@@ -24,4 +25,11 @@ class AdminLogin(MethodView):
         return render_template('admin/login.html', form=form)
 
 
+class AdminLogout(LoginRequiredMixin, MethodView):
+    def get(self):
+        logout_user()
+        return redirect(url_for('main.statistic'))
+
+
 admin_auth.add_url_rule('/login', view_func=AdminLogin.as_view('admin_login'))
+admin_auth.add_url_rule('/logout', view_func=AdminLogout.as_view('admin_logout'))
