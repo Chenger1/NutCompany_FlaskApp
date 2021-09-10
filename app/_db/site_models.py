@@ -47,7 +47,7 @@ class AboutCompany(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text())
-    images = db.relationship('AboutCompanyGallery', backref='entity')
+    images = db.relationship('AboutCompanyGallery')
 
 
 class AboutCompanyGallery(db.Model):

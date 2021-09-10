@@ -34,7 +34,7 @@ class User(UserMixin, db.Model):
     type = db.Column(db.Enum(UserTypeChoice))
     credentials = db.Column(db.String(30), nullable=True)
 
-    orders = db.relationship('Order', backref='user')
+    orders = db.relationship('Order')
 
     def verify_password(self, password):
         return check_password_hash(self.password, password)
@@ -67,7 +67,7 @@ class Product(db.Model):
     is_promo = db.Column(db.Boolean(), default=False)
     date = db.Column(db.DateTime())
 
-    gallery = db.relationship('ProductGallery', backref='product')
+    gallery = db.relationship('ProductGallery')
 
 
 class ProductGallery(db.Model):
@@ -94,7 +94,7 @@ class Order(db.Model):
     payment = db.Column(db.Enum(PaymentChoice))
     status = db.Column(db.Enum(OrderStatusChoice))
 
-    items = db.relationship('OrderItem', backref='order')
+    items = db.relationship('OrderItem')
 
 
 class OrderItem(db.Model):
