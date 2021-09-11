@@ -4,6 +4,8 @@ from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import StringField, PasswordField, BooleanField, ValidationError
 from wtforms.validators import DataRequired, Length, Email
 
+from app._db.models import User
+
 
 class UserBaseForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(),
@@ -28,3 +30,15 @@ class AdminEditForm(UserBaseForm):
     password2 = PasswordField('Password2')
 
     is_admin = BooleanField(default=True)
+
+
+class AdminCreateForm(UserBaseForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField('Password2', validators=[DataRequired()])
+
+    is_admin = BooleanField(default=True)
+
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data).first():
+            raise ValidationError('User with this email already exists')
+        return field
