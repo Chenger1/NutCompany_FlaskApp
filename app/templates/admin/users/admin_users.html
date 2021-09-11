@@ -1,4 +1,5 @@
 {% extends "admin/admin_base.html" %}
+{% import "admin/paginator.html" as macros %}
 
 {% block title %}
 Список администраторов
@@ -64,6 +65,7 @@
                         {% endfor %}
                         </tbody>
                     </table>
+                    {{ macros.pagination_widget(pagination, '.admin_list') }}
                 </div>
             </div>
         </div>
