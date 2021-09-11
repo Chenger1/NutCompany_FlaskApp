@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from werkzeug.exceptions import HTTPException
 
-from config import config_dict
+from app.config import config_dict
 
 from .views.error_handling import error_handler
 

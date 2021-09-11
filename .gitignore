@@ -52,4 +52,4 @@ moqup/
 .idea
 migrations
 *.db
-
+app/uploads

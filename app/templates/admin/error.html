@@ -1,0 +1,13 @@
+<script src="{{ url_for('static', filename='admin/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='admin/js/adminlte.min.js') }}"></script>
+
+<script>
+{% for tag, error in form.errors.items() %}
+            $(document).Toasts('create', {
+                class: 'bg-danger',
+                title: '{{ tag }}',
+                body: '{{ error|join(", ") }}'
+            })
+{% endfor %}
+</script>
