@@ -1,6 +1,8 @@
 from flask_login import login_required
 from flask_login.utils import current_user
 
+from flask.views import MethodView
+
 from werkzeug.exceptions import Forbidden
 
 
@@ -21,3 +23,10 @@ class AdminPermissionRequiredMixin:
         if not current_user.is_admin:
             raise Forbidden()
         return getattr(super(AdminPermissionRequiredMixin, self), 'dispatch_request')(*args, **kwargs)
+
+
+class AdminMethodView(LoginRequiredMixin, AdminPermissionRequiredMixin, MethodView):
+    """
+    Simple way to initialize view for admin panel
+    """
+    pass

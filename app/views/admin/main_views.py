@@ -1,12 +1,11 @@
 from flask import render_template
-from flask.views import MethodView
 
 from . import main
 
-from app.utils.mixins import LoginRequiredMixin, AdminPermissionRequiredMixin
+from app.utils.mixins import AdminMethodView
 
 
-class StatisticView(LoginRequiredMixin, AdminPermissionRequiredMixin, MethodView):
+class StatisticView(AdminMethodView):
     def get(self):
         return render_template('admin/index.html')
 

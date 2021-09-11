@@ -6,7 +6,7 @@ from . import admin_auth
 
 from app._db.models import User
 from app.forms.admin.auth import AdminLoginForm
-from app.utils.mixins import LoginRequiredMixin, AdminPermissionRequiredMixin
+from app.utils.mixins import AdminMethodView
 
 
 class AdminLogin(MethodView):
@@ -25,7 +25,7 @@ class AdminLogin(MethodView):
         return render_template('admin/login.html', form=form)
 
 
-class AdminLogout(LoginRequiredMixin, AdminPermissionRequiredMixin, MethodView):
+class AdminLogout(AdminMethodView):
     def get(self):
         logout_user()
         return redirect(url_for('main.statistic'))
