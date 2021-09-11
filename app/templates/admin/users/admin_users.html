@@ -54,7 +54,7 @@
                                     title="Редактировать">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="" class="btn btn-default btn-sm"
+                                    <a href="{{ url_for('main.delete_admin', user_id=inst.id) }}" class="btn btn-default btn-sm"
                                     title="Удалить">
                                         <i class="fa fa-trash"></i>
                                     </a>

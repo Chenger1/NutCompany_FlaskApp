@@ -69,6 +69,15 @@ class CreateAdminView(AdminMethodView):
         return render_template('admin/users/admin_detail.html', form=form, instance=self.undefined)
 
 
+class DeleteAdminView(AdminMethodView):
+    def get(self, user_id):
+        user = User.query.get_or_404(user_id)
+        db.session.delete(user)
+        db.session.commit()
+        return redirect(url_for('main.admin_list'))
+
+
 main.add_url_rule('/admin_list', view_func=AdminUserList.as_view('admin_list'))
 main.add_url_rule('/admin_detail/<user_id>', view_func=AdminDetail.as_view('admin_detail'))
 main.add_url_rule('/admin_detail/create_admin', view_func=CreateAdminView.as_view('create_admin'))
+main.add_url_rule('/admin_detail/<user_id>/delete', view_func=DeleteAdminView.as_view('delete_admin'))
