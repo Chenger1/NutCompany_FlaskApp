@@ -1,13 +1,11 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileRequired
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 from wtforms import StringField, PasswordField, BooleanField, ValidationError
 from wtforms.validators import DataRequired, Length, Email
 
-from app._db.models import User
 
-
-class AdminEditForm(FlaskForm):
+class UserBaseForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(),
                                              Length(1, 150),
                                              Email()])
@@ -15,12 +13,16 @@ class AdminEditForm(FlaskForm):
                                          Length(1, 150)])
     phone = StringField('Phone', validators=[DataRequired(),
                                              Length(1, 30)])
-    password = PasswordField('Password', validators=[DataRequired()])
-    password2 = PasswordField('Password2', validators=[DataRequired()])
+    photo = FileField('Photo', validators=[FileRequired(),
+                                           FileAllowed({'png', 'jpg', 'jpeg'})])
+
+    def validate_password(self, field):
+        if field.data != self.password2.data:
+            raise ValidationError('Passwords are different')
+
+
+class AdminEditForm(UserBaseForm):
+    password = PasswordField('Password')
+    password2 = PasswordField('Password2')
 
     is_admin = BooleanField(default=True)
-    photo = FileField('Photo', validators=[FileRequired()])
-
-    def validate_email(self, field):
-        if User.query.filter_by(email=field.data).first():
-            raise ValidationError('User with this email already exists')
