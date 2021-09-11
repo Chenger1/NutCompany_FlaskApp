@@ -1,4 +1,5 @@
-from flask import render_template
+from flask import render_template, request
+from werkzeug.datastructures import CombinedMultiDict
 
 from . import main
 
@@ -18,6 +19,11 @@ class AdminDetail(AdminMethodView):
         user = User.query.filter_by(id=user_id).first()
         form = AdminEditForm(obj=user)
         return render_template('admin/users/admin_detail.html', instance=user, form=form)
+
+    def post(self, user_id):
+        form = AdminEditForm(CombinedMultiDict((request.files, request.form)))
+        if form.validate_on_submit():
+            pass
 
 
 main.add_url_rule('/admin_list', view_func=AdminUserList.as_view('admin_list'))
