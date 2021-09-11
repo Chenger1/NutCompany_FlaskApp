@@ -22,6 +22,8 @@ class UserBaseForm(FlaskForm):
 
 
 class AdminEditForm(UserBaseForm):
+    photo = FileField('Photo', validators=[FileAllowed({'png', 'jpg', 'jpeg'})])
+
     password = PasswordField('Password')
     password2 = PasswordField('Password2')
 

@@ -7,13 +7,12 @@ env = Env()
 env.read_env()
 
 base_dir = Path(__file__).parent
-
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+upload_folder = os.path.join(base_dir, 'uploads')
 
 
 class Config:
     SECRET_KEY = env.str('SECRET_KEY') or 'test string'
-    UPLOAD_FOLDER = os.path.join(base_dir, 'app/uploads')
+    UPLOAD_FOLDER = upload_folder
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod
