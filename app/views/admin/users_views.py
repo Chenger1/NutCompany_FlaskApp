@@ -15,8 +15,8 @@ class AdminUserList(AdminMethodView):
 
 class AdminDetail(AdminMethodView):
     def get(self, user_id):
-        form = AdminEditForm()
         user = User.query.filter_by(id=user_id).first()
+        form = AdminEditForm(obj=user)
         return render_template('admin/users/admin_detail.html', instance=user, form=form)
 
 

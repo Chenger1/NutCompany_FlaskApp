@@ -138,7 +138,8 @@
                         </ul>
                     </li>
                     <li class="nav-item
-                        {% if '/admin_list' in request.path %}menu-open
+                        {% if '/admin_list' in request.path %}menu-is-opening menu-open
+                        {% elif '/admin_detail/' in request.path %}menu-is-opening menu-open
                         {% endif %}">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-users"></i>
@@ -156,7 +157,9 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{ url_for('main.admin_list') }}"
-                                   class="nav-link {% if '/admin_list' in request.path %}active{% endif %}">
+                                   class="nav-link {% if '/admin_list' in request.path %}active
+                                   {% elif '/admin_detail/' in request.path %}active
+                                   {% endif %}">
                                     <i class="nav-icon fas fa-user-tie"></i>
                                     <p>Администраторы</p>
                                 </a>
@@ -229,5 +232,6 @@
 <script src="{{ url_for('static', filename='admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ url_for('static', filename='admin/js/adminlte.min.js') }}"></script>
+{% block script %}{% endblock %}
 </body>
 </html>
