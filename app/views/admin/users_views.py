@@ -28,8 +28,8 @@ class AdminDetail(AdminMethodView):
         form = AdminEditForm(CombinedMultiDict((request.files, request.form)))
         if form.validate_on_submit():
             if form.photo.data:
-                file_path = handle_files(form.photo.data)
-                user.photo = file_path
+                filename = handle_files(form.photo.data)
+                user.photo = filename
             user.email = form.email.data
             user.fio = form.fio.data
             user.phone = form.phone.data

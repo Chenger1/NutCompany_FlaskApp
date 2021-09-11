@@ -21,8 +21,13 @@
             {{ form.csrf_token }}
             <div class="row">
                 <div class="col-md-4 col-sm-12 text-center">
+                    {% if instance.photo %}
+                    <img src="{{ url_for('common.download_file', name=instance.photo) }}" alt=""
+                         style="width: 350px; height: 350px;" class="preview_img img-fluid">
+                    {% else %}
                     <img src="{{ url_for('static', filename='img/default_form_image.png') }}" alt=""
                          style="width: 350px; height: 350px;" class="preview_img img-fluid">
+                    {% endif %}
                     <input type="file" name="photo"
                     style="margin-top: 10px;" id="photo">
                 </div>
