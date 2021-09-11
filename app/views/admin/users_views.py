@@ -4,6 +4,7 @@ from werkzeug.datastructures import CombinedMultiDict
 from . import main
 
 from app.utils.mixins import AdminMethodView, AttrUndefined
+from app.utils.generic import ListViewMixin
 from app.utils.funcs import handle_files
 from app._db.models import User
 from app.forms.admin.users import AdminEditForm, AdminCreateForm
@@ -13,10 +14,14 @@ from app import db
 from datetime import date
 
 
-class AdminUserList(AdminMethodView):
-    def get(self):
-        users = User.query.filter_by(is_admin=True).all()
-        return render_template('admin/users/admin_users.html', instances=users)
+class AdminUserList(AdminMethodView, ListViewMixin):
+    model = User
+    template_name = 'admin/users/admin_users.html'
+    paginate_by = 20
+
+    def get_queryset(self):
+        query = self.model.query.filter_by(is_admin=True)
+        return self.paginate(query)
 
 
 class AdminDetail(AdminMethodView):
