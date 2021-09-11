@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block header %}
-    Администраторы
+Администраторы
 {% endblock %}
 
 {% block breadcrumb %}
@@ -16,5 +16,50 @@
 {% endblock %}
 
 {% block content %}
-
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <a href="" class="btn btn-success" style="float: right;">Добавить администоратора</a>
+            </div>
+        </div>
+        <div class="col-12" style="margin-top: 15px;">
+            <div class="card card-default">
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover table-striped text-nowrap">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th style="min-width:250px;">ФИО</th>
+                            <th>Дата назначения</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for inst in instances %}
+                        <tr>
+                            <td>{{ inst.id }}</td>
+                            <td style="min-width:250px;">{{ inst.fio }}</td>
+                            <td>{{ inst.joined }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="" class="btn btn-default btn-sm"
+                                    title="Редактировать">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="" class="btn btn-default btn-sm"
+                                    title="Удалить">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
