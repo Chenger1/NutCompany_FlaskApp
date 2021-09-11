@@ -32,10 +32,11 @@ class AdminDetail(AdminMethodView):
             if form.photo.data:
                 filename = handle_files(form.photo.data)
                 user.photo = filename
+            if form.password.data:
+                user.password = form.password.data
             user.email = form.email.data
             user.fio = form.fio.data
             user.phone = form.phone.data
-            user.password = form.password.data
             user.is_admin = form.is_admin.data
             db.session.add(user)
             db.session.commit()
