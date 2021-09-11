@@ -71,7 +71,7 @@
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href=""
+                        <a href="{{ url_for('main.statistic') }}"
                            class="nav-link {% if request.path == '/admin' %}active{% endif %}">
                             <i class="nav-icon fa fa-chart-line" aria-hidden="true"></i>
                             <p>Статистика</p>
@@ -104,10 +104,7 @@
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
-                        <ul class="nav nav-treeview
-                        {% if '/admin_list' in request.path %}menu_open
-                        {% endif %}
-                        ">
+                        <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-images"></i>
@@ -140,7 +137,9 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item ">
+                    <li class="nav-item
+                        {% if '/admin_list' in request.path %}menu-open
+                        {% endif %}">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
@@ -174,11 +173,15 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <div class="content-header">
+        <div class="content-header" style="border-bottom: 1px solid #c9c9c9;">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Статистика</h1>
+                        <h1 class="m-0">
+                            {% block header %}
+                                Статистика
+                            {% endblock %}
+                        </h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         {% block breadcrumb %}
