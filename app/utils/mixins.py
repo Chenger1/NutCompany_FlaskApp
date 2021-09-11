@@ -1,5 +1,6 @@
 from flask_login import login_required
 from flask_login.utils import current_user
+from jinja2 import Undefined
 
 from flask.views import MethodView
 
@@ -30,3 +31,12 @@ class AdminMethodView(LoginRequiredMixin, AdminPermissionRequiredMixin, MethodVi
     Simple way to initialize view for admin panel
     """
     pass
+
+
+class AttrUndefined(Undefined):
+    """
+    Allow to check for variable existing in template
+    Like, {% if variable %} some code {% endif %}
+    """
+    def __getattr__(self, item):
+        return None
