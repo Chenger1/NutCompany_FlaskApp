@@ -96,7 +96,10 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item
+                        {% if '/news_list' in request.path %}menu-is-opening menu-open
+                        {% elif '/news_detail/' in request.path %}menu-is-opening menu-open
+                        {% endif %}">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-tools"></i>
                             <p>
@@ -111,8 +114,11 @@
                                     <p>Галерея</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item
+                            {% if '/news_list' in request.path %}active
+                            {% elif '/news_detail/' in request.path %}active
+                            {% endif %}">
+                                <a href="{{ url_for('main.news_list') }}" class="nav-link">
                                     <i class="nav-icon fas fa-newspaper"></i>
                                     <p>Новости</p>
                                 </a>

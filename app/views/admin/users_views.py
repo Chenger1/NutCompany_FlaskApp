@@ -17,7 +17,6 @@ from datetime import date
 class AdminUserList(AdminMethodView, ListViewMixin):
     model = User
     template_name = 'admin/users/admin_users.html'
-    paginate_by = 20
 
     def get_queryset(self):
         query = self.model.query.filter_by(is_admin=True)
