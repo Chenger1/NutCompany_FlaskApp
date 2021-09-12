@@ -1,10 +1,12 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 
-from wtforms import StringField, PasswordField, BooleanField, ValidationError
+from wtforms import StringField, PasswordField, BooleanField, ValidationError, DateField
 from wtforms.validators import DataRequired, Length, Email
 
 from app._db.models import User
+
+from datetime import date
 
 
 class UserBaseForm(FlaskForm):
@@ -37,8 +39,13 @@ class AdminCreateForm(UserBaseForm):
     password2 = PasswordField('Password2', validators=[DataRequired()])
 
     is_admin = BooleanField(default=True)
+    joined = DateField('Joined')
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('User with this email already exists')
+        return field
+
+    def validate_joined(self, field):
+        field.data = date.today()
         return field
