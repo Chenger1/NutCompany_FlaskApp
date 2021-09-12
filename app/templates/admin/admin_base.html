@@ -13,6 +13,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/base.css') }}">
+    {% block style %}{% endblock %}
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">

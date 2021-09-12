@@ -6,6 +6,10 @@
 {% block header %}
 Новости
 {% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='admin/plugins/summernote/summernote-bs4.min.css') }}">
+{% endblock %}
+
 {% block breadcrumb %}
 <ol class="breadcrumb float-sm-right">
     <li class="breadcrumb-item"><a href="{{ url_for('main.statistic') }}">Главная</a></li>
@@ -56,7 +60,7 @@
                 <div class="col-12">
                     <div class="form-group">
                         <label for="Text">Текст новости</label>
-                        {{ form.text(class="form-control", rows="15") }}
+                        {{ form.text(class="form-control", id="summernote") }}
                     </div>
                 </div>
             </div>
@@ -72,10 +76,18 @@
 
 {% block script %}
 <script src="{{ url_for('static', filename='js/update_img_after_upload.js') }}"></script>
-<script src="{{ url_for('static', filename='admin/plugins/moment/moment.min.js') }}"></script>
+<script src="{{ url_for('static', filename='admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
 <script>
     $('#photo').on('change', function(){
         setPreview(this, 'form')
+    })
+</script>
+<script>
+    $(function(){
+        $('#summernote').summernote({
+            placeholder: 'Текст новости',
+            height: 500
+        })
     })
 </script>
 {% include "admin/error.html" %}
