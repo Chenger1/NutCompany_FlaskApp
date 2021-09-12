@@ -39,23 +39,23 @@
                         <tbody>
                         {% for inst in instances %}
                         <tr>
-                            <td><a href="{{ url_for('main.admin_detail', user_id=inst.id) }}"
+                            <td><a href="{{ url_for('main.admin_detail', obj_id=inst.id) }}"
                             style="color: black;">{{ inst.id }}</a></td>
-                            <td style="min-width:250px;"><a href="{{ url_for('main.admin_detail', user_id=inst.id) }}"
+                            <td style="min-width:250px;"><a href="{{ url_for('main.admin_detail', obj_id=inst.id) }}"
                             style="color: black;">
                                 {{ inst.fio }}
                             </a></td>
-                            <td><a href="{{ url_for('main.admin_detail', user_id=inst.id) }}"
+                            <td><a href="{{ url_for('main.admin_detail', obj_id=inst.id) }}"
                             style="color: black;">
                                 {{ inst.joined }}
                             </a></td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{ url_for('main.admin_detail', user_id=inst.id) }}" class="btn btn-default btn-sm"
+                                    <a href="{{ url_for('main.admin_detail', obj_id=inst.id) }}" class="btn btn-default btn-sm"
                                     title="Редактировать">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="{{ url_for('main.delete_admin', user_id=inst.id) }}" class="btn btn-default btn-sm"
+                                    <a href="{{ url_for('main.delete_admin', obj_id=inst.id) }}" class="btn btn-default btn-sm"
                                     title="Удалить">
                                         <i class="fa fa-trash"></i>
                                     </a>
