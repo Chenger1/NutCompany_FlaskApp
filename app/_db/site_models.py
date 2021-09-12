@@ -16,7 +16,7 @@ class NewsItem(db.Model):
     title = db.Column(db.String(150))
     text = db.Column(db.Text())
     photo = db.Column(db.String())
-    date = db.Column(db.DateTime())
+    publication_date = db.Column(db.DateTime())
 
 
 class CorporateClients(db.Model):

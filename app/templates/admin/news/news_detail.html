@@ -1,0 +1,82 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}
+Новости
+{% endblock %}
+{% block header %}
+Новости
+{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{ url_for('main.statistic') }}">Главная</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('main.news_list') }}">Новости</a></li>
+    <li class="breadcrumb-item">Новости</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="container-fluid">
+        <form method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <div class="row">
+                <div class="col-12 text-center">
+                    {% if instance and instance.photo %}
+                    <img src="{{ url_for('common.download_file', name=instance.photo) }}" alt=""
+                         style="width: 350px; height: 350px;" class="preview_img img-fluid">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='img/default_form_image.png') }}" alt=""
+                         style="width: 550px; height: 400px;" class="preview_img img-fluid">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <input type="file" name="photo"
+                           style="margin-top: 10px;" id="photo">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 col-sm-1">
+                    <div class="form-group">
+                        <label for="Title">Заголовок</label>
+                        {{ form.title(class="form-control", placeholder="Заголовок новости") }}
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <label for="Date">Дата публикации</label>
+                     {% if old_date %}
+                        {{ form.publication_date(class="form-control", value=old_date) }}
+                    {% else %}
+                        {{ form.publication_date(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="Text">Текст новости</label>
+                        {{ form.text(class="form-control", rows="15") }}
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary" id="save">Сохранить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/update_img_after_upload.js') }}"></script>
+<script src="{{ url_for('static', filename='admin/plugins/moment/moment.min.js') }}"></script>
+<script>
+    $('#photo').on('change', function(){
+        setPreview(this, 'form')
+    })
+</script>
+{% include "admin/error.html" %}
+{% endblock %}

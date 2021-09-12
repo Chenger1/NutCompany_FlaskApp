@@ -21,7 +21,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <a href="" class="btn btn-success" style="float: right;">Добавить новость</a>
+                <a href="{{ url_for('main.create_news') }}" class="btn btn-success" style="float: right;">Добавить новость</a>
             </div>
         </div>
         <div class="col-12" style="margin-top: 15px;">
@@ -39,23 +39,23 @@
                         <tbody>
                         {% for inst in instances %}
                         <tr>
-                            <td><a href=""
+                            <td><a href="{{ url_for('main.edit_news', obj_id=inst.id) }}"
                             style="color: black;">{{ inst.id }}</a></td>
-                            <td style="min-width:250px;"><a href=""
+                            <td style="min-width:250px;"><a href="{{ url_for('main.edit_news', obj_id=inst.id) }}"
                             style="color: black;">
                                 {{ inst.title }}
                             </a></td>
-                            <td><a href=""
+                            <td><a href="{{ url_for('main.edit_news', obj_id=inst.id) }}"
                             style="color: black;">
                                 {{ inst.date }}
                             </a></td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="" class="btn btn-default btn-sm"
+                                    <a href="{{ url_for('main.edit_news', obj_id=inst.id) }}" class="btn btn-default btn-sm"
                                     title="Редактировать">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="" class="btn btn-default btn-sm"
+                                    <a href="{{ url_for('main.delete_news', obj_id=inst.id) }}" class="btn btn-default btn-sm"
                                     title="Удалить">
                                         <i class="fa fa-trash"></i>
                                     </a>
