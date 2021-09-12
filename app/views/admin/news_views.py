@@ -38,7 +38,7 @@ class DeleteNewsItem(AdminMethodView, DeleteInstanceMixin):
     redirect_url = 'main.news_list'
 
 
-main.add_url_rule('/admin/news_list', view_func=NewsListView.as_view('news_list'))
+main.add_url_rule('/admin/news/list', view_func=NewsListView.as_view('news_list'))
 main.add_url_rule('/admin/news/create', view_func=CreateNewItemView.as_view('create_news'))
-main.add_url_rule('/admin/news_detail/<obj_id>', view_func=UpdateNewsItemView.as_view('edit_news'))
-main.add_url_rule('/admin/news_detail/<obj_id>/delete', view_func=DeleteNewsItem.as_view('delete_news'))
+main.add_url_rule('/admin/news/detail/<obj_id>', view_func=UpdateNewsItemView.as_view('edit_news'))
+main.add_url_rule('/admin/news/detail/<obj_id>/delete', view_func=DeleteNewsItem.as_view('delete_news'))
