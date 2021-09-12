@@ -7,7 +7,7 @@
 Новости
 {% endblock %}
 {% block style %}
-<link rel="stylesheet" href="{{ url_for('static', filename='admin/plugins/summernote/summernote-bs4.min.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block breadcrumb %}
@@ -76,7 +76,7 @@
 
 {% block script %}
 <script src="{{ url_for('static', filename='js/update_img_after_upload.js') }}"></script>
-<script src="{{ url_for('static', filename='admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 <script>
     $('#photo').on('change', function(){
         setPreview(this, 'form')
