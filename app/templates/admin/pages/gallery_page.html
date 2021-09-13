@@ -22,7 +22,7 @@
             <div class="col-4 formset" id="hidden_prefix" style="display: none;">
                 <div class="card card-default">
                     <img src="{{ url_for('static', filename='img/default_form_image.png') }}" alt="image"
-                         class="img-fluid">
+                         class="img-fluid preview_img">
                     {% for field in empty_form %}
                     {{ field }}
                     {% endfor %}
@@ -36,13 +36,13 @@
                     <div class="card card-default">
                         {% if form.obj %}
                         <img src="{{ url_for('common.download_file', name=form.obj.photo) }}" alt="image"
-                             class="img-fluid">
+                             class="img-fluid preview_img">
                         {% else %}
                         <img src="{{ url_for('static', filename='img/default_form_image.png') }}" alt="image"
-                             class="img-fluid">
+                             class="img-fluid preview_img">
                         {% endif %}
 
-                        {{ form.photo }}
+                        {{ form.photo(class="upload") }}
                         {{ form.url }}
                         {{ form.delete }}
                         {{ form.prefix }}
@@ -62,6 +62,15 @@
     </div>
 </div>
 <script src="{{ url_for('static', filename='admin/plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/update_img_after_upload.js') }}"></script>
+<script>
+    let forms = $('.formset');
+    for(form of forms){
+        $(form).find(':input[class="upload"]').on('change', function(){
+            setPreview(this);
+        })
+    }
+</script>
 <script>
     let add_button = $('#add_new');
     $(add_button).on('click', function(){
@@ -73,6 +82,10 @@
                 $(this).attr('id', $(this).attr('id').replace('__prefix__', `${new_prefix_number}-`));
                 $(this).attr('name', $(this).attr('id').replace('__prefix__', `${new_prefix_number}-`));
             })
+            new_form.find(':input[type="file"]').on('change', function(){
+                setPreview(this);
+            })
+
             $('.formset').last().after(new_form);
             $(total).val(new_prefix_number);
     })
