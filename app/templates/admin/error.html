@@ -12,9 +12,6 @@
 
 <!--Macro render dict of errors-->
 {% macro error_dict(errors) %}
-<script src="{{ url_for('static', filename='admin/jquery/jquery.min.js') }}"></script>
-<script src="{{ url_for('static', filename='admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ url_for('static', filename='admin/js/adminlte.min.js') }}"></script>
 
 {% for tag, error in errors.items() %}
     {{ render_error(tag, error) }}
