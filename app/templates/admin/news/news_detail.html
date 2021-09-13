@@ -1,4 +1,5 @@
 {% extends "admin/admin_base.html" %}
+{% import "admin/error.html" as error_template %}
 
 {% block title %}
 Новости
@@ -90,5 +91,7 @@
         })
     })
 </script>
-{% include "admin/error.html" %}
+{% if form.error %}
+    {{ error_template.error_dict(form.error_ }}
+{% endfor %}
 {% endblock %}

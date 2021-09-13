@@ -1,4 +1,5 @@
 {% extends "admin/admin_base.html" %}
+{% import "admin/error.html" as error_template %}
 
 {% block title %}
 Администратор
@@ -75,5 +76,7 @@
         setPreview(this, '.row')
     })
 </script>
-{% include "admin/error.html" %}
+{% if form.errors %}
+    {{ error_template.error_dict(form.errors) }}
+{% endif %}
 {% endblock %}

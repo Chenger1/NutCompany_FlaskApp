@@ -2,12 +2,34 @@
 <script src="{{ url_for('static', filename='admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ url_for('static', filename='admin/js/adminlte.min.js') }}"></script>
 
-<script>
-{% for tag, error in form.errors.items() %}
-            $(document).Toasts('create', {
-                class: 'bg-danger',
-                title: '{{ tag }}',
-                body: '{{ error|join(", ") }}'
-            })
+<!--Macro render errors from list-->
+{% macro errors_list(errors) %}
+    {% for err_dict in errors %}
+        {{ error_dict(err_dict) }}
+    {% endfor %}
+{% endmacro %}
+
+
+<!--Macro render dict of errors-->
+{% macro error_dict(errors) %}
+<script src="{{ url_for('static', filename='admin/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='admin/js/adminlte.min.js') }}"></script>
+
+{% for tag, error in errors.items() %}
+    {{ render_error(tag, error) }}
 {% endfor %}
+
+{% endmacro %}
+
+<!--Macro render one error-->
+{% macro render_error(tag, error) %}
+<script>
+    $(document).Toasts('create', {
+        class: 'bg-danger',
+            title: '{{ tag }}',
+            body: '{{ error|join(", ") }}'
+        })
 </script>
+{% endmacro %}
+

@@ -1,4 +1,6 @@
 {% extends "admin/admin_base.html" %}
+{% import "admin/error.html" as error_template %}
+
 {% block title %}
 Галерея
 {% endblock %}
@@ -16,10 +18,6 @@
 {% block content %}
 <div class="content">
     <div class="container-fluid">
-        {% if errors %}
-        {{ errors }}
-        {% endif %}
-
         <form method="post" enctype="multipart/form-data">
             <div class="col-4 formset" id="hidden_prefix" style="display: none;">
                 <div class="card card-default">
@@ -78,6 +76,8 @@
             $('.formset').last().after(new_form);
             $(total).val(new_prefix_number);
     })
-
 </script>
+{% if errors %}
+    {{ error_template.errors_list(errors) }}
+{% endif %}
 {% endblock %}
