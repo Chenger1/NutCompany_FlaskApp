@@ -2,3 +2,9 @@
     border-left: 1px solid #d2d6de;
     border-right: 1px solid #d2d6de;
 }
+
+.delete_icon{
+    position: absolute;
+    top: -10px;
+    right: -5px;
+}
