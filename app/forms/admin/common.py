@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
-from wtforms.fields import StringField, TextAreaField
+from wtforms.fields import StringField, TextAreaField, HiddenField
 from wtforms.validators import DataRequired, URL, Optional
 from wtforms import ValidationError
 
@@ -26,3 +26,7 @@ class GalleryForm(FlaskForm):
     def validate_photo(self, field):
         if not field.data and not hasattr(self, 'obj'):
             return ValidationError('Photo - is required')
+
+
+class FormsetManagementForm(FlaskForm):
+    counter = HiddenField('FORMSET_COUNTER')

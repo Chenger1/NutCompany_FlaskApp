@@ -16,7 +16,8 @@ class GalleryPageView(MethodView):
         queryset = MainPageGallery.query.all()
         self.formset_class.queryset = queryset
         formset = self.formset_class.generate_formset()
-        return render_template(self.template_name, formset=formset)
+        management_form = self.formset_class.generate_management_form()
+        return render_template(self.template_name, formset=formset, management_form=management_form)
 
     def post(self):
         formset = self.formset_class.get_formset_with_data(request.files, request.form)

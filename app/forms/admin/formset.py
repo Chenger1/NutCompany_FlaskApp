@@ -3,12 +3,14 @@ from werkzeug.datastructures import CombinedMultiDict
 from wtforms.fields import BooleanField
 
 from app.utils.funcs import handle_files
+from app.forms.admin.common import FormsetManagementForm
 
 import copy
 
 
 class BaseFormset:
     delete_widget = BooleanField
+    management_form_class = FormsetManagementForm
 
     def __init__(self, form_class, model, queryset=None, extra=1):
         self.model = model
@@ -16,8 +18,10 @@ class BaseFormset:
         self.queryset = queryset
         self.extra = extra
         self.formset = []
+        self.management_form = None
+        self._FORMSET_COUNTER = 0
 
-        self.patch_form_with_delete_widget(self.form_class)
+        self.patch_form_with_widgets(self.form_class)
 
     def _set_form_data(self):
         errors = []
@@ -59,9 +63,14 @@ class BaseFormset:
             setattr(instance, key, value)
         return instance
 
-    def patch_form_with_delete_widget(self, form):
+    def patch_form_with_widgets(self, form):
         delete_widget = self.delete_widget('Delete', default=False)
         setattr(form, 'delete', delete_widget)
+
+    def generate_management_form(self):
+        self.management_form = self.management_form_class()
+        self.management_form.counter.data = self._FORMSET_COUNTER
+        return self.management_form
 
 
 class Formset(BaseFormset):
@@ -70,25 +79,37 @@ class Formset(BaseFormset):
 
     def generate_formset(self):
         self.formset = []
-        index = 0
+        self._FORMSET_COUNTER = 0
         for index, instance in enumerate(self.queryset):
-            form = self.form_class(obj=instance, prefix=f'form-{index}')
+            prefix = f'form-{index}'
+            form = self.form_class(obj=instance, prefix=prefix)
             form.obj = instance
             self.formset.append(form)
         else:
-            for index, _ in enumerate(range(self.extra), start=index+1 if index > 0 else 0):
+            for index, _ in enumerate(range(self.extra), start=self._FORMSET_COUNTER):
                 self.formset.append(self.form_class(prefix=f'form-{index}'))
+        self._FORMSET_COUNTER = len(self.formset)
         return self.formset
 
-    def get_formset_with_data(self, formdata, formfiles):
-        combined = CombinedMultiDict((formfiles, formdata))
+    def get_formset_with_data(self, form_files, form_data):
+        combined = CombinedMultiDict((form_files, form_data))
         new_formset = []
         for index, form in enumerate(self.formset):
+            prefix = f'form-{index}'
             if hasattr(form, 'obj'):
-                new_form = self.form_class(combined, prefix=f'form-{index}', obj=form.obj)
+                new_form = self.form_class(combined, prefix=prefix, obj=form.obj)
                 new_form.obj = form.obj
             else:
-                new_form = self.form_class(combined, prefix=f'form-{index}')
+                new_form = self.form_class(combined, prefix=prefix)
             new_formset.append(new_form)
+
+        # Check for dynamic added formsets
+        formset_counter = int(combined.get('counter'))
+        # if counter from client bigger than local - new formsets added
+        if formset_counter > self._FORMSET_COUNTER:
+            for index in range(self._FORMSET_COUNTER, formset_counter+1):
+                prefix = f'form-{index}'
+                form = self.form_class(combined, prefix=prefix)
+                new_formset.append(form)
         self.formset = new_formset
         return self.formset
