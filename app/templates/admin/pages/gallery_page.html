@@ -45,7 +45,7 @@
             <div class="row">
                 {{ management_form.counter }}
                 {% for form in formset %}
-                <div class="col-4 formset">
+                <div class="col-md-4 col-sm-6 formset">
                     {{ form.csrf_token }}
                     <div class="card card-default text-center">
 
@@ -75,10 +75,10 @@
                     </div>
                 </div>
                 {% endfor %}
-                <div class="col-4">
-                    <div class="card card-defaul ">
+                <div class="col-4" style="margin: auto;">
+                    <div class="card card-default ">
                         <div class="card-body" style="align-items:center; text-align:center;">
-                            <button class="btn btn-outline-primary" id="add_new" type="button">Добавить ещё</button>
+                            <button class="btn btn-outline-primary" id="add_new" type="button">Добавить</button>
                         </div>
                     </div>
                 </div>
