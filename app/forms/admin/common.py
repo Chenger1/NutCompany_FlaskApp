@@ -25,7 +25,7 @@ class GalleryForm(FlaskForm):
 
     def validate_photo(self, field):
         if not field.data and not hasattr(self, 'obj'):
-            return ValidationError('Photo - is required')
+            raise ValidationError('Photo - is required')
 
 
 class FormsetManagementForm(FlaskForm):
