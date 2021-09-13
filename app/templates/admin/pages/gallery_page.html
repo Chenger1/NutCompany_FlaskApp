@@ -1,0 +1,50 @@
+{% extends "admin/admin_base.html" %}
+{% block title %}
+    Галерея
+{% endblock %}
+{% block header %}
+    Галерея
+{% endblock %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{ url_for('main.statistic') }}">Главная</a></li>
+    <li class="breadcrumb-item">Галерея</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="container-fluid">
+        {% if errors %}
+        {{ errors }}
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row">
+                {% for form in formset %}
+                {{ form.csrf_token }}
+                    <div class="col-4">
+                        <div class="card card-default">
+                            {% if form.obj %}
+                            <img src="{{ url_for('common.download_file', name=form.obj.photo) }}" alt="image" class="img-fluid">
+                            {% else %}
+                            <img src="{{ url_for('static', filename='img/default_form_image.png') }}" alt="image" class="img-fluid">
+                            {% endif %}
+
+                            {{ form.photo }}
+                            {{ form.url }}
+                            {{ form.delete }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Сохраниь</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
