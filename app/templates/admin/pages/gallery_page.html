@@ -1,9 +1,9 @@
 {% extends "admin/admin_base.html" %}
 {% block title %}
-    Галерея
+Галерея
 {% endblock %}
 {% block header %}
-    Галерея
+Галерея
 {% endblock %}
 
 {% block breadcrumb %}
@@ -21,25 +21,39 @@
         {% endif %}
 
         <form method="post" enctype="multipart/form-data">
+            <div class="col-4 formset" id="hidden_prefix" style="display: none;">
+                <div class="card card-default">
+                    <img src="{{ url_for('static', filename='img/default_form_image.png') }}" alt="image"
+                         class="img-fluid">
+                    {% for field in empty_form %}
+                    {{ field }}
+                    {% endfor %}
+                </div>
+            </div>
             <div class="row">
                 {{ management_form.counter }}
                 {% for form in formset %}
-                {{ form.csrf_token }}
-                    <div class="col-4">
-                        <div class="card card-default">
-                            {% if form.obj %}
-                            <img src="{{ url_for('common.download_file', name=form.obj.photo) }}" alt="image" class="img-fluid">
-                            {% else %}
-                            <img src="{{ url_for('static', filename='img/default_form_image.png') }}" alt="image" class="img-fluid">
-                            {% endif %}
+                <div class="col-4 formset">
+                    {{ form.csrf_token }}
+                    <div class="card card-default">
+                        {% if form.obj %}
+                        <img src="{{ url_for('common.download_file', name=form.obj.photo) }}" alt="image"
+                             class="img-fluid">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='img/default_form_image.png') }}" alt="image"
+                             class="img-fluid">
+                        {% endif %}
 
-                            {{ form.photo }}
-                            {{ form.url }}
-                            {{ form.delete }}
-                            {{ form.prefix }}
-                        </div>
+                        {{ form.photo }}
+                        {{ form.url }}
+                        {{ form.delete }}
+                        {{ form.prefix }}
                     </div>
+                </div>
                 {% endfor %}
+                <div class="col-4">
+                    <button class="btn btn-primary" id="add_new" type="button">Добавить ещё</button>
+                </div>
             </div>
             <div class="row">
                 <div class="col-12">
@@ -49,4 +63,21 @@
         </form>
     </div>
 </div>
+<script src="{{ url_for('static', filename='admin/plugins/jquery/jquery.min.js') }}"></script>
+<script>
+    let add_button = $('#add_new');
+    $(add_button).on('click', function(){
+            let total = $('#counter');
+            let new_form = $('#hidden_prefix').clone(true).css('display', '').removeAttr('id');
+
+            let new_prefix_number = Number(total.val()) + 1;
+            new_form.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function(){
+                $(this).attr('id', $(this).attr('id').replace('__prefix__', `${new_prefix_number}-`));
+                $(this).attr('name', $(this).attr('id').replace('__prefix__', `${new_prefix_number}-`));
+            })
+            $('.formset').last().after(new_form);
+            $(total).val(new_prefix_number);
+    })
+
+</script>
 {% endblock %}

@@ -17,13 +17,18 @@ class GalleryPageView(MethodView):
         self.formset_class.queryset = queryset
         formset = self.formset_class.generate_formset()
         management_form = self.formset_class.generate_management_form()
-        return render_template(self.template_name, formset=formset, management_form=management_form)
+        empty_form = self.formset_class.empty_form()
+        return render_template(self.template_name, formset=formset, management_form=management_form,
+                               empty_form=empty_form)
 
     def post(self):
         formset = self.formset_class.get_formset_with_data(request.files, request.form)
         errors = self.formset_class.save()
+        management_form = self.formset_class.generate_management_form()
+        empty_form = self.formset_class.empty_form()
         if errors:
-            return render_template(self.template_name, formset=formset, errors=errors)
+            return render_template(self.template_name, formset=formset, errors=errors,
+                                   management_form=management_form, empty_form=empty_form)
         return redirect(url_for('main.gallery_page'))
 
 

@@ -72,6 +72,12 @@ class BaseFormset:
         self.management_form.counter.data = self._FORMSET_COUNTER
         return self.management_form
 
+    def empty_form(self):
+        """
+        __prefix__ is important because client side use this substring for replace it with number of current form
+        """
+        return self.form_class(prefix='form-__prefix__')
+
 
 class Formset(BaseFormset):
     def save(self):
@@ -85,16 +91,20 @@ class Formset(BaseFormset):
             form = self.form_class(obj=instance, prefix=prefix)
             form.obj = instance
             self.formset.append(form)
+            self._FORMSET_COUNTER += 1
         else:
             for index, _ in enumerate(range(self.extra), start=self._FORMSET_COUNTER):
                 self.formset.append(self.form_class(prefix=f'form-{index}'))
-        self._FORMSET_COUNTER = len(self.formset)
         return self.formset
 
     def get_formset_with_data(self, form_files, form_data):
         combined = CombinedMultiDict((form_files, form_data))
         new_formset = []
-        for index, form in enumerate(self.formset):
+        formset_counter = int(combined.get('counter'))
+        formset_for_iter = self.formset + [None for val in range((formset_counter - self._FORMSET_COUNTER)+1)]
+        # Define the difference between initial Formset counter and current. Fill list with None values for zip func
+
+        for index, form in zip(range(formset_counter+1), formset_for_iter):
             prefix = f'form-{index}'
             if hasattr(form, 'obj'):
                 new_form = self.form_class(combined, prefix=prefix, obj=form.obj)
@@ -103,13 +113,5 @@ class Formset(BaseFormset):
                 new_form = self.form_class(combined, prefix=prefix)
             new_formset.append(new_form)
 
-        # Check for dynamic added formsets
-        formset_counter = int(combined.get('counter'))
-        # if counter from client bigger than local - new formsets added
-        if formset_counter > self._FORMSET_COUNTER:
-            for index in range(self._FORMSET_COUNTER, formset_counter+1):
-                prefix = f'form-{index}'
-                form = self.form_class(combined, prefix=prefix)
-                new_formset.append(form)
         self.formset = new_formset
         return self.formset
