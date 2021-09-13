@@ -49,7 +49,8 @@ class BaseFormset:
         return form_data.get('delete', False)
 
     def _delete(self, form):
-        db.session.delete(form.obj)
+        if hasattr(form, 'obj'):
+            db.session.delete(form.obj)
         self.formset.remove(form)
 
     def _save_form(self, form):
