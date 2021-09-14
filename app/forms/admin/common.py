@@ -8,6 +8,11 @@ from wtforms import ValidationError
 from ..custom_field import DateTimeLocalHTML5FormatField
 
 
+def validate_photo(form, field):
+    if not field.data and not hasattr(form, 'obj'):
+        raise ValidationError('Photo - is required')
+
+
 class NewsItemForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     text = TextAreaField('Text', validators=[DataRequired()])
@@ -20,12 +25,8 @@ class NewsItemEditForm(NewsItemForm):
 
 
 class GalleryForm(FlaskForm):
-    photo = FileField('Photo')
+    photo = FileField('Photo', validators=[validate_photo])
     url = StringField('URL', validators=[URL(), Optional()])
-
-    def validate_photo(self, field):
-        if not field.data and not hasattr(self, 'obj'):
-            raise ValidationError('Photo - is required')
 
 
 class FormsetManagementForm(FlaskForm):
