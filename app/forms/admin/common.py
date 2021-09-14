@@ -36,3 +36,11 @@ class FormsetManagementForm(FlaskForm):
 class CorporateClientForm(FlaskForm):
     photo = FileField('Photo')
     text = TextAreaField('Text', validators=[DataRequired()])
+
+
+class AboutCompanyForm(FlaskForm):
+    text = TextAreaField('Text')
+
+
+class AboutCompanyGalleryForm(FlaskForm):
+    photo = FileField('Photo', validators=[validate_photo])

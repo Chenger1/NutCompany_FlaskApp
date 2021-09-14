@@ -1,73 +1,73 @@
 {% extends "admin/admin_base.html" %}
-{% import "admin/error.html" as error_template %}
 
 {% block title %}
-Галерея
+О компании
 {% endblock %}
 {% block header %}
-Галерея
+О компании
 {% endblock %}
-
+{% block style %}
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+{% endblock %}
 {% block breadcrumb %}
 <ol class="breadcrumb float-sm-right">
     <li class="breadcrumb-item"><a href="{{ url_for('main.statistic') }}">Главная</a></li>
-    <li class="breadcrumb-item">Галерея</li>
+    <li class="breadcrumb-item">О компании</li>
 </ol>
 {% endblock %}
 
 {% block content %}
-<div class="content">
+<div class="container">
     <div class="container-fluid">
         <form method="post" enctype="multipart/form-data">
-            <div class="col-4 formset" id="hidden_prefix" style="display: none;">
-                <div class="card card-default text-center">
-
-                    <a href="javascript:void(0)" style="float:right;"
-                       class="delete_icon text-red">
-                        <i class="fa fa-trash" style="font-size:18px;"></i>
-                    </a>
-
-                    <div class="card-body">
-                        <img src="{{ url_for('static', filename='img/default_form_image.png') }}" alt="image"
-                             class="img-fluid preview_img" style="height: 300px; width: 350px; margin: auto;">
-                        <div class="form-group">
-                            {{ empty_form.photo(class="upload") }}
-                        </div>
-                        <div class="form-group">
-                            {{ empty_form.url.label(class="form-label") }}
-                            {{ empty_form.url(class="form-control", placeholder="http://example.com") }}
-                        </div>
-                        {{ empty_form.delete(style="display:none;") }}
-                        {{ empty_form.csrf_token }}
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="summernote">Описание</label>
+                        {{ main_form.csrf_token }}
+                        {{ main_form.text(id="summernote") }}
                     </div>
                 </div>
             </div>
-            <div class="row">
-                {{ management_form.counter }}
-                {% for form in formset %}
-                <div class="col-md-4 col-sm-6 formset">
-                    {{ form.csrf_token }}
-                    <div class="card card-default text-center">
 
+            <div class="row">
+                <div class="col-md-4 col-sm-6 formset" id="hidden_prefix" style="display: none;">
+                    <div class="card text-center">
                         <a href="javascript:void(0)" style="float:right;"
                            class="delete_icon text-red">
                             <i class="fa fa-trash" style="font-size:18px;"></i>
                         </a>
+                        <div class="card-body">
+                            <img src="{{ url_for('static', filename='img/default_form_image.png') }}" alt="image"
+                                 class="img-fluid preview_img" style="height: 250px; width: 350px; margin: auto;">
+                            <div class="form-group">
+                                {{ empty_form.csrf_token }}
+                                {{ empty_form.photo(class="upload") }}
+                                {{ empty_form.delete(style="display:none;") }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                {{ management_form.counter }}
+                {% for form in formset %}
+                <div class="col-md-4 col-sm-6 formset">
+                    {{ form.csrf_token }}
+                    <div class="card text-center">
+                        <a href="javascript:void(0)" style="float:right;"
+                           class="delete_icon text-red">
+                            <i class="fa fa-trash" style="font-size:18px;"></i>
+                        </a>
                         <div class="card-body">
                             {% if form.obj %}
                             <img src="{{ url_for('common.download_file', name=form.obj.photo) }}" alt="image"
-                                 class="img-fluid preview_img" style="height: 300px; width: 350px; margin: auto;">
+                                 class="img-fluid preview_img" style="height: 250px; width: 350px; margin: auto;">
                             {% else %}
                             <img src="{{ url_for('static', filename='img/default_form_image.png') }}" alt="image"
-                                 class="img-fluid preview_img" style="height: 300px; width: 350px; margin: auto;">
+                                 class="img-fluid preview_img" style="height: 250px; width: 350px; margin: auto;">
                             {% endif %}
                             <div class="form-group">
                                 {{ form.photo(class="upload") }}
-                            </div>
-                            <div class="form-group">
-                                {{ form.url.label(class="form-label") }}
-                                {{ form.url(class="form-control", placeholder="http://example.com") }}
                             </div>
                             {{ form.delete(style="display:none;") }}
                         </div>
@@ -75,7 +75,7 @@
                 </div>
                 {% endfor %}
                 <div class="col-4" style="margin: auto;">
-                    <div class="card card-default ">
+                    <div class="card card-default">
                         <div class="card-body" style="align-items:center; text-align:center;">
                             <button class="btn btn-outline-primary" id="add_new" type="button">Добавить</button>
                         </div>
@@ -90,8 +90,18 @@
         </form>
     </div>
 </div>
-<script src="{{ url_for('static', filename='admin/plugins/jquery/jquery.min.js') }}"></script>
+{% endblock %}
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 <script src="{{ url_for('static', filename='js/update_img_after_upload.js') }}"></script>
+<script>
+    $(function(){
+        $('#summernote').summernote({
+            placeholder: 'Описание компании',
+            height: 400
+        })
+    })
+</script>
 <script>
     let forms = $('.formset');
     for(form of forms){
@@ -128,7 +138,6 @@
             $('.formset').last().after(new_form);
             $(total).val(new_prefix_number);
     })
-
 </script>
 {% if errors %}
 {{ error_template.errors_list(errors) }}
