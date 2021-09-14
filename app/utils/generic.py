@@ -99,21 +99,15 @@ class FormsetGenericMixin(ViewMixin):
     def get(self):
         queryset = self.get_queryset()
         self.formset_class.queryset = queryset
-        formset = self.formset_class.generate_formset()
-        management_form = self.formset_class.generate_management_form()
-        empty_form = self.formset_class.empty_form()
-        context = self.get_context(formset=formset, management_form=management_form,
-                                   empty_form=empty_form)
+        formset_state = self.get_formset_get_state()
+        context = self.get_context(**formset_state)
         return self.render_template(context)
 
     def post(self):
-        formset = self.formset_class.get_formset_with_data(request.files, request.form)
+        formset_state = self.get_formset_post_state()
         errors = self.formset_class.save()
-        management_form = self.formset_class.generate_management_form()
-        empty_form = self.formset_class.empty_form()
         if errors:
-            context = self.get_context(formset=formset, management_form=management_form,
-                                       empty_form=empty_form, errors=errors)
+            context = self.get_context(**formset_state)
             return self.render_template(context)
         return redirect(url_for(self.redirect_url))
 
@@ -123,3 +117,50 @@ class FormsetGenericMixin(ViewMixin):
     def get_context(self, **kwargs):
         context = {**kwargs}
         return context
+
+    def get_formset_get_state(self):
+        return {
+            'formset': self.formset_class.generate_formset(),
+            'management_form': self.formset_class.generate_management_form(),
+            'empty_form': self.formset_class.empty_form()
+        }
+
+    def get_formset_post_state(self):
+        return {
+            'formset': self.formset_class.get_formset_with_data(request.files, request.form),
+            'management_form': self.formset_class.generate_management_form(),
+            'empty_form': self.formset_class.empty_form()
+        }
+
+
+class InlineFormsetMixin(FormsetGenericMixin, FormViewMixin):
+    entity_model = None
+    form_class = None
+
+    def get(self, *args, **kwargs):
+        instance = self.get_entity_instance(*args, **kwargs)
+        form = self.get_form(instance)
+        self.formset_class.queryset = self.get_queryset()
+        self.formset_class.entity = instance
+        formset_state = self.get_formset_get_state()
+        context = self.get_context(**formset_state, main_form=form)
+        return self.render_template(context)
+
+    def post(self, *args, **kwargs):
+        instance = self.get_entity_instance()
+        form = self.get_form(instance)
+        formset_state = self.get_formset_post_state()
+        if form.validate_on_submit():
+            self.handle_form(form, instance)
+            self.save_instance()
+
+            errors = self.formset_class.save()
+            if not errors:
+                return redirect(url_for(self.redirect_url))
+        context = self.get_context(**formset_state, main_form=form)
+        return self.render_template(context)
+
+    def get_entity_instance(self, obj_id=None):
+        if obj_id:
+            return self.entity_model.query.get_or_404(obj_id)
+        return self.entity_model()
