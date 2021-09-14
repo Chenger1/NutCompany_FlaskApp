@@ -1,11 +1,14 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
-from wtforms.fields import StringField, TextAreaField, HiddenField
+from wtforms.fields import (StringField, TextAreaField, HiddenField, FloatField, BooleanField, DateTimeField,
+                            IntegerField)
 from wtforms.validators import DataRequired, URL, Optional, Email
 from wtforms import ValidationError
 
 
 from ..custom_field import DateTimeLocalHTML5FormatField
+
+from datetime import datetime
 
 
 def validate_photo(form, field):
@@ -56,3 +59,39 @@ class ContactsForm(FlaskForm):
     whats_up = StringField('What`s up')
     email = StringField('E-mail', validators=[Email()])
     map = TextAreaField('Код карты')
+
+
+class ProductForm(FlaskForm):
+    weight = StringField('Масса нетто')
+    energy = StringField('Энергетическая ценность')
+    condition = TextAreaField('Условия хранения')
+    desc = TextAreaField('Описание')
+    package = FileField('Изображение упаковки')
+    desc_image = FileField('Изображение для описания')
+    promo_price = FloatField('Акционная цена', validators=[Optional()])
+    is_promo = BooleanField('Акционный товар', default=False)
+    date = DateTimeField('Добавлен')
+    amount = IntegerField('Количество')
+
+    def validate_date(self, field):
+        field.data = datetime.now()
+
+
+class CreateProductForm(ProductForm):
+    type = StringField('Тип продукта', validators=[DataRequired()])
+    name = StringField('Имя продукта', validators=[DataRequired()])
+    composition = StringField('Состав', validators=[DataRequired()])
+    life = StringField('Срок годности', validators=[DataRequired()])
+    price = FloatField('Цена, грн.', validators=[DataRequired()])
+
+
+class EditProductForm(ProductForm):
+    type = StringField('Тип продукта')
+    name = StringField('Имя продукта')
+    composition = StringField('Состав')
+    life = StringField('Срок годности')
+    price = FloatField('Цена, грн.')
+
+
+class ProductGalleryForm(FlaskForm):
+    photo = FileField('Изображение', validators=[validate_photo])
