@@ -67,6 +67,8 @@ class Product(db.Model):
     is_promo = db.Column(db.Boolean(), default=False)
     date = db.Column(db.DateTime())
 
+    amount = db.Column(db.Integer())
+
     gallery = db.relationship('ProductGallery')
 
 
