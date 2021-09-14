@@ -138,21 +138,24 @@ class InlineFormsetMixin(FormsetGenericMixin, FormViewMixin):
     form_class = None
 
     def get(self, *args, **kwargs):
-        instance = self.get_entity_instance(*args, **kwargs)
-        form = self.get_form(instance)
+        self.instance = self.get_entity_instance(*args, **kwargs)
+        form = self.get_form(self.instance)
+        form.obj = self.instance
+
         self.formset_class.queryset = self.get_queryset()
-        self.formset_class.entity = instance
+        self.formset_class.entity = self.instance
         formset_state = self.get_formset_get_state()
         context = self.get_context(**formset_state, main_form=form)
         return self.render_template(context)
 
     def post(self, *args, **kwargs):
-        instance = self.get_entity_instance()
+        instance = self.get_entity_instance(*args, **kwargs)
         form = self.get_form(instance)
         formset_state = self.get_formset_post_state()
         if form.validate_on_submit():
             self.handle_form(form, instance)
             self.save_instance()
+            self.formset_class.entity = self.instance
 
             errors = self.formset_class.save()
             if not errors:
