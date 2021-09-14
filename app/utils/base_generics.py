@@ -25,7 +25,7 @@ class FormViewMixin:
         if request.method == 'GET':
             form = self.form_class(obj=instance)
         else:
-            form = self.form_class(CombinedMultiDict((request.files, request.form)))
+            form = self.form_class(CombinedMultiDict((request.files, request.form)), obj=instance)
         return form
 
     def handle_form(self, form, instance):
@@ -36,13 +36,15 @@ class FormViewMixin:
             self.handle_field(field_name)
 
     def handle_field(self, field_name):
-        if getattr(self.form, field_name).data:
-            if field_name == 'photo':
-                filename = handle_files(self.form.photo.data)
-                self.instance.photo = filename
+        field = getattr(self.form, field_name)
+
+        if field.data:
+            if field.type == 'FileField':
+                filename = handle_files(field.data)
+                value = filename
             else:
                 value = getattr(self.form, field_name).data
-                setattr(self.instance, field_name, value)
+            setattr(self.instance, field_name, value)
 
     def save_instance(self):
         db.session.add(self.instance)
