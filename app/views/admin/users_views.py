@@ -49,10 +49,6 @@ class ClientDetail(AdminMethodView, UpdateViewMixin):
     template_name = 'admin/users/client_detail.html'
     redirect_url = 'main.client_list'
 
-    def get_form(self, instance=None):
-        form = super().get_form(instance)
-        return form
-
 
 class DeleteClientView(AdminMethodView, DeleteInstanceMixin):
     model = User
