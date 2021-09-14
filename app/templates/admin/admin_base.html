@@ -91,7 +91,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">
+                        <a href="{{ url_for('main.requests') }}" class="nav-link
+                        {% if 'requests' in request.path %}active{% endif %}">
                             <i class="nav-icon fas fa-paper-plane" aria-hidden="true"></i>
                             <p>Заявки</p>
                         </a>
