@@ -116,3 +116,15 @@ class Formset(BaseFormset):
 
         self.formset = new_formset
         return self.formset
+
+
+class InlineFormset(Formset):
+    def __init__(self, entity=None, foreign_key_name='entity', *args, **kwargs):
+        self.entity = entity  # Instance for foreign key
+        self.foreign_key_name = foreign_key_name
+        super().__init__(*args, **kwargs)
+
+    def _save_form(self, form):
+        instance = super()._save_form(form)
+        setattr(instance, self.foreign_key_name, self.entity.id)
+        return instance
