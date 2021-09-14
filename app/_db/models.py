@@ -26,8 +26,7 @@ class User(UserMixin, db.Model):
     is_admin = db.Column(db.Boolean(), default=False)
 
     # This fields are only for client
-    country = db.Column(db.String(30), nullable=True)
-    district = db.Column(db.String(100), nullable=True)
+    country = db.Column(db.Enum(CountryChoice), nullable=True)
     city = db.Column(db.String(100), nullable=True)
     address = db.Column(db.String(100), nullable=True)
     index = db.Column(db.String(20), nullable=True)
