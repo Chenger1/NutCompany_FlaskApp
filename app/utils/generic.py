@@ -90,3 +90,36 @@ class DeleteInstanceMixin:
         db.session.delete(instance)
         db.session.commit()
         return redirect(url_for(self.redirect_url))
+
+
+class FormsetGenericMixin(ViewMixin):
+    formset_class = None
+    redirect_url = None
+
+    def get(self):
+        queryset = self.get_queryset()
+        self.formset_class.queryset = queryset
+        formset = self.formset_class.generate_formset()
+        management_form = self.formset_class.generate_management_form()
+        empty_form = self.formset_class.empty_form()
+        context = self.get_context(formset=formset, management_form=management_form,
+                                   empty_form=empty_form)
+        return self.render_template(context)
+
+    def post(self):
+        formset = self.formset_class.get_formset_with_data(request.files, request.form)
+        errors = self.formset_class.save()
+        management_form = self.formset_class.generate_management_form()
+        empty_form = self.formset_class.empty_form()
+        if errors:
+            context = self.get_context(formset=formset, management_form=management_form,
+                                       empty_form=empty_form, errors=errors)
+            return self.render_template(context)
+        return redirect(url_for(self.redirect_url))
+
+    def get_queryset(self):
+        return self.model.query.all()
+
+    def get_context(self, **kwargs):
+        context = {**kwargs}
+        return context
