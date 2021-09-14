@@ -24,6 +24,7 @@ class DevelopmentConfig(Config):
     DEBUG = True
     # SQLALCHEMY_DATABASE_URI = env.str('DEV_DB_URL') or 'sqlite:///' + os.path.join(base_dir, 'dev.sqlite')
     SQLALCHEMY_DATABASE_URI = 'sqlite:///dev.db'
+    RENDER_AS_BATCH = True
 
 
 class ProductionConfig(Config):

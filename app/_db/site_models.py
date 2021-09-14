@@ -20,11 +20,15 @@ class NewsItem(db.Model):
 
 
 class CorporateClients(db.Model):
+    names = ('Крупные супермаркеты', 'Розничные магазины', 'Компании HoReCa',
+             'Фитнес и спорт клубы', 'Кондитерские и пекарни')
+
     __tablename__ = 'corporate_clients'
 
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.Text())
-    photo = db.Column(db.String())
+    name = db.Column(db.String(), unique=True)
+    text = db.Column(db.Text(), nullable=True)
+    photo = db.Column(db.String(), nullable=True)
 
 
 class Contacts(db.Model):
