@@ -29,3 +29,9 @@ class RequestStatusChoice(Enum):
     in_progress = 'В обработке'
     closed = 'Отказано'
     done = 'Выполнен'
+
+
+class CountryChoice(Enum):
+    ua = 'Украине'
+    pl = 'Польша'
+    by = 'Беларусь'
