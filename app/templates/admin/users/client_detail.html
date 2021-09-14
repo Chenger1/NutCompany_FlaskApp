@@ -1,0 +1,127 @@
+{% extends "admin/admin_base.html" %}
+{% import "admin/error.html" as error_template %}
+
+{% block title %}
+Клиент
+{% endblock %}
+{% block header %}
+Клиент
+{% endblock %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{ url_for('main.statistic') }}">Главная</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('main.client_list') }}">Клиенты</a></li>
+    <li class="breadcrumb-item">Клиент</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="container-fluid">
+        <form method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <div class="row">
+                <div class="col-md-8 col-sm-12">
+                    <div class="form-group">
+                        {{ form.fio.label }}
+                        {{ form.fio(class="form-control", placeholder="ФИО") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email.label }}
+                        {{ form.email(class="form-control", placeholder="example@mail.com") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.phone.label }}
+                        {{ form.phone(class="form-control", placeholder="+38063847348") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.type.label }}
+                        {{ form.type(class="form-control") }}
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    {% if instance and instance.photo %}
+                    <img src="{{ url_for('common.download_file', name=instance.photo) }}" alt=""
+                         style="width: 300px; height: 300px;" class="preview_img img-fluid">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='img/default_form_image.png') }}" alt=""
+                         style="width: 300px; height: 300px;" class="preview_img img-fluid">
+                    {% endif %}
+                    <div class="form-group text-center" style="margin-top: 10px;">
+                        {{ form.photo }}
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4 col-sm-12">
+                    {{ form.country.label }}
+                    {{ form.country(class="form-control", placeholder="Страна") }}
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    {{ form.city.label }}
+                    {{ form.city(class="form-control", placeholder="Город") }}
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    {{ form.address.label }}
+                    {{ form.address(class="form-control", placeholder="Адрес") }}
+                </div>
+            </div>
+            {% if instance.type.name == 'legal_person' %}
+            <div class="row">
+                <div class="col-md-4">
+                    {{ form.index.label }}
+                    {{ form.index(class="form-control", placeholder="Индекс") }}
+                </div>
+            </div>
+            {% endif %}
+            <hr>
+            <h4>История заказов</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-default">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Дата</th>
+                                <th>Количество товаров</th>
+                                <th>Статус</th>
+                                <th>Стоимость</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for order in instance.orders %}
+
+                            {% else %}
+                            <tr>
+                                <td colspan="5">Не заказов</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="{{ url_for('static', filename='js/update_img_after_upload.js') }}"></script>
+<script>
+    $('#photo').on('change', function(){
+        setPreview(this, '.row')
+    })
+</script>
+{% if form.errors %}
+    {{ error_template.error_dict(form.errors) }}
+{% endif %}
+{% endblock %}

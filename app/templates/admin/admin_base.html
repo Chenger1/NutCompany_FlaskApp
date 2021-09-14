@@ -159,6 +159,7 @@
                     <li class="nav-item
                         {% if '/admin_list' in request.path %}menu-is-opening menu-open
                         {% elif '/admin_detail/' in request.path %}menu-is-opening menu-open
+                        {% elif 'client' in request.path %}menu-is-opening menu-open
                         {% endif %}">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-users"></i>
@@ -169,7 +170,8 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ url_for('main.client_list') }}" class="nav-link
+                                    {% if 'client' in request.path %}active{% endif %}">
                                     <i class="nav-icon fas fa-user-alt"></i>
                                     <p>Клиенты</p>
                                 </a>
