@@ -75,6 +75,7 @@ class ProductGallery(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     entity = db.Column(db.Integer(), db.ForeignKey('product.id'))
+    photo = db.Column(db.String())
 
 
 class Order(db.Model):

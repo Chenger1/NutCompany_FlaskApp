@@ -9,6 +9,8 @@ env.read_env()
 base_dir = Path(__file__).parent
 upload_folder = os.path.join(base_dir, 'uploads')
 
+render_as_batch = bool(int(env.str('RENDER_BATCH')))
+
 
 class Config:
     SECRET_KEY = env.str('SECRET_KEY') or 'test string'
@@ -24,7 +26,6 @@ class DevelopmentConfig(Config):
     DEBUG = True
     # SQLALCHEMY_DATABASE_URI = env.str('DEV_DB_URL') or 'sqlite:///' + os.path.join(base_dir, 'dev.sqlite')
     SQLALCHEMY_DATABASE_URI = 'sqlite:///dev.db'
-    RENDER_AS_BATCH = True
 
 
 class ProductionConfig(Config):
