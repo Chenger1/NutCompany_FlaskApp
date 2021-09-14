@@ -37,14 +37,14 @@ class ListViewMixin(ViewMixin):
 class UpdateViewMixin(ViewMixin, FormViewMixin):
     redirect_url = None
 
-    def get(self, obj_id):
-        instance = self.get_instance(obj_id)
+    def get(self, *args, **kwargs):
+        instance = self.get_instance(*args, **kwargs)
         form = self.get_form(instance)
         context = self.get_context(form, instance)
         return self.render_template(context)
 
-    def post(self, obj_id):
-        instance = self.get_instance(obj_id)
+    def post(self, *args, **kwargs):
+        instance = self.get_instance(*args, **kwargs)
         form = self.get_form()
         if form.validate_on_submit():
             self.handle_form(form, instance)

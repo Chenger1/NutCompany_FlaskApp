@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
 from wtforms.fields import StringField, TextAreaField, HiddenField
-from wtforms.validators import DataRequired, URL, Optional
+from wtforms.validators import DataRequired, URL, Optional, Email
 from wtforms import ValidationError
 
 
@@ -44,3 +44,15 @@ class AboutCompanyForm(FlaskForm):
 
 class AboutCompanyGalleryForm(FlaskForm):
     photo = FileField('Photo', validators=[validate_photo])
+
+
+class ContactsForm(FlaskForm):
+    office_address = StringField('Адрес офиса ')
+    manufacture = StringField('Адрес производства')
+    main_phone = StringField('Основной телефон')
+    add_phone = StringField('Дополнительный телефон')
+    telegram = StringField('Telegram')
+    viber = StringField('Viber')
+    whats_up = StringField('What`s up')
+    email = StringField('E-mail', validators=[Email()])
+    map = TextAreaField('Код карты')
