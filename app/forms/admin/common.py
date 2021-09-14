@@ -31,3 +31,8 @@ class GalleryForm(FlaskForm):
 
 class FormsetManagementForm(FlaskForm):
     counter = HiddenField('FORMSET_COUNTER')
+
+
+class CorporateClientForm(FlaskForm):
+    photo = FileField('Photo')
+    text = TextAreaField('Text', validators=[DataRequired()])

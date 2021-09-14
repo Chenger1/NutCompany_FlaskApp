@@ -1,0 +1,73 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}
+Корпоративным клиентам
+{% endblock %}
+{% block header %}
+Корпоративным клиентам
+{% endblock  %}
+{% block breadcrumb %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{ url_for('main.statistic') }}">Главная</a></li>
+    <li class="breadcrumb-item">Корпоративным клиентам</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="container-fluid">
+        <form method="post" enctype="multipart/form-data">
+            <div class="row justify-content-center">
+                {{ management_form.counter }}
+                {% for form in formset %}
+                <div class="col-md-4 col-sm-6 formset">
+                    {{ form.csrf_token }}
+                    <div class="card card-default text-center">
+                        <div class="card-header">
+                            <b>{{ form.obj.name }}</b>
+                        </div>
+                        <div class="card-body">
+                            {% if form.obj and form.obj.photo %}
+                            <img src="{{ url_for('common.download_file', name=form.obj.photo) }}" alt="image"
+                                 class="img-fluid preview_img" style="height: 300px; width: 350px; margin: auto;">
+                            {% else %}
+                            <img src="{{ url_for('static', filename='img/default_form_image.png') }}" alt="image"
+                                 class="img-fluid preview_img" style="height: 300px; width: 350px; margin: auto;">
+                            {% endif %}
+                            <div class="form-group">
+                                {{ form.photo(class="upload") }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.text.label(class="form-label") }}
+                                {{ form.text(class="form-control", rows=12) }}
+                            </div>
+                            {{ form.delete(style="display:none;") }}
+                            {{ form.prefix }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='admin/plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/update_img_after_upload.js') }}"></script>
+<script>
+    let forms = $('.formset');
+    for(form of forms){
+        $(form).find(':input[class="upload"]').on('change', function(){
+            setPreview(this);
+        })
+    }
+
+</script>
+{% if errors %}
+{{ error_template.errors_list(errors) }}
+{% endif %}
+{% endblock %}

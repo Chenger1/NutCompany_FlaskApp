@@ -100,6 +100,7 @@
                     <li class="nav-item
                         {% if '/news/' in request.path %}menu-is-opening menu-open
                         {% elif 'gallery' in request.path %}menu-is-opening menu-open
+                        {% elif 'corporate_clients' in request.path %}menu-is-opening menu-open
                         {% endif %}">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-tools"></i>
@@ -126,7 +127,9 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ url_for('main.corporate_clients_page') }}" class="nav-link
+                                    {% if '/corporate_clients' in request.path %}active
+                                    {% endif %}">
                                     <i class="nav-icon fas fa-building"></i>
                                     <p>Корпоративным клиентам</p>
                                 </a>
