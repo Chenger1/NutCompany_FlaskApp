@@ -1,10 +1,11 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired
 from wtforms.fields import (StringField, TextAreaField, HiddenField, FloatField, BooleanField, DateTimeField,
-                            IntegerField)
+                            IntegerField, RadioField)
 from wtforms.validators import DataRequired, URL, Optional, Email
 from wtforms import ValidationError
 
+from app._db.choices import DeliveryTypeChoice, PaymentChoice, OrderStatusChoice
 
 from ..custom_field import DateTimeLocalHTML5FormatField, CustomFileField
 
@@ -95,3 +96,20 @@ class EditProductForm(ProductForm):
 
 class ProductGalleryForm(FlaskForm):
     photo = CustomFileField('Изображение', validators=[validate_photo])
+
+
+class EditOrderForm(FlaskForm):
+    number = IntegerField('Номер заказа', validators=[Optional()])
+    fio = StringField('ФИО клиента', validators=[DataRequired()])
+    email = StringField('Email', validators=[Email()])
+    phone = StringField('Номер телефона', validators=[DataRequired()])
+
+    address = StringField('Адрес доставки', validators=[DataRequired()])
+    city = StringField('Город доставки', validators=[DataRequired()])
+
+    delivery_type = RadioField('Способ доставки', choices=DeliveryTypeChoice.choices(),
+                               coerce=DeliveryTypeChoice.coerce)
+    payment = RadioField('Способ платежа', choice=PaymentChoice.choices(),
+                         coerce=PaymentChoice.coerce)
+    status = RadioField('Статус заказа', choices=OrderStatusChoice.choices(),
+                        coerce=OrderStatusChoice.coerce)
