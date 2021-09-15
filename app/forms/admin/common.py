@@ -71,7 +71,7 @@ class ProductForm(FlaskForm):
     promo_price = FloatField('Акционная цена', validators=[Optional()])
     is_promo = BooleanField('Акционный товар', default=False)
     date = DateTimeField('Добавлен')
-    amount = IntegerField('Количество')
+    amount = IntegerField('Количество товаров')
 
     def validate_date(self, field):
         field.data = datetime.now()
