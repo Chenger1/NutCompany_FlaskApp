@@ -35,10 +35,9 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="margin-top: 10px;">
                 <div class="col-12 text-center">
-                    <input type="file" name="photo"
-                           style="margin-top: 10px;" id="photo">
+                    {{ form.photo }}
                 </div>
             </div>
             <div class="row">
@@ -91,7 +90,7 @@
         })
     })
 </script>
-{% if form.error %}
-    {{ error_template.error_dict(form.error) }}
+{% if form.errors %}
+    {{ error_template.error_dict(form.errors) }}
 {% endif %}
 {% endblock %}

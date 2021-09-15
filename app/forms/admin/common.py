@@ -1,8 +1,7 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileRequired
 from wtforms.fields import (StringField, TextAreaField, HiddenField, FloatField, BooleanField, DateTimeField,
                             IntegerField, RadioField, SelectField)
-from wtforms.validators import DataRequired, URL, Optional, Email
+from wtforms.validators import DataRequired, URL, Optional, Email, InputRequired
 from wtforms import ValidationError
 
 from app._db.choices import DeliveryTypeChoice, PaymentChoice, OrderStatusChoice
@@ -20,7 +19,7 @@ def validate_photo(form, field):
 class NewsItemForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     text = TextAreaField('Text', validators=[DataRequired()])
-    photo = CustomFileField('Photo', validators=[FileRequired()])
+    photo = CustomFileField('Photo', validators=[InputRequired()])
     publication_date = DateTimeLocalHTML5FormatField('Date', validators=[DataRequired()])
 
 

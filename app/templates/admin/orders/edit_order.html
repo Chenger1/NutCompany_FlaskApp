@@ -64,9 +64,9 @@
                                 <tbody>
                                 {% for item in instance.items %}
                                 <tr>
-                                    <td>{{ item.product }}</td>
+                                    <td>{{ item.product.name }}</td>
                                     <td>0</td>
-                                    <td>{{ item.product }}</td>
+                                    <td>{{ item.product.price }}</td>
                                     <td>{{ 0 }}</td>
                                 </tr>
                                 {% endfor %}

@@ -32,7 +32,7 @@ class EditProductView(ProductView):
     form_class = EditProductForm
 
     def get_queryset(self):
-        return self.model.query.filter_by(entity=self.instance.id).all()
+        return self.model.query.filter_by(entity_id=self.instance.id).all()
 
 
 class DeleteProductView(AdminMethodView, DeleteInstanceMixin):

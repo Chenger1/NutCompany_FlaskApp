@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileRequired, FileAllowed
+from flask_wtf.file import FileAllowed
 
 from wtforms import fields, ValidationError
-from wtforms.validators import DataRequired, Length, Email, Optional
+from wtforms.validators import DataRequired, Length, Email, Optional, InputRequired
 
 from app._db.models import User
 from app._db.choices import CountryChoice, UserTypeChoice
@@ -19,8 +19,8 @@ class UserBaseForm(FlaskForm):
                                                 Length(1, 150)])
     phone = fields.StringField('Phone', validators=[DataRequired(),
                                                     Length(1, 30)])
-    photo = CustomFileField('Photo', validators=[FileRequired(),
-                                           FileAllowed({'png', 'jpg', 'jpeg'})])
+    photo = CustomFileField('Photo', validators=[InputRequired(),
+                                                 FileAllowed({'png', 'jpg', 'jpeg'})])
 
     def validate_password(self, field):
         if field.data != self.password2.data:

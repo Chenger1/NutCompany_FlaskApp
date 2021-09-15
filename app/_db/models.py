@@ -102,9 +102,10 @@ class Order(db.Model):
 
 class OrderItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    product = db.Column(db.Integer(), db.ForeignKey('product.id'))
+    product_id = db.Column(db.Integer(), db.ForeignKey('product.id'))
     order_id = db.Column(db.Integer(), db.ForeignKey('order.id'))
     order = db.relationship(Order, backref=backref('items', cascade='all, delete-orphan'))
+    product = db.relationship(Product, backref='order_items')
 
 
 class Request(db.Model):
