@@ -1,11 +1,12 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileRequired, FileAllowed
+from flask_wtf.file import FileRequired, FileAllowed
 
 from wtforms import fields, ValidationError
 from wtforms.validators import DataRequired, Length, Email, Optional
 
 from app._db.models import User
 from app._db.choices import CountryChoice, UserTypeChoice
+from app.forms.custom_field import CustomFileField
 
 from datetime import date
 
@@ -18,7 +19,7 @@ class UserBaseForm(FlaskForm):
                                                 Length(1, 150)])
     phone = fields.StringField('Phone', validators=[DataRequired(),
                                                     Length(1, 30)])
-    photo = FileField('Photo', validators=[FileRequired(),
+    photo = CustomFileField('Photo', validators=[FileRequired(),
                                            FileAllowed({'png', 'jpg', 'jpeg'})])
 
     def validate_password(self, field):
@@ -27,7 +28,7 @@ class UserBaseForm(FlaskForm):
 
 
 class AdminEditForm(UserBaseForm):
-    photo = FileField('Photo', validators=[FileAllowed({'png', 'jpg', 'jpeg'})])
+    photo = CustomFileField('Photo', validators=[FileAllowed({'png', 'jpg', 'jpeg'})])
 
     password = fields.PasswordField('Password')
     password2 = fields.PasswordField('Password2')
@@ -62,4 +63,4 @@ class ClientAdminPageForm(FlaskForm):
     index = fields.IntegerField('Индекс', validators=[Optional()])
     type = fields.SelectField('Тип', choices=UserTypeChoice.choices(), coerce=UserTypeChoice.coerce)
     credentials = fields.TextAreaField('Реквизиты')
-    photo = FileField('Фото', validators=[FileAllowed({'png', 'jpg', 'jpeg'})])
+    photo = CustomFileField('Фото', validators=[FileAllowed({'png', 'jpg', 'jpeg'})])

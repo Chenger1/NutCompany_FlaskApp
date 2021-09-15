@@ -1,12 +1,12 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileRequired
+from flask_wtf.file import FileRequired
 from wtforms.fields import (StringField, TextAreaField, HiddenField, FloatField, BooleanField, DateTimeField,
                             IntegerField)
 from wtforms.validators import DataRequired, URL, Optional, Email
 from wtforms import ValidationError
 
 
-from ..custom_field import DateTimeLocalHTML5FormatField
+from ..custom_field import DateTimeLocalHTML5FormatField, CustomFileField
 
 from datetime import datetime
 
@@ -19,16 +19,16 @@ def validate_photo(form, field):
 class NewsItemForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     text = TextAreaField('Text', validators=[DataRequired()])
-    photo = FileField('Photo', validators=[FileRequired()])
+    photo = CustomFileField('Photo', validators=[FileRequired()])
     publication_date = DateTimeLocalHTML5FormatField('Date', validators=[DataRequired()])
 
 
 class NewsItemEditForm(NewsItemForm):
-    photo = FileField('Photo')
+    photo = CustomFileField('Photo')
 
 
 class GalleryForm(FlaskForm):
-    photo = FileField('Photo', validators=[validate_photo])
+    photo = CustomFileField('Photo', validators=[validate_photo])
     url = StringField('URL', validators=[URL(), Optional()])
 
 
@@ -37,7 +37,7 @@ class FormsetManagementForm(FlaskForm):
 
 
 class CorporateClientForm(FlaskForm):
-    photo = FileField('Photo')
+    photo = CustomFileField('Photo')
     text = TextAreaField('Text', validators=[DataRequired()])
 
 
@@ -46,7 +46,7 @@ class AboutCompanyForm(FlaskForm):
 
 
 class AboutCompanyGalleryForm(FlaskForm):
-    photo = FileField('Photo', validators=[validate_photo])
+    photo = CustomFileField('Photo', validators=[validate_photo])
 
 
 class ContactsForm(FlaskForm):
@@ -66,8 +66,8 @@ class ProductForm(FlaskForm):
     energy = StringField('Энергетическая ценность')
     condition = TextAreaField('Условия хранения')
     desc = TextAreaField('Описание')
-    package = FileField('Изображение упаковки')
-    desc_image = FileField('Изображение для описания')
+    package = CustomFileField('Изображение упаковки')
+    desc_image = CustomFileField('Изображение для описания')
     promo_price = FloatField('Акционная цена', validators=[Optional()])
     is_promo = BooleanField('Акционный товар', default=False)
     date = DateTimeField('Добавлен')
@@ -94,4 +94,4 @@ class EditProductForm(ProductForm):
 
 
 class ProductGalleryForm(FlaskForm):
-    photo = FileField('Изображение', validators=[validate_photo])
+    photo = CustomFileField('Изображение', validators=[validate_photo])

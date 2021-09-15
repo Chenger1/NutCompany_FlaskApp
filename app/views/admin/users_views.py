@@ -2,7 +2,7 @@ from . import main
 
 from app.utils.mixins import AdminMethodView
 from app.utils.generic import ListViewMixin, UpdateViewMixin, CreateViewMixin, DeleteInstanceMixin
-from app._db.models import User, enum_select_prepare
+from app._db.models import User
 from app.forms.admin.users import AdminEditForm, AdminCreateForm, ClientAdminPageForm
 
 
