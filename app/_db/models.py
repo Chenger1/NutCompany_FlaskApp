@@ -92,6 +92,7 @@ class Order(db.Model):
     date = db.Column(db.DateTime())
     delivery_type = db.Column(db.Enum(DeliveryTypeChoice))
     address = db.Column(db.String(100), nullable=True)
+    city = db.Column(db.String(100), nullable=True)
 
     payment = db.Column(db.Enum(PaymentChoice))
     status = db.Column(db.Enum(OrderStatusChoice))
