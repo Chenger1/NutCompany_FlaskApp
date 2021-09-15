@@ -13,7 +13,6 @@ class ListViewMixin(ViewMixin):
         self.pagination = None
         self.form = None
         self.instances = None
-        self.page = 1
 
     def get(self):
         if self.search_form:
