@@ -13,13 +13,13 @@
             <div class="col-lg-4 col-sm-6 col-xs-12">
                 <div class="small-box bg-primary">
                     <div class="inner">
-                        <h3>0</h3>
+                        <h3>{{ clients }}</h3>
                         <p>Клиентов</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-building"></i>
                     </div>
-                    <a href="" class="small-box-footer">
+                    <a href="{{ url_for('main.client_list') }}" class="small-box-footer">
                         Перейти в Клиенты <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -28,13 +28,13 @@
             <div class="col-lg-4 col-sm-6 col-xs-12">
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>0</h3>
+                        <h3>{{ orders }}</h3>
                         <p>Открытых Заказов</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-users"></i>
                     </div>
-                    <a href="" class="small-box-footer">
+                    <a href="{{ url_for('main.orders_list') }}" class="small-box-footer">
                         Перейти в Заказы <i class="fa fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -42,13 +42,13 @@
             <div class="col-lg-4 col-sm-6 col-xs-12">
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>0</h3>
+                        <h3>{{ products }}</h3>
                         <p>Товаров</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-wrench"></i>
                     </div>
-                    <a href="" class="small-box-footer">
+                    <a href="{{ url_for('main.products_list') }}" class="small-box-footer">
                         Перейти в Товары <i class="fa fa-arrow-circle-right"></i>
                     </a>
                 </div>

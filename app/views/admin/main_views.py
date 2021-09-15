@@ -1,9 +1,10 @@
 from flask import render_template, redirect, url_for, flash
 from flask.views import MethodView
+from sqlalchemy import not_
 
 from . import main
 
-from app._db.models import Request
+from app._db.models import Request, User, Order, Product
 from app._db.choices import RequestStatusChoice
 from app import db
 
@@ -13,7 +14,12 @@ from app.utils.generic import ListViewMixin
 
 class StatisticView(AdminMethodView):
     def get(self):
-        return render_template('admin/index.html')
+        context = {
+            'clients': User.query.filter_by(is_admin=False).count(),
+            'orders': Order.query.filter(not_(Order.status.like('done'))).count(),
+            'products': Product.query.count()
+        }
+        return render_template('admin/index.html', **context)
 
 
 class RequestView(AdminMethodView, ListViewMixin):
