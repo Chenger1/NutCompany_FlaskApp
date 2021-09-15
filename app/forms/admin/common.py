@@ -113,3 +113,4 @@ class EditOrderForm(FlaskForm):
                          coerce=PaymentChoice.coerce)
     status = RadioField('Статус заказа', choices=OrderStatusChoice.choices(),
                         coerce=OrderStatusChoice.coerce)
+    sum = FloatField('Сумма заказа', validators=[Optional()])

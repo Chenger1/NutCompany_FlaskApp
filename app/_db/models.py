@@ -96,6 +96,8 @@ class Order(db.Model):
     payment = db.Column(db.Enum(PaymentChoice))
     status = db.Column(db.Enum(OrderStatusChoice))
 
+    sum = db.Column(db.Float())
+
     items = db.relationship('OrderItem')
 
 
