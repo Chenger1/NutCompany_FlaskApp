@@ -2,7 +2,6 @@ from flask import render_template, request
 from werkzeug.datastructures import CombinedMultiDict
 
 from app import db
-from app.utils.funcs import handle_files
 
 
 class ViewMixin:

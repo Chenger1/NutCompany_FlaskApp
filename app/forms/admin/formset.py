@@ -2,7 +2,6 @@ from app import db
 from werkzeug.datastructures import CombinedMultiDict
 from wtforms.fields import BooleanField
 
-from app.utils.funcs import handle_files
 from app.forms.admin.common import FormsetManagementForm
 
 import copy
