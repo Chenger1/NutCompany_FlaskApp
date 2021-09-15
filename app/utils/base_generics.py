@@ -39,12 +39,7 @@ class FormViewMixin:
         field = getattr(self.form, field_name)
 
         if field.data:
-            if field.type == 'FileField':
-                filename = handle_files(field.data)
-                value = filename
-            else:
-                value = getattr(self.form, field_name).data
-            setattr(self.instance, field_name, value)
+            setattr(self.instance, field_name, field.data)
 
     def save_instance(self):
         db.session.add(self.instance)

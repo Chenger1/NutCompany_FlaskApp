@@ -59,8 +59,6 @@ class BaseFormset:
         else:
             instance = self.model()
         for key, value in form.data.items():
-            if getattr(form, key).type == 'FileField':
-                value = handle_files(value)
             setattr(instance, key, value)
         return instance
 
