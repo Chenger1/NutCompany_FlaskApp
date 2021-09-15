@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash
 from flask.views import MethodView
-from sqlalchemy import not_
+from sqlalchemy import not_, extract
 
 from . import main
 
@@ -11,15 +11,30 @@ from app import db
 from app.utils.mixins import AdminMethodView
 from app.utils.generic import ListViewMixin
 
+from datetime import datetime
+
 
 class StatisticView(AdminMethodView):
     def get(self):
         context = {
             'clients': User.query.filter_by(is_admin=False).count(),
             'orders': Order.query.filter(not_(Order.status.like('done'))).count(),
-            'products': Product.query.count()
+            'products': Product.query.count(),
+            'done_orders': self.list_for_statistic_by_month(True),
+            'in_progress_orders': self.list_for_statistic_by_month(False)
         }
         return render_template('admin/index.html', **context)
+
+    def list_for_statistic_by_month(self, is_done):
+        if is_done is True:
+            orders = Order.query.filter(Order.status == 'done')
+        else:
+            orders = Order.query.filter(not_(Order.status == 'done'))
+        result = {}
+        for index in range(1, 13):
+            result[index] = orders.filter(extract('month', Order.date) == index,
+                                          extract('year', Order.date) == datetime.today().year).count()
+        return result
 
 
 class RequestView(AdminMethodView, ListViewMixin):
@@ -45,4 +60,5 @@ class ProceedRequestView(AdminMethodView, MethodView):
 
 main.add_url_rule('/admin', view_func=StatisticView.as_view('statistic'))
 main.add_url_rule('/admin/requests', view_func=RequestView.as_view('requests'))
-main.add_url_rule('/admin/proceed_request/<obj_id>/<operation>', view_func=ProceedRequestView.as_view('proceed_request'))
+main.add_url_rule('/admin/proceed_request/<obj_id>/<operation>',
+                  view_func=ProceedRequestView.as_view('proceed_request'))

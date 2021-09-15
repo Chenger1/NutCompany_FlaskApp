@@ -1,5 +1,9 @@
 {% extends "admin/admin_base.html" %}
 
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='admin/plugins/chart.js/Chart.min.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="content">
     <div class="container-fluid">
@@ -85,4 +89,63 @@
 
     </div><!-- /.container-fluid -->
 </div>
+{% endblock %}
+{% block script %}
+<script src="{{ url_for('static', filename='admin/plugins/chart.js/Chart.min.js') }}"></script>
+
+<script>
+    const current_year = new Date().getFullYear();
+    const month =   ['янв., '+current_year, 'февр., '+ current_year, 'март, '+current_year, 'апр., '+current_year,
+                     'май, '+current_year, 'июнь, '+current_year, 'июль, '+ current_year, 'авг., '+current_year,
+                     'сент., '+current_year, 'окт., '+current_year, 'нояб., '+current_year, 'дек., '+current_year]
+
+    var areaChartData = {
+      labels  : month,
+      datasets: [
+        {
+          label               : 'Выполненные заказы',
+          backgroundColor     : 'rgba(0, 166, 90, 1)',
+          borderColor         : 'rgba(60,141,188,0.8)',
+          pointRadius          : false,
+          pointColor          : '#3b8bba',
+          pointStrokeColor    : 'rgba(60,141,188,1)',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(60,141,188,1)',
+          data                : [{% for value in done_orders.values() %}{{ value }}, {% endfor %}]
+        },
+        {
+          label               : 'В обработке',
+          backgroundColor     : 'rgba(221, 75, 57, 1)',
+          borderColor         : 'rgba(210, 214, 222, 1)',
+          pointRadius         : false,
+          pointColor          : 'rgba(210, 214, 222, 1)',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : [{% for value in in_progress_orders.values() %}{{ value }}, {% endfor %}]
+        },
+      ]
+    }
+    //-------------
+    //- BAR CHART -
+    //-------------
+    var barChartCanvas = $('#barChart').get(0).getContext('2d')
+    var barChartData = $.extend(true, {}, areaChartData)
+    var temp0 = areaChartData.datasets[0]
+    var temp1 = areaChartData.datasets[1]
+    barChartData.datasets[0] = temp1
+    barChartData.datasets[1] = temp0
+
+    var barChartOptions = {
+      responsive              : true,
+      maintainAspectRatio     : false,
+      datasetFill             : false
+    }
+
+    new Chart(barChartCanvas, {
+      type: 'bar',
+      data: barChartData,
+      options: barChartOptions
+    })
+</script>
 {% endblock %}
