@@ -4,11 +4,13 @@ from app.utils.generic import ListViewMixin, UpdateViewMixin, DeleteInstanceMixi
 from app.utils.mixins import AdminMethodView
 from app._db.models import Order
 from app.forms.admin.common import EditOrderForm
+from app.forms.admin.search_forms import OrderSearchForm
 
 
 class OrdersListView(AdminMethodView, ListViewMixin):
     model = Order
     template_name = 'admin/orders/orders_list.html'
+    search_form = OrderSearchForm
 
 
 class EditOrderView(AdminMethodView, UpdateViewMixin):

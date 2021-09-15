@@ -1,6 +1,7 @@
 from app import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import backref
+from sqlalchemy import extract
 
 from flask_login import UserMixin
 
@@ -98,6 +99,15 @@ class Order(db.Model):
     status = db.Column(db.Enum(OrderStatusChoice))
 
     sum = db.Column(db.Float())
+
+    @classmethod
+    def search(cls, form_data, queryset):
+        if form_data.get('start') and form_data.get('end'):
+            queryset = queryset.filter(cls.date >= form_data.get('start'),
+                                       cls.date <= form_data.get('end'))
+        elif form_data.get('status'):
+            queryset = queryset.filter(cls.status == form_data.get('status'))
+        return queryset
 
 
 class OrderItem(db.Model):
