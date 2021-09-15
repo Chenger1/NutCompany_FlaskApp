@@ -16,10 +16,12 @@ class ListViewMixin(ViewMixin):
         self.page = 1
 
     def get(self):
-        self.form = self.search_form(request.values)
-        self.page = request.args.get('page', 1, type=int)
-        if self.form.validate():
-            self.instances = self.get_filtered_query(self.form.data)
+        if self.search_form:
+            self.form = self.search_form(request.values)
+            if self.form.validate():
+                self.instances = self.get_filtered_query(self.form.data)
+            else:
+                self.instances = self.get_queryset()
         else:
             self.instances = self.get_queryset()
         return self.render_template(self.get_context_data())
@@ -46,10 +48,13 @@ class ListViewMixin(ViewMixin):
 
     def paginate(self, query):
         self.pagination = query.paginate(
-            self.page, per_page=self.paginate_by,
+            self.get_page(), per_page=self.paginate_by,
             error_out=False
         )
         return self.pagination.query
+
+    def get_page(self):
+        return request.args.get('page', 1, type=int)
 
 
 class UpdateViewMixin(ViewMixin, FormViewMixin):
