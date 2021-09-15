@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired
 from wtforms.fields import (StringField, TextAreaField, HiddenField, FloatField, BooleanField, DateTimeField,
-                            IntegerField, RadioField)
+                            IntegerField, RadioField, SelectField)
 from wtforms.validators import DataRequired, URL, Optional, Email
 from wtforms import ValidationError
 
@@ -111,6 +111,8 @@ class EditOrderForm(FlaskForm):
                                coerce=DeliveryTypeChoice.coerce)
     payment = RadioField('Способ платежа', choices=PaymentChoice.choices(),
                          coerce=PaymentChoice.coerce)
-    status = RadioField('Статус заказа', choices=OrderStatusChoice.choices(),
-                        coerce=OrderStatusChoice.coerce)
+    status = SelectField('Статус заказа', choices=OrderStatusChoice.choices(),
+                         coerce=OrderStatusChoice.coerce)
     sum = FloatField('Сумма заказа', validators=[Optional()])
+
+    date = DateTimeField('Дата создания', validators=[Optional()])

@@ -1,0 +1,148 @@
+{% extends "admin/admin_base.html" %}
+{% import "admin/error.html" as error_template %}
+
+{% block title %}
+Заказ №{{ instance.number }}
+{% endblock %}
+{% block header %}
+Заказ №{{ instance.number }}
+{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{ url_for('main.statistic') }}">Главная</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('main.orders_list') }}">Заказы</a></li>
+    <li class="breadcrumb-item">Заказы</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="container-fluid">
+        <form method="post">
+            {{ form.csrf_token }}
+            <div class="card card-default">
+                <div class="card-header">
+                    <div class="row" style="margin-bottom:10px;">
+                        <div class="col-12 col-md-8 col-lg-8">
+                            <div class="page-header">
+                                <div class="form-group" style="margin: 0; flex-basis: 45%;">
+                                    <div class="input-group">
+                                        <div class="input-group-addon to_valid">
+                                            №
+                                        </div>
+                                        {{ form.number(class="form-control", readonly="true") }}
+                                    </div>
+                                </div>
+                                <span style="margin: 0 15px;">от</span>
+                                <div class="form-group" style="margin: 0; flex-basis: 45%;">
+                                    <div class="input-group">
+                                        <input readonly
+                                               value="{{ instance.date.strftime('%Y-%m-%d') }} в {{ instance.date.strftime('%H:%M') }}"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-4">
+                            {{ form.status(class="form-control") }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>Список товаров</h4>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Товар</th>
+                                    <th>Кол-во</th>
+                                    <th>Цена за товар</th>
+                                    <th>Итоговая стоимость</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in instance.items %}
+                                <tr>
+                                    <td>{{ item.product }}</td>
+                                    <td>0</td>
+                                    <td>{{ item.product }}</td>
+                                    <td>{{ 0 }}</td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="3"><strong>Всего:</strong></td>
+                                    <td><strong>{{ instance.sum }} грн.</strong></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <small class="muted">Администратор не может менять состав заказа.</small>
+                        </div>
+                    </div>
+                    <h4 style="margin-top: 20px;">1. Контактные данные</h4>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                {{ form.fio.label }}
+                                {{ form.fio(class="form-control", placeholder="ФИО") }}
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                {{ form.email.label }}
+                                {{ form.email(class="form-control", placeholder="mail@mail.com") }}
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                {{ form.phone.label }}
+                                {{ form.phone(class="form-control", placeholder="+38064847122") }}
+                            </div>
+                        </div>
+                    </div>
+                    <h4>2. Способ доставки</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                {{ form.delivery_type }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                {{ form.address.label }}
+                                {{ form.address(class="form-control", placeholder="Адрес доставки") }}
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                {{ form.city.label }}
+                                {{ form.city(class="form-control", placeholder="Город доставки") }}
+                            </div>
+                        </div>
+                    </div>
+                    <h4>3. Способ оплаты</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                {{ form.payment }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+{% if form.errors %}
+    {{ error_template.error_dict(form.errors) }}
+{% endif %}
+{% endblock %}

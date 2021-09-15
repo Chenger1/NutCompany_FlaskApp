@@ -15,6 +15,7 @@ class EditOrderView(AdminMethodView, UpdateViewMixin):
     model = Order
     template_name = 'admin/orders/edit_order.html'
     form_class = EditOrderForm
+    redirect_url = 'main.orders_list'
 
 
 class DeleteOrderView(AdminMethodView, DeleteInstanceMixin):

@@ -8,3 +8,17 @@
     top: -10px;
     right: -5px;
 }
+
+.input-group-addon{
+    padding: 6px 12px;
+    background-color: white;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
+.page-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
