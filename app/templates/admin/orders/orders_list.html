@@ -1,0 +1,86 @@
+{% extends "admin/admin_base.html" %}
+{% import "admin/paginator.html" as macros %}
+
+{% block title %}
+Список заказов
+{% endblock %}
+
+{% block header %}
+Список заказов
+{% endblock %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{ url_for('main.statistic') }}">Главная</a></li>
+    <li class="breadcrumb-item">Заказы</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="container-fluid">
+        <div class="col-12" style="margin-top: 15px;">
+            <div class="card card-default">
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover table-striped text-nowrap">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Дата</th>
+                            <th>Статус</th>
+                            <th>Клиент</th>
+                            <th>Сумма</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for inst in instances %}
+                        <tr>
+                            <td><a href="{{ url_for('main.edit_order', obj_id=inst.id) }}"
+                            style="color: black;">{{ inst.id }}</a></td>
+                            <td style="min-width:250px;"><a href="{{ url_for('main.edit_order', obj_id=inst.id) }}"
+                            style="color: black;">
+                                {{ inst.date }}
+                            </a></td>
+                            <td><a href="{{ url_for('main.edit_order', obj_id=inst.id) }}"
+                            style="color: black;">
+                                <span style="
+                                {% if inst.status.name == 'done' %} color: green;
+                                {% elif inst.status.name == 'unpaid' %} color: red;
+                                {% elif inst.status.name == 'sent' %} color: yellow;
+                                {% else %} color: blue;
+                                {% endif %}">
+                                    {{ inst.status.value }}
+                                </span>
+                            </a></td>
+                            <td><a href="{{ url_for('main.edit_order', obj_id=inst.id) }}"
+                            style="color: black;">
+                                {{ inst.fio }}
+                            </a></td>
+                            <td><a href="{{ url_for('main.edit_order', obj_id=inst.id) }}"
+                            style="color: black;">
+                                {{ inst.sum }}
+                            </a></td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{{ url_for('main.edit_order', obj_id=inst.id) }}" class="btn btn-default btn-sm"
+                                    title="Редактировать">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{{ url_for('main.delete_order', obj_id=inst.id) }}" class="btn btn-default btn-sm"
+                                    title="Удалить">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {{ macros.pagination_widget(pagination, '.orders_list') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

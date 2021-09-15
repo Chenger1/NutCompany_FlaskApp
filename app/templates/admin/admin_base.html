@@ -79,7 +79,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">
+                        <a href="{{ url_for('main.orders_list') }}" class="nav-link
+                        {% if 'order' in request.path %}active{% endif %}">
                             <i class="nav-icon fas fa-file-invoice-dollar"></i>
                             <p>Заказы</p>
                         </a>

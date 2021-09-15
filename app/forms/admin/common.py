@@ -109,7 +109,7 @@ class EditOrderForm(FlaskForm):
 
     delivery_type = RadioField('Способ доставки', choices=DeliveryTypeChoice.choices(),
                                coerce=DeliveryTypeChoice.coerce)
-    payment = RadioField('Способ платежа', choice=PaymentChoice.choices(),
+    payment = RadioField('Способ платежа', choices=PaymentChoice.choices(),
                          coerce=PaymentChoice.coerce)
     status = RadioField('Статус заказа', choices=OrderStatusChoice.choices(),
                         coerce=OrderStatusChoice.coerce)
