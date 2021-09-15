@@ -65,9 +65,9 @@
                                 {% for item in instance.items %}
                                 <tr>
                                     <td>{{ item.product.name }}</td>
-                                    <td>0</td>
+                                    <td>{{ item.amount }}</td>
                                     <td>{{ item.product.price }}</td>
-                                    <td>{{ 0 }}</td>
+                                    <td>{{ item.sum }}</td>
                                 </tr>
                                 {% endfor %}
                                 <tr>

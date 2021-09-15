@@ -107,6 +107,9 @@ class OrderItem(db.Model):
     order = db.relationship(Order, backref=backref('items', cascade='all, delete-orphan'))
     product = db.relationship(Product, backref='order_items')
 
+    amount = db.Column(db.Integer(), default=0)
+    sum = db.Column(db.Float(), default=0)
+
 
 class Request(db.Model):
     id = db.Column(db.Integer, primary_key=True)
