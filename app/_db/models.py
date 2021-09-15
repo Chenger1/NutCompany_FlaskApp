@@ -1,5 +1,6 @@
 from app import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.orm import backref
 
 from flask_login import UserMixin
 
@@ -74,7 +75,7 @@ class ProductGallery(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     entity_id = db.Column(db.Integer(), db.ForeignKey('product.id'))
-    entity = db.relationship(Product, backref='gallery')
+    entity = db.relationship(Product, backref=backref('gallery', cascade='all, delete-orphan'))
     photo = db.Column(db.String())
 
 
@@ -103,7 +104,7 @@ class OrderItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     product = db.Column(db.Integer(), db.ForeignKey('product.id'))
     order_id = db.Column(db.Integer(), db.ForeignKey('order.id'))
-    order = db.relationship(Order, backref='items')
+    order = db.relationship(Order, backref=backref('items', cascade='all, delete-orphan'))
 
 
 class Request(db.Model):

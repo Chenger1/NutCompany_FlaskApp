@@ -1,4 +1,5 @@
 from app import db
+from sqlalchemy.orm import backref
 
 
 class MainPageGallery(db.Model):
@@ -58,5 +59,5 @@ class AboutCompanyGallery(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     entity_id = db.Column(db.Integer(), db.ForeignKey('about_company.id'))
-    entity = db.relationship(AboutCompany, backref='gallery')
+    entity = db.relationship(AboutCompany, backref=backref('gallery', cascade='all, delete-orphan'))
     photo = db.Column(db.String())
