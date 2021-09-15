@@ -51,12 +51,12 @@ class AboutCompany(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text())
-    images = db.relationship('AboutCompanyGallery')
 
 
 class AboutCompanyGallery(db.Model):
     __tablename__ = 'about_company_gallery'
 
     id = db.Column(db.Integer, primary_key=True)
-    entity = db.Column(db.Integer(), db.ForeignKey('about_company.id'))
+    entity_id = db.Column(db.Integer(), db.ForeignKey('about_company.id'))
+    entity = db.relationship(AboutCompany, backref='gallery')
     photo = db.Column(db.String())

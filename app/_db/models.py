@@ -68,14 +68,13 @@ class Product(db.Model):
 
     amount = db.Column(db.Integer())
 
-    gallery = db.relationship('ProductGallery')
-
 
 class ProductGallery(db.Model):
     __tablename__ = 'product_gallery'
 
     id = db.Column(db.Integer, primary_key=True)
-    entity = db.Column(db.Integer(), db.ForeignKey('product.id'))
+    entity_id = db.Column(db.Integer(), db.ForeignKey('product.id'))
+    entity = db.relationship(Product, backref='gallery')
     photo = db.Column(db.String())
 
 
@@ -99,13 +98,12 @@ class Order(db.Model):
 
     sum = db.Column(db.Float())
 
-    items = db.relationship('OrderItem')
-
 
 class OrderItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     product = db.Column(db.Integer(), db.ForeignKey('product.id'))
-    order = db.Column(db.Integer(), db.ForeignKey('order.id'))
+    order_id = db.Column(db.Integer(), db.ForeignKey('order.id'))
+    order = db.relationship(Order, backref='items')
 
 
 class Request(db.Model):
