@@ -7,31 +7,49 @@ from app import db
 
 class ListViewMixin(ViewMixin):
     paginate_by = 20
+    search_form = None
 
     def __init__(self):
         self.pagination = None
+        self.form = None
+        self.instances = None
+        self.page = 1
 
-    def get_page(self):
-        return request.args.get('page', 1, type=int)
+    def get(self):
+        self.form = self.search_form(request.values)
+        self.page = request.args.get('page', 1, type=int)
+        if self.form.validate():
+            self.instances = self.get_filtered_query(self.form.data)
+        else:
+            self.instances = self.get_queryset()
+        return self.render_template(self.get_context_data())
+
+    def get_filtered_query(self, form_data):
+        """
+        Redefine if you need more specific query after filtering
+        """
+        instances = self.model.search(form_data, self.get_queryset())
+        return instances
 
     def get_queryset(self):
+        """
+        Redefine if you need another queryset before filtering
+        """
         query = self.model.query
         return self.paginate(query)
 
+    def get_context_data(self):
+        context = {'instances': self.instances,
+                   'pagination': self.pagination,
+                   'form': self.form}
+        return context
+
     def paginate(self, query):
         self.pagination = query.paginate(
-            self.get_page(), per_page=self.paginate_by,
+            self.page, per_page=self.paginate_by,
             error_out=False
         )
-        return self.pagination.items
-
-    def get_context(self):
-        return {'instances': self.get_queryset(),
-                'pagination': self.pagination}
-
-    def get(self):
-        context = self.get_context()
-        return self.render_template(context)
+        return self.pagination.query
 
 
 class UpdateViewMixin(ViewMixin, FormViewMixin):
