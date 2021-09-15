@@ -117,7 +117,7 @@ class Formset(BaseFormset):
 
 
 class InlineFormset(Formset):
-    def __init__(self, entity=None, foreign_key_name='entity', *args, **kwargs):
+    def __init__(self, entity=None, foreign_key_name='entity_id', *args, **kwargs):
         self.entity = entity  # Instance for foreign key
         self.foreign_key_name = foreign_key_name
         super().__init__(*args, **kwargs)
