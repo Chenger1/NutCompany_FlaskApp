@@ -103,6 +103,15 @@ class CreateViewMixin(ViewMixin, FormViewMixin):
         return {'form': form}
 
 
+class DetailInstanceMixin(ViewMixin):
+    def get(self, obj_id):
+        instance = self.model.query.get_or_404(obj_id)
+        return self.render_template(self.get_context(instance=instance))
+
+    def get_context(self, **kwargs):
+        return kwargs
+
+
 class DeleteInstanceMixin:
     model = None
     redirect_url = None
