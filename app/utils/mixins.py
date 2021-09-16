@@ -31,12 +31,3 @@ class AdminMethodView(LoginRequiredMixin, AdminPermissionRequiredMixin, MethodVi
     Simple way to initialize view for admin panel
     """
     pass
-
-
-class AttrUndefined(Undefined):
-    """
-    Allow to check for variable existing in template
-    Like, {% if variable %} some code {% endif %}
-    """
-    def __getattr__(self, item):
-        return None
