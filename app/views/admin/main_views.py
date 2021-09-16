@@ -7,6 +7,7 @@ from . import main
 from app._db.models import Request, User, Order, Product
 from app._db.choices import RequestStatusChoice
 from app import db
+from app.forms.admin.search_forms import RequestSearchForm
 
 from app.utils.mixins import AdminMethodView
 from app.utils.generic import ListViewMixin
@@ -40,6 +41,7 @@ class StatisticView(AdminMethodView):
 class RequestView(AdminMethodView, ListViewMixin):
     template_name = 'admin/requests.html'
     model = Request
+    search_form = RequestSearchForm
 
 
 class ProceedRequestView(AdminMethodView, MethodView):

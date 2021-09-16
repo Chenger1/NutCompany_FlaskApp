@@ -105,7 +105,7 @@ class Order(db.Model):
         if form_data.get('start') and form_data.get('end'):
             queryset = queryset.filter(cls.date >= form_data.get('start'),
                                        cls.date <= form_data.get('end'))
-        elif form_data.get('status'):
+        if form_data.get('status') and form_data.get('status') != 'all':
             queryset = queryset.filter(cls.status == form_data.get('status'))
         return queryset
 
@@ -127,3 +127,16 @@ class Request(db.Model):
     phone = db.Column(db.String(50))
     fio = db.Column(db.String(100))
     status = db.Column(db.Enum(RequestStatusChoice))
+
+    @classmethod
+    def search(cls, form_data, queryset):
+        if form_data.get('start') and form_data.get('end'):
+            queryset = queryset.filter(cls.date >= form_data.get('start'),
+                                       cls.date <= form_data.get('end'))
+        if form_data.get('status') and form_data.get('status') != 'all':
+            queryset = queryset.filter(cls.status == form_data.get('status'))
+        if form_data.get('phone') and form_data.get('phone') != '':
+            queryset = queryset.filter(cls.phone.contains(form_data.get('phone')))
+        if form_data.get('fio') and form_data.get('fio') != '':
+            queryset = queryset.filter(cls.fio.contains(form_data.get('fio')))
+        return queryset
