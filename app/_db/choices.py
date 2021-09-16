@@ -17,7 +17,16 @@ class SelectFieldEnum(Enum):
         """
         SelectField requires function to represent chosen value as valid type
         """
+        if item == 'all':
+            return item
         return cls(item) if not isinstance(item, cls) else item
+
+    @classmethod
+    def choices_all(cls):
+        """
+         Special case for search form. Because i need to have 'all' option for filtering
+         """
+        return [('all', 'Все')] + cls.choices()
 
     def __str__(self):
         return str(self.value)
