@@ -48,7 +48,11 @@
                             </a></td>
                             <td><a href="{{ url_for('main.client_detail', obj_id=inst.id) }}"
                                    style="color: black;">
-                                {{ inst.city }}
+                                {% if inst.city %}
+                                    {{ inst.city }}
+                                {% else %}
+                                    Не указано
+                                {% endif %}
                             </a></td>
                             <td><a href="{{ url_for('main.client_detail', obj_id=inst.id) }}"
                                    style="color: black;">
