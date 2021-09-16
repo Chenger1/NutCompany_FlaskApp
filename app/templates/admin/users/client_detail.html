@@ -88,34 +88,16 @@
                                 <th>Дата</th>
                                 <th>Количество товаров</th>
                                 <th>Статус</th>
-                                <th>Стоимость</th>
+                                <th>Стоимость, грн.</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for order in instance.orders %}
-                                <tr>
-                                    <td><a href="{{ url_for('main.edit_order', obj_id=order.id) }}"
-                                    style="color: black;">{{ order.id }}</a></td>
-                                    <td><a href="{{ url_for('main.edit_order', obj_id=order.id) }}"
-                                    style="color: black;">
-                                        {{ order.date.strftime('%Y-%m-%d') }} в {{ order.date.strftime('%H:%M') }}
-                                    </a></td>
-                                    <td><a href="{{ url_for('main.edit_order', obj_id=order.id) }}"
-                                    style="color: black;">
-                                        {{ order_item_class.amount_for_order(order.id) }}
-                                    </a></td>
-                                    <td><a href="{{ url_for('main.edit_order', obj_id=order.id) }}"
-                                    style="color: black;">{{ order.status.value }}</a></td>
-                                    <td><a href="{{ url_for('main.edit_order', obj_id=order.id) }}"
-                                    style="color: black;">{{ order.sum }}</a></td>
-                                </tr>
-                            {% else %}
-                            <tr>
-                                <td colspan="5">Не заказов</td>
-                            </tr>
-                            {% endfor %}
                             </tbody>
                         </table>
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item"><button class="page-link" type="button" id="prev">Назад</button></li>
+                            <li class="page-item"><button class="page-link" type="button" id="next">Вперед</button></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -131,12 +113,68 @@
 {% endblock %}
 {% block script %}
 <script src="{{ url_for('static', filename='js/update_img_after_upload.js') }}"></script>
+<script src="{{ url_for('static', filename='admin/js/utils.js') }}"></script>
 <script>
     $('#photo').on('change', function(){
         setPreview(this, '.row')
     })
+
+
+</script>
+<script>
+    const SCRIPT_ROOT = {{ request.url_root|tojson }};
+    const CLIENT_ID = {{ instance.id }}
+    const table = $('table');
+    const url = `${SCRIPT_ROOT}client/detail/${CLIENT_ID}/orders_list`;
+    const prev_button = $('#prev');
+    const next_button = $('#next');
+
+    let current_page = 1;  // store variable in global context to get it from event handlers
+
+    make_get_request(url, {'page': current_page}, render_table)
+
+    function render_table(data){
+        if(data.current_page >= data.total_pages){  // if reached last page - disable next button
+            next_button.attr('disabled', 'true');
+            current_page--;
+        }else{
+            next_button.removeAttr('disabled');
+            current_page = data.current_page;
+        }
+
+        if(current_page <= 1){  // if reached first page - disables prev button
+            prev_button.attr('disabled', 'true');
+        }else{
+            prev_button.removeAttr('disabled');
+        }
+
+
+        table.find('tbody').empty();
+
+        for(index of data.orders){
+            let tr = $('<tr/>');
+            tr.append($('<td/>', {html: `<a href="${SCRIPT_ROOT}admin/order/detail/${index.id}" style="color: black;">${index.id}</a>`}));
+            tr.append($('<td/>', {html: `<a href="${SCRIPT_ROOT}admin/order/detail/${index.id}" style="color: black;">${index.date}</a>`}));
+            tr.append($('<td/>', {html: `<a href="${SCRIPT_ROOT}admin/order/detail/${index.id}" style="color: black;">${index.amount}</a>`}));
+            tr.append($('<td/>', {html: `<a href="${SCRIPT_ROOT}admin/order/detail/${index.id}" style="color: black;">${index.status}</a>`}));
+            tr.append($('<td/>', {html: `<a href="${SCRIPT_ROOT}admin/order/detail/${index.id}" style="color: black;">${index.sum}</a>`}));
+            table.append(tr);
+        }
+    }
+
+    prev_button.on('click', function(){
+      let page = current_page > 1 ? current_page-1 : 1  // decrement current_page only if its bigger then 1
+      make_get_request(url, {'page': page}, render_table);
+      $(this).blur();  
+    })
+
+    next_button.on('click', function(){;
+        make_get_request(url, {'page': current_page+1}, render_table);
+        $(this).blur();  
+    })
+
 </script>
 {% if form.errors %}
-    {{ error_template.error_dict(form.errors) }}
+{{ error_template.error_dict(form.errors) }}
 {% endif %}
 {% endblock %}
