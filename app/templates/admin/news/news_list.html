@@ -39,13 +39,13 @@
                         <tbody>
                         {% for inst in instances %}
                         <tr>
-                            <td><a href="{{ url_for('main.edit_news', obj_id=inst.id) }}"
+                            <td><a href="{{ url_for('main.detail_news', obj_id=inst.id) }}"
                             style="color: black;">{{ inst.id }}</a></td>
-                            <td style="min-width:250px;"><a href="{{ url_for('main.edit_news', obj_id=inst.id) }}"
+                            <td style="min-width:250px;"><a href="{{ url_for('main.detail_news', obj_id=inst.id) }}"
                             style="color: black;">
                                 {{ inst.title|truncate(50, True) }}
                             </a></td>
-                            <td><a href="{{ url_for('main.edit_news', obj_id=inst.id) }}"
+                            <td><a href="{{ url_for('main.detail_news', obj_id=inst.id) }}"
                             style="color: black;">
                                 {{ inst.publication_date }}
                             </a></td>
