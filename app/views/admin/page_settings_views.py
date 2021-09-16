@@ -4,7 +4,7 @@ from app._db import site_models
 from app.forms.admin.formset import Formset, InlineFormset
 from app.forms.admin import common
 
-from app.utils.generic import FormsetGenericMixin, InlineFormsetMixin, UpdateViewMixin
+from app.utils.generic import FormsetGenericMixin, InlineFormsetMixin, UpdateViewMixin, DetailInstanceMixin
 from app.utils.mixins import AdminMethodView
 
 
@@ -38,6 +38,11 @@ class AboutCompanyView(AdminMethodView, InlineFormsetMixin):
         return instance
 
 
+class AboutCompanyViewDetail(AdminMethodView, DetailInstanceMixin):
+    model = site_models.AboutCompany
+    template_name = 'admin/pages/about_company_page_detail.html'
+
+
 class ContactsView(AdminMethodView, UpdateViewMixin):
     template_name = 'admin/pages/contacts_page.html'
     model = site_models.Contacts
@@ -54,4 +59,6 @@ class ContactsView(AdminMethodView, UpdateViewMixin):
 main.add_url_rule('/admin/gallery', view_func=GalleryPageView.as_view('gallery_page'))
 main.add_url_rule('/admin/corporate_clients', view_func=CorporateClientsView.as_view('corporate_clients_page'))
 main.add_url_rule('/admin/about_company', view_func=AboutCompanyView.as_view('about_company_page'))
+main.add_url_rule('/admin/about_company/detail/<obj_id>', view_func=AboutCompanyViewDetail.as_view('about_company_detail'),
+                  defaults={'obj_id': 1})
 main.add_url_rule('/admin/contacts', view_func=ContactsView.as_view('contacts_page'))

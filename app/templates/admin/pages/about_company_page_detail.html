@@ -1,0 +1,60 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}
+О компании
+{% endblock %}
+{% block header %}
+О компании
+{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{ url_for('main.statistic') }}">Главная</a></li>
+    <li class="breadcrumb-item">О компании</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <div class="row" style="align-items: center;">
+                    <div class="col-md-6 col-sm-12">
+                        <h2>О компании</h2>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <a href="{{ url_for('main.about_company_page') }}" class="btn btn-primary"
+                           style="float: right;">Редактировать</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="text">
+                    {{ instance.text|safe }}
+                </div>
+                <hr>
+                <h3>Галерея: </h3>
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for item in instance.gallery %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                            <img src="{{ url_for('common.download_file', name=item.photo) }}" class="d-block w-100" alt="..."
+                            height="500">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
