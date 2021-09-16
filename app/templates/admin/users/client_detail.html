@@ -93,7 +93,22 @@
                             </thead>
                             <tbody>
                             {% for order in instance.orders %}
-
+                                <tr>
+                                    <td><a href="{{ url_for('main.edit_order', obj_id=order.id) }}"
+                                    style="color: black;">{{ order.id }}</a></td>
+                                    <td><a href="{{ url_for('main.edit_order', obj_id=order.id) }}"
+                                    style="color: black;">
+                                        {{ order.date.strftime('%Y-%m-%d') }} в {{ order.date.strftime('%H:%M') }}
+                                    </a></td>
+                                    <td><a href="{{ url_for('main.edit_order', obj_id=order.id) }}"
+                                    style="color: black;">
+                                        {{ order_item_class.amount_for_order(order.id) }}
+                                    </a></td>
+                                    <td><a href="{{ url_for('main.edit_order', obj_id=order.id) }}"
+                                    style="color: black;">{{ order.status.value }}</a></td>
+                                    <td><a href="{{ url_for('main.edit_order', obj_id=order.id) }}"
+                                    style="color: black;">{{ order.sum }}</a></td>
+                                </tr>
                             {% else %}
                             <tr>
                                 <td colspan="5">Не заказов</td>

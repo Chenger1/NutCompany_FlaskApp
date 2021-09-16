@@ -2,7 +2,7 @@ from . import main
 
 from app.utils.mixins import AdminMethodView
 from app.utils.generic import ListViewMixin, UpdateViewMixin, CreateViewMixin, DeleteInstanceMixin
-from app._db.models import User
+from app._db.models import User, OrderItem
 from app.forms.admin.users import AdminEditForm, AdminCreateForm, ClientAdminPageForm
 
 
@@ -48,6 +48,11 @@ class ClientDetail(AdminMethodView, UpdateViewMixin):
     form_class = ClientAdminPageForm
     template_name = 'admin/users/client_detail.html'
     redirect_url = 'main.client_list'
+
+    def get_context(self, form, instance):
+        context = super().get_context(form, instance)
+        context['order_item_class'] = OrderItem
+        return context
 
 
 class DeleteClientView(AdminMethodView, DeleteInstanceMixin):

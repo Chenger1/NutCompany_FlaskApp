@@ -1,7 +1,7 @@
 from app import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import backref
-from sqlalchemy import extract
+from sqlalchemy.sql import func, select
 
 from flask_login import UserMixin
 
@@ -119,6 +119,14 @@ class OrderItem(db.Model):
 
     amount = db.Column(db.Integer(), default=0)
     sum = db.Column(db.Float(), default=0)
+
+    @classmethod
+    def amount_for_order(cls, order_id):
+        """
+        Filter order`s items by specific order and found sum if their amount field
+        """
+        return OrderItem.query.with_entities(func.sum(OrderItem.amount).label('sum')). \
+            filter_by(order_id=order_id).all()[0][0]
 
 
 class Request(db.Model):
