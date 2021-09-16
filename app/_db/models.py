@@ -126,7 +126,7 @@ class OrderItem(db.Model):
         Filter order`s items by specific order and found sum if their amount field
         """
         return OrderItem.query.with_entities(func.sum(OrderItem.amount).label('sum')). \
-            filter_by(order_id=order_id).all()[0][0]
+            filter_by(order_id=order_id).all()[0][0] or 0
 
 
 class Request(db.Model):
