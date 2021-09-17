@@ -35,11 +35,13 @@ def create_app(config_name='development'):
 
     from .views.admin import main as admin_main, admin_auth
     from .views import common
+    from .views.public import public
     from ._db import models, site_models
 
     app.register_blueprint(admin_main)
     app.register_blueprint(admin_auth)
     app.register_blueprint(common)
+    app.register_blueprint(public)
 
     app.register_error_handler(HTTPException, error_handler)
 
