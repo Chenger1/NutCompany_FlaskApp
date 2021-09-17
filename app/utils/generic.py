@@ -105,11 +105,14 @@ class CreateViewMixin(ViewMixin, FormViewMixin):
 
 class DetailInstanceMixin(ViewMixin):
     def get(self, obj_id):
-        instance = self.model.query.get_or_404(obj_id)
+        instance = self.get_instance(obj_id)
         return self.render_template(self.get_context(instance=instance))
 
     def get_context(self, **kwargs):
         return kwargs
+
+    def get_instance(self, obj_id):
+        return self.model.query.get_or_404(obj_id)
 
 
 class DeleteInstanceMixin:
