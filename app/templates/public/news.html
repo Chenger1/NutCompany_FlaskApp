@@ -1,0 +1,52 @@
+<section class="news gray_section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 col-12">
+                <h2>Новости</h2>
+                <p class="news__descr">Свежие новости и полезная информация</p>
+
+            </div>
+            <div class="col-md-6 col-12 d-flex justify-content-end">
+                <div class="wrap">
+                    <div class="navigation"></div>
+                </div>
+            </div>
+            <div class="col-12">
+                <!-- Swiper -->
+                <div class="news-container swiper-container">
+                    <!-- Add Arrows -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-wrapper">
+                        {% for item in news %}
+                        <div class="swiper-slide">
+                            <div class="news__item news__item_video">
+									<span class="video_wrap">
+										<img src="{{ url_for('common.download_file', name=item.photo) }}" alt="alt">
+									</span>
+                                <div class="wraper">
+                                    <div class="item_data">
+                                        {{ item.publication_date.strftime('%d.%m.%Y') }}
+                                    </div>
+                                    <h3>{{ item.title }}</h3>
+                                    <p>{{ item.text|truncate_html(150)|safe }}</p>
+                                    <a href="#">Читать <i class="nut-icon icons-read-more"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                            <div>
+                                <h4>Новостей нет</h4>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="wrapper">
+                <a href="#" class="button button_transparent">Смотреть все новости</a>
+            </div>
+        </div>
+    </div>
+</section>
