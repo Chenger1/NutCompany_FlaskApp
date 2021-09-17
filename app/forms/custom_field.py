@@ -33,7 +33,8 @@ class CustomFileField(FileField):
     def process_formdata(self, valuelist):
         if valuelist:
             filename = handle_files(valuelist[0])
-            self.data = filename
+            if filename:
+                self.data = filename
 
     def validate(self, form, extra_validators=tuple()):
         return super().validate(form, (*extra_validators, validate_photo_file_allowed))
