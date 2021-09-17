@@ -1,11 +1,13 @@
 from app import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import backref
-from sqlalchemy.sql import func, select
+from sqlalchemy.sql import func
 
 from flask_login import UserMixin
 
 from .choices import *
+
+import datetime
 
 
 @login_manager.user_loader
@@ -69,6 +71,21 @@ class Product(db.Model):
     date = db.Column(db.DateTime())
 
     amount = db.Column(db.Integer())
+
+    @property
+    def current_sum(self):
+        if self.is_promo:
+            return self.promo_price
+        return self.price
+
+    @property
+    def is_new(self):
+        created = datetime.datetime.strptime(self.date, '%Y-%m-%d')
+        now = datetime.datetime.today()
+        delta = created - now
+        if delta.days <= 14:
+            return True
+        return False
 
 
 class ProductGallery(db.Model):

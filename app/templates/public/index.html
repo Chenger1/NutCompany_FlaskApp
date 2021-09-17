@@ -1,6 +1,6 @@
 {% extends "public/base.html" %}
 {% block content %}
-<section class="first-section overlay" style="background-image: url(img/header-home.jpg)">
+<section class="first-section overlay" style="background-image: url({{ url_for('static', filename='public/img/header-home.jpg') }})">
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <a href="#">
@@ -25,28 +25,30 @@
         <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6	col-12">
                 <div class="wrap">
+                    {% for item in products %}
                     <div class="production__item">
+                        {% if item.is_promo %}
                         <div class="sticker">
                             <i class="nut-icon icons-actciya"></i>
                             <p>Акция</p>
                         </div>
+                        {% elif item.is_new %}
+                        <div class="sticker">
+                            <i class="nut-icon icons-novinka"></i>
+                            <p>Новинка</p>
+                        </div>
+                        {% endif %}
                         <!-- Slider main container -->
                         <div class="products-container swiper-container">
                             <!-- Additional required wrapper -->
                             <div class="swiper-wrapper">
                                 <!-- Slides -->
+                                {% for image in item.gallery %}
                                 <div class="swiper-slide">
-                                    <a href="#"><img src="{{ url_for('static', filename='public/img/KOND-40g.png') }}"
-                                                     alt="alt"/></a>
+                                    <a href=""><img src="{{ url_for('common.download_file', name=image.photo) }}"
+                                                    alt="alt"></a>
                                 </div>
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="{{ url_for('static', filename='public/img/KOND-40g.png') }}"
-                                                     alt="alt"/></a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="{{ url_for('static', filename='public/img/KOND-40g.png') }}"
-                                                     alt="alt"/></a>
-                                </div>
+                                {% endfor %}
                             </div>
 
                             <!-- If we need navigation buttons -->
@@ -56,13 +58,13 @@
                         </div>
                         <div class="wrap">
                             <div class="production__item_title">
-                                Грецкий орех
+                                {{ item.type }}
                             </div>
                             <div class="production__item_art">
-                                <span>Арт:</span> 0091
+                                <span>Арт:</span> {{ item.id }}
                             </div>
                             <div class="production__item_descr">
-                                Орех сладкий, классический,<br> очищенный
+                                {{ item.name }}
                             </div>
                             <div class="production__item_weight">
                                 <div class="weight_item">
@@ -71,7 +73,7 @@
                                     </div>
                                     <div class="weight_item_descr">
                                         <p>Масса</p>
-                                        <p><span>40<i>г.</i></span></p>
+                                        <p><span>{{ item.weight }}<i>г.</i></span></p>
                                     </div>
                                 </div>
                                 <div class="weight_item">
@@ -90,11 +92,13 @@
                                         <p>Цена: </p>
                                     </div>
                                     <div class="sum_item_new">
-                                        <p>19 <i>грн.</i></p>
+                                        <p>{{ item.current_sum }} <i>грн.</i></p>
                                     </div>
+                                    {% if item.is_promo %}
                                     <div class="sum_item_old">
                                         <p>21 <i>грн.</i></p>
                                     </div>
+                                    {% endif %}
                                 </div>
                                 <div class="sum_item">
                                     <div class="sum_item_button">
@@ -104,390 +108,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6	col-12">
-                <div class="wrap">
-                    <div class="production__item">
-                        <div class="sticker">
-                            <i class="nut-icon icons-novinka"></i>
-                            <p>Новинка</p>
-                        </div>
-                        <!-- Slider main container -->
-                        <div class="products-container swiper-container">
-                            <!-- Additional required wrapper -->
-                            <div class="swiper-wrapper">
-                                <!-- Slides -->
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                            </div>
-
-                            <!-- If we need navigation buttons -->
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
-                            <img class="zoom" src="img/zoom.svg" alt="alt">
-                        </div>
-                        <div class="wrap">
-                            <div class="production__item_title">
-                                Грецкий орех
-                            </div>
-                            <div class="production__item_art">
-                                <span>Арт:</span> 0091
-                            </div>
-                            <div class="production__item_descr">
-                                Орех сладкий, классический,<br> очищенный
-                            </div>
-                            <div class="production__item_weight">
-                                <div class="weight_item">
-                                    <div class="weight_item_icon">
-                                        <i class="nut-icon icons-food-scale-tool"></i>
-                                    </div>
-                                    <div class="weight_item_descr">
-                                        <p>Масса</p>
-                                        <p><span>40<i>г.</i></span></p>
-                                    </div>
-                                </div>
-                                <div class="weight_item">
-                                    <div class="weight_item_icon">
-                                        <i class="nut-icon icons-group"></i>
-                                    </div>
-                                    <div class="weight_item_descr">
-                                        <p>Упаковка</p>
-                                        <p><span>вакуумная</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="production__item_sum">
-                                <div class="sum_item">
-                                    <div class="sum_item_title">
-                                        <p>Цена: </p>
-                                    </div>
-                                    <div class="sum_item_new">
-                                        <p>19 <i>грн.</i></p>
-                                    </div>
-                                    <div class="sum_item_old">
-                                        <p>21 <i>грн.</i></p>
-                                    </div>
-                                </div>
-                                <div class="sum_item">
-                                    <div class="sum_item_button">
-                                        <a href="#" class="button">Купить</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6	col-12">
-                <div class="wrap">
-                    <div class="production__item">
-                        <!-- Slider main container -->
-                        <div class="products-container swiper-container">
-                            <!-- Additional required wrapper -->
-                            <div class="swiper-wrapper">
-                                <!-- Slides -->
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                            </div>
-
-                            <!-- If we need navigation buttons -->
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
-                            <img class="zoom" src="img/zoom.svg" alt="alt">
-                        </div>
-                        <div class="wrap">
-                            <div class="production__item_title">
-                                Грецкий орех
-                            </div>
-                            <div class="production__item_art">
-                                <span>Арт:</span> 0091
-                            </div>
-                            <div class="production__item_descr">
-                                Орех сладкий, классический,<br> очищенный
-                            </div>
-                            <div class="production__item_weight">
-                                <div class="weight_item">
-                                    <div class="weight_item_icon">
-                                        <i class="nut-icon icons-food-scale-tool"></i>
-                                    </div>
-                                    <div class="weight_item_descr">
-                                        <p>Масса</p>
-                                        <p><span>40<i>г.</i></span></p>
-                                    </div>
-                                </div>
-                                <div class="weight_item">
-                                    <div class="weight_item_icon">
-                                        <i class="nut-icon icons-group"></i>
-                                    </div>
-                                    <div class="weight_item_descr">
-                                        <p>Упаковка</p>
-                                        <p><span>вакуумная</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="production__item_sum">
-                                <div class="sum_item">
-                                    <div class="sum_item_title">
-                                        <p>Цена: </p>
-                                    </div>
-                                    <div class="sum_item_new">
-                                        <p>19 <i>грн.</i></p>
-                                    </div>
-                                    <div class="sum_item_old">
-                                        <p>21 <i>грн.</i></p>
-                                    </div>
-                                </div>
-                                <div class="sum_item">
-                                    <div class="sum_item_button">
-                                        <a href="#" class="button">Купить</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6	col-12">
-                <div class="wrap">
-                    <div class="production__item">
-                        <!-- Slider main container -->
-                        <div class="products-container swiper-container">
-                            <!-- Additional required wrapper -->
-                            <div class="swiper-wrapper">
-                                <!-- Slides -->
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                            </div>
-
-                            <!-- If we need navigation buttons -->
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
-                            <img class="zoom" src="img/zoom.svg" alt="alt">
-                        </div>
-                        <div class="wrap">
-                            <div class="production__item_title">
-                                Грецкий орех
-                            </div>
-                            <div class="production__item_art">
-                                <span>Арт:</span> 0091
-                            </div>
-                            <div class="production__item_descr">
-                                Орех сладкий, классический,<br> очищенный
-                            </div>
-                            <div class="production__item_weight">
-                                <div class="weight_item">
-                                    <div class="weight_item_icon">
-                                        <i class="nut-icon icons-food-scale-tool"></i>
-                                    </div>
-                                    <div class="weight_item_descr">
-                                        <p>Масса</p>
-                                        <p><span>40<i>г.</i></span></p>
-                                    </div>
-                                </div>
-                                <div class="weight_item">
-                                    <div class="weight_item_icon">
-                                        <i class="nut-icon icons-group"></i>
-                                    </div>
-                                    <div class="weight_item_descr">
-                                        <p>Упаковка</p>
-                                        <p><span>вакуумная</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="production__item_sum">
-                                <div class="sum_item">
-                                    <div class="sum_item_title">
-                                        <p>Цена: </p>
-                                    </div>
-                                    <div class="sum_item_new">
-                                        <p>19 <i>грн.</i></p>
-                                    </div>
-                                    <div class="sum_item_old">
-                                        <p>21 <i>грн.</i></p>
-                                    </div>
-                                </div>
-                                <div class="sum_item">
-                                    <div class="sum_item_button">
-                                        <a href="#" class="button">Купить</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6	col-12">
-                <div class="wrap">
-                    <div class="production__item">
-                        <!-- Slider main container -->
-                        <div class="products-container swiper-container">
-                            <!-- Additional required wrapper -->
-                            <div class="swiper-wrapper">
-                                <!-- Slides -->
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                            </div>
-
-                            <!-- If we need navigation buttons -->
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
-                            <img class="zoom" src="img/zoom.svg" alt="alt">
-                        </div>
-                        <div class="wrap">
-                            <div class="production__item_title">
-                                Грецкий орех
-                            </div>
-                            <div class="production__item_art">
-                                <span>Арт:</span> 0091
-                            </div>
-                            <div class="production__item_descr">
-                                Орех сладкий, классический,<br> очищенный
-                            </div>
-                            <div class="production__item_weight">
-                                <div class="weight_item">
-                                    <div class="weight_item_icon">
-                                        <i class="nut-icon icons-food-scale-tool"></i>
-                                    </div>
-                                    <div class="weight_item_descr">
-                                        <p>Масса</p>
-                                        <p><span>40<i>г.</i></span></p>
-                                    </div>
-                                </div>
-                                <div class="weight_item">
-                                    <div class="weight_item_icon">
-                                        <i class="nut-icon icons-group"></i>
-                                    </div>
-                                    <div class="weight_item_descr">
-                                        <p>Упаковка</p>
-                                        <p><span>вакуумная</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="production__item_sum">
-                                <div class="sum_item">
-                                    <div class="sum_item_title">
-                                        <p>Цена: </p>
-                                    </div>
-                                    <div class="sum_item_new">
-                                        <p>19 <i>грн.</i></p>
-                                    </div>
-                                    <div class="sum_item_old">
-                                        <p>21 <i>грн.</i></p>
-                                    </div>
-                                </div>
-                                <div class="sum_item">
-                                    <div class="sum_item_button">
-                                        <a href="#" class="button">Купить</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6	col-12">
-                <div class="wrap">
-                    <div class="production__item">
-                        <!-- Slider main container -->
-                        <div class="products-container swiper-container">
-                            <!-- Additional required wrapper -->
-                            <div class="swiper-wrapper">
-                                <!-- Slides -->
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#"><img src="img/KOND-40g.png" alt="alt"/></a>
-                                </div>
-                            </div>
-
-                            <!-- If we need navigation buttons -->
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
-                            <img class="zoom" src="img/zoom.svg" alt="alt">
-                        </div>
-                        <div class="wrap">
-                            <div class="production__item_title">
-                                Грецкий орех
-                            </div>
-                            <div class="production__item_art">
-                                <span>Арт:</span> 0091
-                            </div>
-                            <div class="production__item_descr">
-                                Орех сладкий, классический,<br> очищенный
-                            </div>
-                            <div class="production__item_weight">
-                                <div class="weight_item">
-                                    <div class="weight_item_icon">
-                                        <i class="nut-icon icons-food-scale-tool"></i>
-                                    </div>
-                                    <div class="weight_item_descr">
-                                        <p>Масса</p>
-                                        <p><span>40<i>г.</i></span></p>
-                                    </div>
-                                </div>
-                                <div class="weight_item">
-                                    <div class="weight_item_icon">
-                                        <i class="nut-icon icons-group"></i>
-                                    </div>
-                                    <div class="weight_item_descr">
-                                        <p>Упаковка</p>
-                                        <p><span>вакуумная</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="production__item_sum">
-                                <div class="sum_item">
-                                    <div class="sum_item_title">
-                                        <p>Цена: </p>
-                                    </div>
-                                    <div class="sum_item_new">
-                                        <p>19 <i>грн.</i></p>
-                                    </div>
-                                    <div class="sum_item_old">
-                                        <p>21 <i>грн.</i></p>
-                                    </div>
-                                </div>
-                                <div class="sum_item">
-                                    <div class="sum_item_button">
-                                        <a href="#" class="button">Купить</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% else %}
+                    <div><h4>Нет продуктов</h4></div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -515,16 +138,13 @@
                 <!-- Swiper -->
                 <div class="manufacturer-container swiper-container">
                     <div class="swiper-wrapper">
+                        {% for item in about.gallery %}
                         <div class="swiper-slide">
-                            <div class="manufacturer__item manufacturer__item_video">
-                                <img src="img/manufacturer.jpg" alt="alt">
+                            <div class="manufacturer__item <!--manufacturer__item_video-->">
+                                <img src="{{ url_for('common.download_file', name=item.photo) }}" alt="alt">
                             </div>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="manufacturer__item manufacturer__item_video">
-                                <img src="img/manufacturer.jpg" alt="alt">
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                     <!-- Add Arrows -->
                     <div class="wrap">
@@ -588,7 +208,8 @@
 </section>
 
 <div class="parallax" data-scrollax-parent="true">
-    <section class="goal overlay cover" style="background-image: url(img/goal.jpg)"
+    <section class="goal overlay cover"
+             style="background-image: url({{ url_for('static', filename='public/img/goal.jpg') }})"
              data-scrollax="properties: { translateY: '30%' }">
         <div class="container">
             <div class="row align-items-center justify-content-center">
@@ -613,7 +234,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6	col-12">
                 <div class="wrap">
-                    <div class="benefit__item overlay" style="background-image: url(img/walnuts.jpg)">
+                    <div class="benefit__item overlay" style="background-image: url({{ url_for('static', filename='public/img/walnuts.jpg') }})">
                         <i class="nut-icon icons-group4"></i>
                         <h3>Грецкий орех</h3>
                     </div>
@@ -629,7 +250,7 @@
             </div>
             <div class="col-lg-4 col-md-6	col-12">
                 <div class="wrap">
-                    <div class="benefit__item overlay" style="background-image: url(img/nut.jpg)">
+                    <div class="benefit__item overlay" style="background-image: url({{ url_for('static', filename='public/img/nut.jpg') }})">
                         <i class="nut-icon icons-vector4"></i>
                         <h3>Фундук</h3>
                     </div>
@@ -645,7 +266,7 @@
             </div>
             <div class="col-lg-4 col-md-6	col-12">
                 <div class="wrap">
-                    <div class="benefit__item overlay" style="background-image: url(img/berry.jpg)">
+                    <div class="benefit__item overlay" style="background-image: url({{ url_for('static', filename='public/img/berry.jpg') }})">
                         <i class="nut-icon icons-group5"></i>
                         <h3>Шиповник</h3>
                     </div>
@@ -664,7 +285,7 @@
 </section>
 
 <div class="parallax" data-scrollax-parent="true">
-    <section class="eco overlay" style="background-image: url(img/eco.jpg)"
+    <section class="eco overlay" style="background-image: url({{ url_for('static', filename='public/img/eco.jpg') }})"
              data-scrollax="properties: { translateY: '30%' }">
         <div class="container">
             <div class="row align-items-center justify-content-center">
@@ -698,70 +319,27 @@
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
                     <div class="swiper-wrapper">
+                        {% for item in news %}
                         <div class="swiper-slide">
                             <div class="news__item news__item_video">
 									<span class="video_wrap">
-										<img src="img/pic.jpg" alt="alt">
+										<img src="{{ url_for('common.download_file', name=item.photo) }}" alt="alt">
 									</span>
                                 <div class="wraper">
                                     <div class="item_data">
-                                        12.04.2019
+                                        {{ item.publication_date.strftime('%d.%m.%Y') }}
                                     </div>
-                                    <h3>Центр поддержки экспорта, в студии Павел Тулба</h3>
-                                    <p>Как уже упоминал Павел Тулба, шиповник цветёт. Эта культура очень недооценена
-                                        среди наших садоводов, не смотря на большой спрос в Европе и отличную...</p>
+                                    <h3>{{ item.title }}</h3>
+                                    <p>{{ item.text|safe|truncate(20, False) }}</p>
                                     <a href="#">Читать <i class="nut-icon icons-read-more"></i></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="news__item">
-									<span class="video_wrap">
-										<img src="img/pic.jpg" alt="alt">
-									</span>
-                                <div class="wraper">
-                                    <div class="item_data">
-                                        12.04.2019
-                                    </div>
-                                    <h3>Центр поддержки экспорта, в студии Павел Тулба</h3>
-                                    <p>Как уже упоминал Павел Тулба, шиповник цветёт. Эта культура очень недооценена
-                                        среди наших садоводов, не смотря на большой спрос в Европе и отличную...</p>
-                                    <a href="#">Читать <i class="nut-icon icons-read-more"></i></a>
-                                </div>
+                        {% else %}
+                            <div>
+                                <h4>Новостей нет</h4>
                             </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="news__item">
-									<span class="video_wrap">
-										<img src="img/pic.jpg" alt="alt">
-									</span>
-                                <div class="wraper">
-                                    <div class="item_data">
-                                        12.04.2019
-                                    </div>
-                                    <h3>Центр поддержки экспорта, в студии Павел Тулба</h3>
-                                    <p>Как уже упоминал Павел Тулба, шиповник цветёт. Эта культура очень недооценена
-                                        среди наших садоводов, не смотря на большой спрос в Европе и отличную...</p>
-                                    <a href="#">Читать <i class="nut-icon icons-read-more"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="news__item">
-									<span class="video_wrap">
-										<img src="img/pic.jpg" alt="alt">
-									</span>
-                                <div class="wraper">
-                                    <div class="item_data">
-                                        12.04.2019
-                                    </div>
-                                    <h3>Центр поддержки экспорта, в студии Павел Тулба</h3>
-                                    <p>Как уже упоминал Павел Тулба, шиповник цветёт. Эта культура очень недооценена
-                                        среди наших садоводов, не смотря на большой спрос в Европе и отличную...</p>
-                                    <a href="#">Читать <i class="nut-icon icons-read-more"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
