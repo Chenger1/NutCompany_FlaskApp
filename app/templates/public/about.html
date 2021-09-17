@@ -152,84 +152,8 @@
                 <p>Кадры социальной активности компании</p>
             </div>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-lg-7 col-md-6 col-12">
-                <div class="wrap">
-                    <div class="benefit__item "
-                         style="background-image: url({{ url_for('static', filename='public/img/paris.jpg') }})">
-
-                    </div>
-                    <div class="benefit__item item_hover overlay_green">
-                        <h3>SIAL Paris 2018</h3>
-                        <p>В этом Году при поддержке проекта International Trade<br> Centre Ukraine, и финансировании
-                            правительства Швеции,<br> мы побывали на крупнейшей продовольственной выставке<br> Европы
-                            <strong>SIAL Paris 2018</strong></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-5 col-md-6 col-12">
-                <div class="wrap">
-                    <div class="benefit__item " style="background-image: url(img/2.jpg)">
-
-                    </div>
-                    <div class="benefit__item item_hover overlay_green">
-                        <h3>SIAL Paris 2018</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque doloremque doloribus eum
-                            dignissimos nesciunt tempora, natus quas ullam quis sapiente cumque dolor iusto quod nihil
-                            consectetur perferendis at. Distinctio, officiis.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-12 col-md-12	col-12">
-                <div class="wrap">
-                    <a href="#" class="benefit__item overlay benefit__item_video_text"
-                       style="background-image: url(img/peoples.jpg)">
-								<span>
-									<i class="nut-icon icons-play-icon"></i>
-								</span>
-                        <h3>Проект UBHDP</h3>
-                        <p>Вчера к нам приезжал американский агроном Рон , спасибо Мельнику<br> Евгению и проекту
-                            <strong>UBHDP</strong> за возможность получить консультацию<br> от мировых специалистов!</p>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6	col-12">
-                <div class="wrap item_small">
-                    <div class="benefit__item item_small" style="background-image: url(img/4.jpg)">
-
-                    </div>
-                    <div class="benefit__item item_hover overlay_green">
-                        <h3>Lorem</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nobis ab, odit sint reiciendis
-                            sunt fugiat, sapiente ad esse in quos minima doloribus suscipit consequatur dolorem adipisci
-                            nihil? Impedit, omnis.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6	col-12">
-                <div class="wrap item_small">
-                    <div class="benefit__item item_small" style="background-image: url(img/5.jpg)">
-
-                    </div>
-                    <div class="benefit__item item_hover overlay_green">
-                        <h3>lorem</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere iusto, adipisci
-                            reprehenderit quis</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ut sed dicta quidem
-                            accusantium!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6	col-12">
-                <div class="wrap item_small">
-                    <a href="#">
-							<span class="benefit__item item_small benefit__item_video overlay"
-                                  style="background-image: url(img/6.jpg)">
-
-							</span>
-                    </a>
-                </div>
-            </div>
+        {% include 'public/gallery_blocks.html' %}
+        <div class="row justify-content-center items_row">
         </div>
         <div class="row">
             <div class="wrapper">
@@ -255,4 +179,12 @@
 </div>
 
 {% include "public/news.html" %}
+
+<script src="{{ url_for('static', filename='admin/plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='public/js/gallery.js') }}"></script>
+<script>
+    const SCRIPT_ROOT = {{ request.url_root | tojson }};
+    let gallery_manager = new GalleryManager(SCRIPT_ROOT);
+    gallery_manager.renderGallery();
+</script>
 {% endblock %}
