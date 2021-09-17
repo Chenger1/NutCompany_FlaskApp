@@ -1,0 +1,258 @@
+{% extends "public/base.html" %}
+
+{% block content %}
+<section class="first-section overlay"
+         style="background-image: url({{ url_for('static', filename='public/img/about.jpg') }})">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul>
+                <li>
+                    <a href="/">Главная</a>
+                </li>
+                <li>
+                    О производстве
+                </li>
+            </ul>
+        </div>
+        <div class="row align-items-center justify-content-center">
+            <a href="#">
+                <h1>Орех Причерноморья</h1>
+                <p>Единственный в Украине сад совместного<br> выращивание фундука и грецкого ореха</p>
+                <span><i class="nut-icon icons-play-icon"></i></span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="manufacturer">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-5">
+                <h2>О производителе</h2>
+                {{ instance.text|safe }}
+                <!-- <a href="#" class="button button_transparent">Подробнее</a> -->
+            </div>
+            <div class="col-md-7">
+                <!-- Swiper -->
+                <div class="manufacturer-container swiper-container">
+                    <div class="swiper-wrapper">
+                        {% for item in instance.gallery %}
+                        <div class="swiper-slide">
+                            <div class="manufacturer__item manufacturer__item_video">
+                                <img src="{{ url_for('common.download_file', name=item.photo) }}" alt="alt">
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!-- Add Arrows -->
+                    <div class="wrap">
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="history gray_section">
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-lg-7 col-12">
+                <div class="history__blockquote">
+                    <div class="row no-gutters">
+                        <div class="col-md-5">
+                            <img src="{{ url_for('static', filename='public/img/men.jpg') }}" alt="alt">
+                        </div>
+                        <div class="col-md-7">
+                            <div class="blockquote_block">
+                                <h3>Павел Тулба</h3>
+                                <p>Учередитель и владелец предприятия “Орех Причерноморья”</p>
+                                <blockquote>
+                                    Главная наша цель – получить максимальную прибыль с одного гектара.
+                                </blockquote>
+                                <a href="#" class="button button_transparent">
+                                    Написать нам
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 col-12">
+                <div class="history__content">
+                    <h3>История предприятия</h3>
+                    <p>Наше предприятие основано в 2012 году для закладки смешанного сада грецкого ореха и фундука.</p>
+                    <p>На сегодня мы уже заложили более 100 гектаров сада и продолжаем расширять свои насаждения. Кроме
+                        выращивания грецкого ореха и фундука, мы занимаемся выращиванием саженцев, разведением и
+                        выращиванием овец, а также являемся первой в Украине компанией, приступившей к промышленному
+                        выращиванию трюфелей на корнях фундука.</p>
+                    <p>Земля, которой пользуется кооператив, является собственностью членов нашего кооператива.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="timer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="wrap">
+                    <span class="timer__single" data-from="1" data-to="240" data-speed="3000"
+                          data-refresh-interval="50"></span>
+                    <sup>Га</sup>
+                    <div class="timer__descr">
+                        <div>Cмешанных</div>
+                        садов
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-12">
+                <div class="wrap">
+                    <span class="timer__single" data-from="1" data-to="1" data-speed="3000"
+                          data-refresh-interval="50"></span>
+                    <sup>Га</sup>
+                    <div class="timer__descr">
+                        <div>Тепличного</div>
+                        комплекса
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="wrap">
+                    <span class="timer__single" data-from="1" data-to="10" data-speed="5000"></span>
+                    <sup>Га</sup>
+                    <div class="timer__descr">
+                        <div>Первая промышленная плантация</div>
+                        шиповника в Украине
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="wrap">
+                    <span class="timer__single" data-from="1" data-to="80" data-speed="3000"
+                          data-refresh-interval="50"></span>
+                    <sup>%</sup>
+                    <div class="timer__descr">
+                        <div>Приживаемости</div>
+                        саженцев
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="benefit gray_section gallery_section">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-12">
+                <h2>Галерея</h2>
+                <p>Кадры социальной активности компании</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-6 col-12">
+                <div class="wrap">
+                    <div class="benefit__item "
+                         style="background-image: url({{ url_for('static', filename='public/img/paris.jpg') }})">
+
+                    </div>
+                    <div class="benefit__item item_hover overlay_green">
+                        <h3>SIAL Paris 2018</h3>
+                        <p>В этом Году при поддержке проекта International Trade<br> Centre Ukraine, и финансировании
+                            правительства Швеции,<br> мы побывали на крупнейшей продовольственной выставке<br> Европы
+                            <strong>SIAL Paris 2018</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-6 col-12">
+                <div class="wrap">
+                    <div class="benefit__item " style="background-image: url(img/2.jpg)">
+
+                    </div>
+                    <div class="benefit__item item_hover overlay_green">
+                        <h3>SIAL Paris 2018</h3>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque doloremque doloribus eum
+                            dignissimos nesciunt tempora, natus quas ullam quis sapiente cumque dolor iusto quod nihil
+                            consectetur perferendis at. Distinctio, officiis.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12	col-12">
+                <div class="wrap">
+                    <a href="#" class="benefit__item overlay benefit__item_video_text"
+                       style="background-image: url(img/peoples.jpg)">
+								<span>
+									<i class="nut-icon icons-play-icon"></i>
+								</span>
+                        <h3>Проект UBHDP</h3>
+                        <p>Вчера к нам приезжал американский агроном Рон , спасибо Мельнику<br> Евгению и проекту
+                            <strong>UBHDP</strong> за возможность получить консультацию<br> от мировых специалистов!</p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6	col-12">
+                <div class="wrap item_small">
+                    <div class="benefit__item item_small" style="background-image: url(img/4.jpg)">
+
+                    </div>
+                    <div class="benefit__item item_hover overlay_green">
+                        <h3>Lorem</h3>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nobis ab, odit sint reiciendis
+                            sunt fugiat, sapiente ad esse in quos minima doloribus suscipit consequatur dolorem adipisci
+                            nihil? Impedit, omnis.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6	col-12">
+                <div class="wrap item_small">
+                    <div class="benefit__item item_small" style="background-image: url(img/5.jpg)">
+
+                    </div>
+                    <div class="benefit__item item_hover overlay_green">
+                        <h3>lorem</h3>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere iusto, adipisci
+                            reprehenderit quis</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ut sed dicta quidem
+                            accusantium!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6	col-12">
+                <div class="wrap item_small">
+                    <a href="#">
+							<span class="benefit__item item_small benefit__item_video overlay"
+                                  style="background-image: url(img/6.jpg)">
+
+							</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="wrapper">
+                <a href="#" class="button button_transparent">Смотреть всю галерею</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="parallax" data-scrollax-parent="true">
+    <section class="eco overlay" style="background-image: url({{ url_for('static', filename='public/img/eco-about.jpg') }})"
+             data-scrollax="properties: { translateY: '30%' }">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <a href="#" data-scrollax="properties: { 'translateY': '5%', 'opacity': 1 }">
+                    <i class="nut-icon icons-eco"></i>
+                    <h2>Орех Причерноморья</h2>
+                    <p>Единственный в Украине сад совместного<br> выращивание фундука и грецкого ореха</p>
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% include "public/news.html" %}
+{% endblock %}
