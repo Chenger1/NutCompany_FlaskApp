@@ -6,14 +6,25 @@ class GalleryManager {
         this.gallery_container = $('.items_row');  // to this block new block will be appended
 
         this.url = `${script_root}gallery`;
+        this.current_page = 1;
+    }
+
+    get current_page(){
+        return this._current_page;
+    }
+
+    set current_page(value){
+        this._current_page = value;
     }
 
     renderGallery(){
         this.makeRequest(this.renderResponseItems);
+        console.log(this.current_page)
     }
 
 
-    renderResponseItems(items, $this) {
+    renderResponseItems(response, $this) {
+        let items = response.items;
 
         let check_iter_counter = 1;  // used to count N-iteration
         let incrementor = 0;
@@ -34,6 +45,7 @@ class GalleryManager {
                 incrementor = incrementor + 3;
             }
         }
+        $this.current_page = response.current_page
     }
 
     renderList(items, original_block_class){
@@ -82,8 +94,9 @@ class GalleryManager {
         $.ajax({
             url: this.url,
             type: 'get',
+            data: {'page': this.current_page},
             success: function(data) {
-                return callback(data.items, $this);
+                return callback(data, $this);
             }
         });
     }
