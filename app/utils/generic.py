@@ -212,11 +212,14 @@ class ListMixinApi:
 
     def get(self):
         self.get_page()
-        instances = self.model.query
+        instances = self.get_instances()
         pagination = self.get_pagination(instances)
         return jsonify({'items': self.serialize(pagination.items),
                         'current_page': self.page,
                         'total_pages': pagination.pages})
+
+    def get_instances(self):
+        return self.model.query
 
     def get_page(self):
         self.page = request.args.get('page', 1, type=int)
