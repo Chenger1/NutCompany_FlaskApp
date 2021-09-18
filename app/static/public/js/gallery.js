@@ -7,6 +7,7 @@ class GalleryManager {
 
         this.url = `${script_root}gallery`;
         this.current_page = 1;
+        this.total_pages = 1;
     }
 
     get current_page(){
@@ -19,7 +20,6 @@ class GalleryManager {
 
     renderGallery(){
         this.makeRequest(this.renderResponseItems);
-        console.log(this.current_page)
     }
 
 
@@ -45,7 +45,8 @@ class GalleryManager {
                 incrementor = incrementor + 3;
             }
         }
-        $this.current_page = response.current_page
+        $this.current_page = response.current_page;
+        $this.total_pages = response.total_pages;
     }
 
     renderList(items, original_block_class){

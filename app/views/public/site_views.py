@@ -30,6 +30,13 @@ class AboutCompanyView(MethodView, DetailInstanceMixin):
         return context
 
 
+class GalleryPageView(MethodView):
+    template_name = 'public/gallery.html'
+
+    def get(self):
+        return render_template(self.template_name)
+
+
 class GalleryView(MethodView):
     model = MainPageGallery
 
@@ -40,7 +47,8 @@ class GalleryView(MethodView):
             page, per_page=6, error_out=False
         )
         return jsonify({'items': self.serialize(pagination.items),
-                        'current_page': page})
+                        'current_page': page,
+                        'total_pages': pagination.pages})
 
     def serialize(self, query):
         result = []
@@ -55,5 +63,6 @@ class GalleryView(MethodView):
 
 public.add_url_rule('/', view_func=IndexPageView.as_view('main_page'))
 public.add_url_rule('/about', view_func=AboutCompanyView.as_view('about_page'), defaults={'obj_id': 1})
+public.add_url_rule('/gallery_page', view_func=GalleryPageView.as_view('gallery_page'))
 
 public.add_url_rule('/gallery', view_func=GalleryView.as_view('gallery_view'))

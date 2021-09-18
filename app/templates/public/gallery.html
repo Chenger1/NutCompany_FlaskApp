@@ -1,0 +1,64 @@
+{% extends "public/base.html" %}
+
+{% block content %}
+<section class="first-section overlay" style="background-image: url({{ url_for('static', filename='public/img/sadzhanec_shipshini.jpg') }})">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul>
+                <li>
+                    <a href="/">Главная</a>
+                </li>
+                <li>
+                    Галерея
+                </li>
+            </ul>
+        </div>
+        <div class="row align-items-center justify-content-center">
+            <a href="#">
+                <h1>Галерея</h1>
+                <p>Кадры социальной активности компании</p>
+                <span><i class="nut-icon icons-play-icon"></i></span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="benefit gallery_section">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-12">
+                <h2>Галерея</h2>
+                <p>Кадры социальной активности компании</p>
+            </div>
+        </div>
+        {% include "public/gallery_blocks.html" %}
+        <div class="row justify-content-center items_row">
+        </div>
+        <div class="row">
+            <div class="wrapper">
+                <button type="button" class="button button_transparent more_images">Посмотреть ещё</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='admin/plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='public/js/gallery.js') }}"></script>
+<script>
+    const SCRIPT_ROOT = {{ request.url_root | tojson }};
+    let gallery_manager = new GalleryManager(SCRIPT_ROOT);
+    gallery_manager.renderGallery();
+
+
+    $('.more_images').on('click', function(){
+       this.blur();
+       gallery_manager.current_page = ++gallery_manager.current_page;
+       gallery_manager.renderGallery(); 
+
+       if(gallery_manager.current_page === gallery_manager.total_pages){
+        $(this).prop('disabled', 'true');
+        $(this).text('Больше нет изображений');
+       }
+    })
+</script>
+{% endblock %}
