@@ -75,6 +75,7 @@ class NewsItemManager extends BaseManager{
         new_block_text.find('h3').text(item.title);
         new_block_text.find('p').html(item.text);
         new_block_text.find('.item_data').text(item.publication_date);
+        new_block_text.find('a').prop('href', `/news/${item.id}`).off('click');
         new_block_text.removeClass('big_item_text');
         new_block_text.css('display', 'flex');
 
@@ -89,6 +90,7 @@ class NewsItemManager extends BaseManager{
         new_block.find('h3').text(item.title);
         new_block.find('p').html(item.text);
         new_block.find('.item_data').text(item.publication_date);
+        new_block.find('a').attr('href', `/news/${item.id}`).off('click');
         new_block.removeClass('small_item');
         new_block.css('display', 'flex');
 
