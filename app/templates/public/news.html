@@ -30,7 +30,7 @@
                                     </div>
                                     <h3>{{ item.title }}</h3>
                                     <p>{{ item.text|truncate_html(150)|safe }}</p>
-                                    <a href="#">Читать <i class="nut-icon icons-read-more"></i></a>
+                                    <a href="{{ url_for('public.news_detail', obj_id=item.id) }}">Читать <i class="nut-icon icons-read-more"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
         </div>
         <div class="row">
             <div class="wrapper">
-                <a href="#" class="button button_transparent">Смотреть все новости</a>
+                <a href="{{ url_for('public.news_page') }}" class="button button_transparent">Смотреть все новости</a>
             </div>
         </div>
     </div>

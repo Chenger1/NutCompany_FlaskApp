@@ -1,0 +1,206 @@
+{% extends "public/base.html" %}
+
+
+{% block content %}
+<section class="first-section overlay"
+         style="background-image: url({{ url_for('static', filename='public/img/Untitled-23.jpg') }})">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul>
+                <li>
+                    <a href="/">Главная</a>
+                </li>
+                <li>
+                    Оплата и доставка
+                </li>
+            </ul>
+        </div>
+        <div class="row align-items-center justify-content-center">
+            <h1>Оплата и доставка</h1>
+        </div>
+    </div>
+</section>
+
+<section class="payment">
+    <div class="tabs">
+        <div class="tabs__wrap">
+            <div class="container">
+                <div class="row">
+                    <ul class="tabs__caption">
+                        <li class="active"><i class="nut-icon icons-vector12"></i> <span>Оплата заказа</span></li>
+                        <li><i class="nut-icon icons-lorry"></i> <span>Доставка партии</span></li>
+                        <li><i class="nut-icon icons-package"></i> <span>Возврат товара</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="tabs__content active">
+                        <div class="row">
+                            <div class="col-md-5 col-12 align-self-center">
+                                <div class="tabs__content_block">
+                                    <p class="tabs__content_title">
+                                        Способы оплаты
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            <span><img src="{{ url_for('static', filename='public/img/icon.png') }}"
+                                                       alt="alt">Безналичный расчет</span>
+                                            <p>Вы можете выбрать “получить реквизиты” для дальнейшей оплаты на карту,
+                                                или в терминалах.</p>
+                                        </li>
+                                        <li>
+                                            <span><img src="{{ url_for('static', filename='public/img/icon2.png') }}"
+                                                       alt="alt">Оплата с помощью банковской карты</span>
+                                            <p>Оплатите Ваш заказ картой любого банка онлайн (LiqPay/Приват24)</p>
+                                        </li>
+                                        <li>
+                                            <span><img src="{{ url_for('static', filename='public/img/icon3.png') }}"
+                                                       alt="alt">Наличный расчет</span>
+                                            <p>Оплата заказов наложенным платежом в отделении Новой Почты, или наличными
+                                                курьерами</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-12">
+                                <img src="{{ url_for('static', filename='public/img/Untitled-2.jpg') }}"
+                                     class="tabs__content_img" alt="alt">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabs__content">
+                        <div class="row">
+                            <div class="col-md-5 col-12 align-self-center">
+                                <div class="tabs__content_block">
+                                    <p class="tabs__content_title">
+                                        Способы оплаты
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            <span><img src="{{ url_for('static', filename='public/img/new_posta.png') }}"
+                                                       alt="alt">Новая почта (по Украине)</span>
+                                            <p>Служба "Новая почта" может доставить ваш заказ в любую точку страны.
+                                            (Доставка по Украине за счет Клиента)</p>
+                                        </li>
+                                        <li>
+                                            <span><img src="{{ url_for('static', filename='public/img/moto_icon.jpg') }}"
+                                                       alt="alt">Курьер по Одессе</span>
+                                            <p>Наши курьеры способны быстро и безопасно доставить ваши товары по любому адресу
+                                            в пределах города Одесса. </p>
+                                        </li>
+                                        <li>
+                                            <span><img src="{{ url_for('static', filename='public/img/men_icon.jpg') }}"
+                                                       alt="alt">Самовывоз со склада</span>
+                                            <p>Вы можете самостоятельно забрать товары с наших складов в любое время в
+                                            пределах рабочего дня</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-12">
+                                <img src="{{ url_for('static', filename='public/img/delivery.jpg') }}"
+                                     class="tabs__content_img" alt="alt">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabs__content">
+                        <div class="row">
+                            <div class="col-md-5 col-12 align-self-center">
+                                <div class="tabs__content_block">
+                                    <p class="tabs__content_title">
+                                        Условия возврата
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            <p>Если вы решили отказаться от товара, то обязаны сделать это в
+                                            соответствии с законом Украины.</p>
+                                        </li>
+                                        <li>
+                                            <p>Возврат несвязанный с качеством продукта, возможен в течении 14 дней,
+                                            при условии отсутствия полной целостности, а также не нахождения товара
+                                            в списке товаров с малым сроком годности</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-12">
+                                <img src="{{ url_for('static', filename='public/img/goods_back.jpg') }}"
+                                     class="tabs__content_img" alt="alt">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="timer gray_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="wrap">
+                    <span class="timer__single" data-from="1" data-to="240" data-speed="3000"
+                          data-refresh-interval="50"></span>
+                    <sup>Га</sup>
+                    <div class="timer__descr">
+                        <div>Cмешанных</div>
+                        садов
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-12">
+                <div class="wrap">
+                    <span class="timer__single" data-from="1" data-to="1" data-speed="3000"
+                          data-refresh-interval="50"></span>
+                    <sup>Га</sup>
+                    <div class="timer__descr">
+                        <div>Тепличного</div>
+                        комплекса
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="wrap">
+                    <span class="timer__single" data-from="1" data-to="10" data-speed="5000"></span>
+                    <sup>Га</sup>
+                    <div class="timer__descr">
+                        <div>Первая промышленная плантация</div>
+                        шиповника в Украине
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="wrap">
+                    <span class="timer__single" data-from="1" data-to="80" data-speed="3000"
+                          data-refresh-interval="50"></span>
+                    <sup>%</sup>
+                    <div class="timer__descr">
+                        <div>Приживаемости</div>
+                        саженцев
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="parallax" data-scrollax-parent="true">
+    <section class="goal overlay cover"
+             style="background-image: url({{ url_for('static', filename='public/img/goal.jpg') }})"
+             data-scrollax="properties: { translateY: '30%' }">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <a href="#" data-scrollax="properties: { 'translateY': '5%', 'opacity': 1 }">
+                    <h2>Наша главная цель - получить максимальную<br> прибыль с одного гектара</h2>
+                    <span><i class="nut-icon icons-play-icon"></i></span>
+                    <p><i>Cмотреть видео о производстве</i></p>
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
