@@ -238,3 +238,11 @@ class ListMixinApi:
     def get_serialized_item(self, item):
         """ Will be redefined to each api to cover another cases """
         return {'id': item.id}
+
+
+class TemplateMixin(ViewMixin):
+    def get(self):
+        return self.render_template(self.get_context())
+
+    def get_context(self, *args, **kwargs):
+        return {}
