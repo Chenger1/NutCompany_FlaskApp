@@ -4,7 +4,7 @@ from flask import render_template, jsonify, request
 
 from app._db.models import Product
 from app._db.site_models import NewsItem, AboutCompany, MainPageGallery
-from app.utils.generic import DetailInstanceMixin
+from app.utils.generic import DetailInstanceMixin, ListMixinApi
 
 
 class IndexPageView(MethodView):
@@ -37,28 +37,14 @@ class GalleryPageView(MethodView):
         return render_template(self.template_name)
 
 
-class GalleryView(MethodView):
+class GalleryView(MethodView, ListMixinApi):
     model = MainPageGallery
+    paginate_by = 6
 
-    def get(self):
-        page = request.args.get('page', 1, type=int)
-        instances = self.model.query
-        pagination = instances.paginate(
-            page, per_page=6, error_out=False
-        )
-        return jsonify({'items': self.serialize(pagination.items),
-                        'current_page': page,
-                        'total_pages': pagination.pages})
-
-    def serialize(self, query):
-        result = []
-        for item in query:
-            result.append({
-                'id': item.id,
+    def get_serialized_item(self, item):
+        return {'id': item.id,
                 'photo': item.photo,
-                'url': item.url
-            })
-        return result
+                'url': item.url}
 
 
 public.add_url_rule('/', view_func=IndexPageView.as_view('main_page'))
