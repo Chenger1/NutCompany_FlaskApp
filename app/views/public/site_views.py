@@ -1,24 +1,26 @@
 from . import public
 from flask.views import MethodView
-from flask import render_template
 
 from app._db.models import Product
 from app._db.site_models import NewsItem, AboutCompany, MainPageGallery, CorporateClients
-from app.utils.generic import DetailInstanceMixin, ListMixinApi, ListViewMixin
+from app.utils.generic import DetailInstanceMixin, ListMixinApi, ListViewMixin, TemplateMixin
 
 from .filters import truncate_html_filter
 
 import datetime
 
 
-class IndexPageView(MethodView):
+class IndexPageView(MethodView, TemplateMixin):
     template_name = 'public/index.html'
 
-    def get(self):
-        products = Product.query.all()
-        news = NewsItem.query.limit(6)
-        about = AboutCompany.query.first()
-        return render_template(self.template_name, products=products, news=news, about=about)
+    def get_context(self, *args, **kwargs):
+        context = super().get_context(*args, **kwargs)
+        context.update({
+            'products': Product.query.all(),
+            'news': NewsItem.query.limit(6),
+            'about': AboutCompany.query.first()
+        })
+        return context
 
 
 class AboutCompanyView(MethodView, DetailInstanceMixin):
@@ -34,11 +36,8 @@ class AboutCompanyView(MethodView, DetailInstanceMixin):
         return context
 
 
-class GalleryPageView(MethodView):
+class GalleryPageView(MethodView, TemplateMixin):
     template_name = 'public/gallery.html'
-
-    def get(self):
-        return render_template(self.template_name)
 
 
 class GalleryView(MethodView, ListMixinApi):
@@ -67,12 +66,13 @@ class NewsApiView(MethodView, ListMixinApi):
         return self.model.query.filter(self.model.publication_date <= datetime.datetime.now())
 
 
-class NewsPageView(MethodView):
+class NewsPageView(MethodView, TemplateMixin):
     template_name = 'public/news_page.html'
 
-    def get(self):
-        gallery_image = MainPageGallery.query.first()
-        return render_template(self.template_name, gallery_image=gallery_image)
+    def get_context(self, *args, **kwargs):
+        context = super().get_context(*args, **kwargs)
+        context['gallery_image'] = MainPageGallery.query.first()
+        return context
 
 
 class DetailNewsItemView(MethodView, DetailInstanceMixin):
@@ -91,11 +91,12 @@ class CorporateClientsView(MethodView, ListViewMixin):
     paginate_by = 5
 
 
-class ContactsPageView(MethodView):
+class ContactsPageView(MethodView, TemplateMixin):
     template_name = 'public/contacts_page.html'
 
-    def get(self):
-        return render_template(self.template_name)
+
+class PaymentView(MethodView, TemplateMixin):
+    template_name = 'public/payments.html'
 
 
 public.add_url_rule('/', view_func=IndexPageView.as_view('main_page'))
