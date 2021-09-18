@@ -66,7 +66,7 @@
                                 <div class="form__title">
                                     3. Пароль
                                 </div>
-                                {{ form.password(placeholder="Пароль*") }}
+                                {{ form.password(placeholder="Пароль*", type="password") }}
                                 <input type="password" required="required" placeholder="Подтвердите пароль*"
                                        class="confirm_password">
                             </div>
@@ -75,14 +75,16 @@
                                     <div class="file__wrap">
                                         {{ form.photo(class="inputfile", id="file2") }}
                                         <label for="file2"><span>Загрузить фото</span></label>
+                                        <span id="photo1">Фото не выбрано</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-5 col-md-6">
                                 <div class="checkbox__wrap">
-                                    <input id="checkbox-2" class="checkbox-custom" name="checkbox-1" type="checkbox">
+                                    <input id="checkbox-2" class="checkbox-custom confirm_check" name="checkbox-1"
+                                           type="checkbox">
                                     <label for="checkbox-2" class="checkbox-custom-label"><span>Я согласен с <a
-                                            href="#">Условиями регистрации</a></span></label>
+                                            href="{{ url_for('public.term_of_use') }}" target="_blank">Условиями регистрации</a></span></label>
                                 </div>
                                 <button class="button" type="submit">Продолжить</button>
                             </div>
@@ -107,7 +109,7 @@
                                 <div class="form__title">
                                     3. Пароль
                                 </div>
-                                {{ form.password(placeholder="Пароль*") }}
+                                {{ form.password(placeholder="Пароль*", type="password") }}
                                 <input type="password" required="required" placeholder="Подтвердите пароль*"
                                        class="confirm_password">
                             </div>
@@ -116,6 +118,7 @@
                                     <div class="file__wrap">
                                         {{ form.photo(class="inputfile", id="file") }}
                                         <label for="file"><span>Загрузить фото</span></label>
+                                        <!-- <span id="photo2">Фото не выбрано</span> -->
                                     </div>
                                     <div class="radio__wrap">
                                         <input id="radio-1" class="radio-custom" name="type" value="Юридическое лицо"
@@ -156,9 +159,10 @@
                             </div>
                             <div class="col-lg-5 col-md-6">
                                 <div class="checkbox__wrap">
-                                    <input id="checkbox-4" class="checkbox-custom" name="checkbox-1" type="checkbox">
+                                    <input id="checkbox-4" class="checkbox-custom confirm_check" name="checkbox-1"
+                                           type="checkbox">
                                     <label for="checkbox-4" class="checkbox-custom-label"><span>Я согласен с <a
-                                            href="#">Условиями регистрации</a></span></label>
+                                            href="{{ url_for('public.term_of_use') }}" target="_blank">Условиями регистрации</a></span></label>
                                 </div>
                                 <button class="button" type="submit">Продолжить</button>
                             </div>
@@ -170,5 +174,39 @@
         </div>
     </div>
 </section>
+<script src="{{ url_for('static', filename='admin/plugins/jquery/jquery.min.js') }}"></script>
+<script>
+    $('#file2').on('change', function(){
+        $('#photo1').text('Фото загружено');
+    })
+    $('#file').on('change', function(){
+        $('#photo2').text('Фото загружено');
+    })
 
+    $('#radio-1').on('change', function() {
+        $('.fop').css('display', 'none');
+        $('.ur').css('display', 'block');
+    })
+    $('#radio-2').on('change', function() {
+        $('.fop').css('display', 'block');
+        $('.ur').css('display', 'none');
+    })
+</script>
+<script>
+    $('form').each(function(){
+        $(this).on('submit', function(e) {
+            let passwords = $(this).find('input[type=password]');
+            if(passwords[0].value != passwords[1].value){
+                e.preventDefault();
+                alert('Пароль не совпадают');
+                return
+            }
+            if(!$(this).find('.confirm_check').prop('checked')){
+                e.preventDefault();
+                alert('Прочтите и подтвердите условия регистрации');
+                return
+            }
+        })
+    })
+</script>
 {% endblock %}
