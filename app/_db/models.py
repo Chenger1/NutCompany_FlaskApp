@@ -33,11 +33,16 @@ class User(UserMixin, db.Model):
     country = db.Column(db.Enum(CountryChoice), nullable=True)
     city = db.Column(db.String(100), nullable=True)
     address = db.Column(db.String(100), nullable=True)
-    index = db.Column(db.String(20), nullable=True)
     type = db.Column(db.Enum(UserTypeChoice))
     credentials = db.Column(db.String(30), nullable=True)
 
     orders = db.relationship('Order')
+
+    #  Information if user is FOP
+    index = db.Column(db.String(20), nullable=True)
+    country_fop = db.Column(db.Enum(CountryChoice), nullable=True)
+    city_fop = db.Column(db.String(100), nullable=True)
+    address_fop = db.Column(db.String(100), nullable=True)
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
