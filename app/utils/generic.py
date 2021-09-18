@@ -1,4 +1,4 @@
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, jsonify
 
 from .base_generics import ViewMixin, FormViewMixin
 
@@ -201,3 +201,37 @@ class InlineFormsetMixin(FormsetGenericMixin, FormViewMixin):
         if obj_id:
             return self.entity_model.query.get_or_404(obj_id)
         return self.entity_model()
+
+
+class ListMixinApi:
+    model = None
+    paginate_by = None
+
+    def __init__(self):
+        self.page = None
+
+    def get(self):
+        self.get_page()
+        instances = self.model.query
+        pagination = self.get_pagination(instances)
+        return jsonify({'items': self.serialize(pagination.items),
+                        'current_page': self.page,
+                        'total_pages': pagination.pages})
+
+    def get_page(self):
+        self.page = request.args.get('page', 1, type=int)
+
+    def get_pagination(self, query):
+        return query.paginate(
+            self.page, per_page=self.paginate_by, error_out=False
+        )
+
+    def serialize(self, query):
+        result = []
+        for item in query:
+            result.append(self.get_serialized_item(item))
+        return result
+
+    def get_serialized_item(self, item):
+        """ Will be redefined to each api to cover another cases """
+        return {'id': item.id}
