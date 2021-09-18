@@ -181,10 +181,11 @@
 {% include "public/news.html" %}
 
 <script src="{{ url_for('static', filename='admin/plugins/jquery/jquery.min.js') }}"></script>
-<script src="{{ url_for('static', filename='public/js/gallery.js') }}"></script>
+<script src="{{ url_for('static', filename='public/js/render_items.js') }}"></script>
 <script>
     const SCRIPT_ROOT = {{ request.url_root | tojson }};
-    let gallery_manager = new GalleryManager(SCRIPT_ROOT);
-    gallery_manager.renderGallery();
+    const url = `${SCRIPT_ROOT}/gallery`;
+    let gallery_manager = new GalleryManager(url);
+    gallery_manager.renderItems();
 </script>
 {% endblock %}

@@ -89,7 +89,7 @@
 </section>
 
 <script src="{{ url_for('static', filename='admin/plugins/jquery/jquery.min.js') }}"></script>
-<script src="{{ url_for('static', filename='public/js/gallery.js') }}"></script>
+<script src="{{ url_for('static', filename='public/js/render_items.js') }}"></script>
 <script>
     const SCRIPT_ROOT = {{ request.url_root | tojson }};
     const url = `${SCRIPT_ROOT}/news_api`;
