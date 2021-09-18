@@ -1,0 +1,159 @@
+{% extends "public/base.html" %}
+
+{% block body_class %}"page"{% endblock %}
+
+{% block content %}
+<section class="first-section overlay" style="background-image: url({{ url_for('static', filename='public/img/Untitled-5.jpg') }})">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul>
+                <li>
+                    <a href="{{ url_for('public.main_page') }}">Главная</a>
+                </li>
+                <li>
+                    Оптовым и корпоративным клиентам
+                </li>
+            </ul>
+        </div>
+        <div class="row align-items-center justify-content-center">
+            <div class="wrap">
+                <h1>Орех Причерноморья</h1>
+                <p>Единственный в Украине сад совместного<br> выращивание фундука и грецкого ореха</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="customers">
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-lg-5">
+                <div class="customers__title">
+                    Оптовым и корпоративным клиентам
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Сельскохозяйственный обслуживающий кооператив “Орех Причерноморья” предлагает своим клиентам
+                            выгодные условия сотрудничества.</p>
+                        <p>Особые условия подготовлены для <strong>розничных магазинов, компаний HoReCa, спорт -
+                            клубов.</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>Мы готовы рассмотреть особые условия для оптовых покупателей, с готовностью идем на встречу
+                            любому предложению. </p>
+                        <p>Если вы заинтересованы в нашей продукции, пишите, или звоните в наш главный офис - мы всегда
+                            пойдем вам на встречу! </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="payment">
+    <div class="tabs">
+        <div class="tabs__wrap">
+            <div class="container">
+                <div class="row">
+                    <ul class="tabs__caption">
+                        <li class="active"><i class="nut-icon icons-supermarket"></i>
+                            <span>Крупные<br> супермаркеты</span></li>
+                        <li><i class="nut-icon icons-shop"></i> <span>Розничные<br> магазины</span></li>
+                        <li><i class="nut-icon icons-dinner-table"></i> <span>Компании<br> HoReCa</span></li>
+                        <li><i class="nut-icon icons-vector11"></i> <span>Фитнес<br> и спорт клубы</span></li>
+                        <li><i class="nut-icon icons-cake"></i> <span>Кондитерские<br> и пекарни</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    {% for item in instances %}
+                        <div class="tabs__content {% if loop.first %}active{% endif %}">
+                            <div class="row">
+                                <div class="col-md-5 col-12 align-self-center">
+                                    <div class="tabs__content_block">
+                                        {{ item.text }}
+                                    </div>
+                                </div>
+                                <div class="col-md-7 col-12">
+                                <img src="{{ url_for('common.download_file', name=item.photo) }}" class="tabs__content_img" alt="alt">
+                            </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="timer gray_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="wrap">
+                    <span class="timer__single" data-from="1" data-to="240" data-speed="3000"
+                          data-refresh-interval="50"></span>
+                    <sup>Га</sup>
+                    <div class="timer__descr">
+                        <div>Cмешанных</div>
+                        садов
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-12">
+                <div class="wrap">
+                    <span class="timer__single" data-from="1" data-to="1" data-speed="3000"
+                          data-refresh-interval="50"></span>
+                    <sup>Га</sup>
+                    <div class="timer__descr">
+                        <div>Тепличного</div>
+                        комплекса
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="wrap">
+                    <span class="timer__single" data-from="1" data-to="10" data-speed="5000"></span>
+                    <sup>Га</sup>
+                    <div class="timer__descr">
+                        <div>Первая промышленная плантация</div>
+                        шиповника в Украине
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="wrap">
+                    <span class="timer__single" data-from="1" data-to="80" data-speed="3000"
+                          data-refresh-interval="50"></span>
+                    <sup>%</sup>
+                    <div class="timer__descr">
+                        <div>Приживаемости</div>
+                        саженцев
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="parallax" data-scrollax-parent="true">
+    <section class="eco overlay" style="background-image: url({{ url_for('static', filename='public/img/Untitled-10.jpg') }})"
+             data-scrollax="properties: { translateY: '30%' }">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <a href="#" data-scrollax="properties: { 'translateY': '5%', 'opacity': 1 }">
+                    <i class="nut-icon icons-eco"></i>
+                    <h2>Эко продукция</h2>
+                    <p>Выращиваем каждое деревцо с любовью, на экологически<br> чистой земле, без использования
+                        пестицидов и химии</p>
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
