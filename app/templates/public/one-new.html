@@ -1,0 +1,97 @@
+{% extends "public/base.html" %}
+
+{% block body_class %}page{% endblock %}
+
+{% block content %}
+<section class="first-section no-bg">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul>
+                <li>
+                    <a href="{{ url_for('public.main_page') }}">Главная</a>
+                </li>
+                <li>
+                    {{ instance.title }}
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<div class="single-news" style="min-height: 1300px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <h1>{{ instance.title }}</h1>
+                <div class="single-news__data">
+                    {{ instance.publication_date.strftime('%d-%m-%Y') }}
+                </div>
+            </div>
+            <div class="col-lg-7"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9 col-md-8 col-12">
+                <main class="main">
+                    <img src="{{ url_for('common.download_file', name=instance.photo) }}" alt="alt">
+                    {{ instance.text|safe }}
+                </main>
+            </div>
+            <div class="col-lg-3 col-md-4 d-none d-md-block col-12">
+                <aside class="aside">
+                    <div class="sidebar__inner sticky">
+                        <div class="aside__title">
+                            Последние публикации
+                        </div>
+                        <ul>
+                            {% for item in last_news %}
+                            <li>
+                                <div class="aside__item">
+                                    <div class="aside__item_img">
+                                        <img src="{{ url_for('common.download_file', name=item.photo) }}" alt="alt">
+                                    </div>
+                                    <div class="aside__item_data">
+                                        {{ item.publication_date.strftime('%d-%m-%Y') }}
+                                    </div>
+                                    <div class="aside__item_title">
+                                        {{ item.title }}
+                                    </div>
+                                    <a href="{{ url_for('public.news_detail', obj_id=item.id) }}">Читать <i
+                                            class="nut-icon icons-read-more"></i></a>
+                                </div>
+                            </li>
+                            {% else %}
+                            <li>
+                                <div class="aside__item">
+                                    <div class="aside__item_title">
+                                        Новостей больше нет
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="banner">
+                            <div class="banner__title">
+                                ОРЕХ ПРИЧЕРНОМОРЬЯ
+                            </div>
+                            <div class="banner__descr">
+                                Присоединяйтесь к нам в соц. сетях
+                            </div>
+                            <ul class="banner__social">
+                                <li>
+                                    <a href="#"><i class="nut-icon icons-facebook"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="nut-icon icons-instagram"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="nut-icon icons-youtube"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
