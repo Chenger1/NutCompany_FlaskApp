@@ -8,6 +8,8 @@ from app.utils.generic import DetailInstanceMixin, ListMixinApi
 
 from .filters import truncate_html_filter
 
+import datetime
+
 
 class IndexPageView(MethodView):
     template_name = 'public/index.html'
@@ -59,6 +61,10 @@ class NewsApiView(MethodView, ListMixinApi):
                 'text': truncate_html_filter(item.text, 250),
                 'photo': item.photo,
                 'publication_date': item.publication_date.strftime('%d.%m.%Y')}
+
+    def get_instances(self):
+        """ Return new that are published """
+        return self.model.query.filter(self.model.publication_date <= datetime.datetime.now())
 
 
 class NewsPageView(MethodView):
