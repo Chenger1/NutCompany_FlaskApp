@@ -97,28 +97,13 @@ class NewsItemManager extends BaseManager{
 }
 
 
-class GalleryManager {
-    constructor(script_root){
+class GalleryManager extends BaseManager{
+    constructor(url){
+        super(url);
         this.counter_one_items = 'counter_one_item';
         this.counter_two_items = 'counter_two_item';
         this.counter_three_items = 'counter_three_item';
         this.gallery_container = $('.items_row');  // to this block new block will be appended
-
-        this.url = `${script_root}gallery`;
-        this.current_page = 1;
-        this.total_pages = 1;
-    }
-
-    get current_page(){
-        return this._current_page;
-    }
-
-    set current_page(value){
-        this._current_page = value;
-    }
-
-    renderGallery(){
-        this.makeRequest(this.renderResponseItems);
     }
 
 
@@ -188,16 +173,4 @@ class GalleryManager {
     return block;
    }
 
-    makeRequest(callback) {
-        let $this = this;
-
-        $.ajax({
-            url: this.url,
-            type: 'get',
-            data: {'page': this.current_page},
-            success: function(data) {
-                return callback(data, $this);
-            }
-        });
-    }
-}
+} 
