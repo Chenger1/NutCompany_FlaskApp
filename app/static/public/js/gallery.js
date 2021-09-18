@@ -1,3 +1,102 @@
+class BaseManager{
+    constructor(url){
+        this.url = url;
+        this.current_page = 1;
+        this.total_pages = 1;
+    }
+
+    get current_page(){
+        return this._current_page;
+    }
+
+    set current_page(value){
+        this._current_page = value;
+    }
+
+    renderItems(){
+        this.makeRequest(this.renderResponseItems);
+    }
+
+    makeRequest(callback) {
+        let $this = this;
+
+        $.ajax({
+            url: this.url,
+            type: 'get',
+            data: {'page': this.current_page},
+            success: function(data) {
+                return callback(data, $this);
+            }
+        });
+    }
+}
+
+
+class NewsItemManager extends BaseManager{
+    constructor(url){
+        super(url);
+        this.parent_block = 'before_gallery';
+    }
+
+    renderResponseItems(response, $this){
+        let items = response.items;
+
+        for(let i=0; i<=items.length; i++){
+            if(items[i] == undefined){
+                break;
+            }
+
+            switch(i){
+                case 0:
+                    $this.renderBigBlock(items[i], $this.parent_block);
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                    $this.renderBlock(items[i], $this.parent_block);
+                    break;
+                default:
+                    $this.renderBlock(items[i], $this.parent_block);
+            }
+        }
+
+        $this.parent_block = 'after_gallery';
+        $this.total_pages = response.total_pages;
+    }
+
+    renderBigBlock(item, parent_block){
+        let new_block_img = $('.big_item_img').clone(true);
+        let new_block_text = $('.big_item_text').clone(true);
+
+        new_block_img.find('img').prop('src', `/uploads/${item.photo}`);
+        new_block_img.css('display', 'flex');
+        new_block_img.removeClass('big_item_img');
+
+        new_block_text.find('h3').text(item.title);
+        new_block_text.find('p').html(item.text);
+        new_block_text.find('.item_data').text(item.publication_date);
+        new_block_text.removeClass('big_item_text');
+        new_block_text.css('display', 'flex');
+
+        $(`.${parent_block}`).append(new_block_img);
+        $(`.${parent_block}`).append(new_block_text);
+    }
+
+    renderBlock(item, parent_block){
+        let new_block = $('.small_item').clone(true);
+        
+        new_block.find('img').prop('src', `/uploads/${item.photo}`);
+        new_block.find('h3').text(item.title);
+        new_block.find('p').html(item.text);
+        new_block.find('.item_data').text(item.publication_date);
+        new_block.removeClass('small_item');
+        new_block.css('display', 'flex');
+
+        $(`.${parent_block}`).append(new_block);
+    }
+}
+
+
 class GalleryManager {
     constructor(script_root){
         this.counter_one_items = 'counter_one_item';

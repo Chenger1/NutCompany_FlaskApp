@@ -1,0 +1,110 @@
+{% extends "public/base.html" %}
+
+{% block content %}
+<section class="first-section no-bg">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul>
+                <li>
+                    <a href="{{ url_for('public.main_page') }}">Главная</a>
+                </li>
+                <li>
+                    Новости и статьи
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="benefit-news">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-12">
+                <h1>Новости и статьи</h1>
+                <p>Свежие новости и полезная информация</p>
+            </div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-4 col-md-6 col-12 py-4 small_item" style="display: none;">
+                <div class="news__item">
+						<span class="video_wrap">
+							<img src="" alt="alt">
+						</span>
+                    <div class="wraper pr-5">
+                        <div class="item_data">
+                        </div>
+                        <h3></h3>
+                        <p></p>
+                        <a href="#">Читать <i class="nut-icon icons-read-more"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-12 py-4 big_item_img" style="display: none;">
+                <div class="benefit-news__img">
+                    <img src="" alt="alt">
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-12 py-4 big_item_text" style="display: none;">
+                <div class="news__item">
+                    <div class="wraper">
+                        <div class="item_data">
+
+                        </div>
+                        <h3></h3>
+                        <p></p>
+                        <a href="#">Читать <i class="nut-icon icons-read-more"></i></a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="before_gallery" style="display: flex; flex-wrap: wrap;">
+            </div>
+            <div class="col-lg-12 col-md-12	col-12 py-4">
+                <div class="wrap">
+                    <a href="
+                    {% if gallery_image.url %}
+                    {{ gallery_image.url }}
+                    {% else %}
+                    {{ url_for('public.gallery_page') }}
+                    {% endif %}" class="benefit-news__item
+                    {% if gallery_image.url %}overlay benefit-news__item_video_text{% endif %}"
+                       style="background-image: url({{ url_for('common.download_file', name=gallery_image.photo) }})">
+								<span>
+									<i class="nut-icon icons-play-icon"></i>
+								</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="after_gallery" style="display: flex; flex-wrap: wrap;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="wrapper">
+                <button class="button button_transparent" id="more_news" type="button">Посмотреть ещё</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='admin/plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='public/js/gallery.js') }}"></script>
+<script>
+    const SCRIPT_ROOT = {{ request.url_root | tojson }};
+    const url = `${SCRIPT_ROOT}/news_api`;
+
+    const item_manager = new NewsItemManager(url);
+    item_manager.renderItems();
+
+    $('#more_news').on('click', function(){
+        item_manager.current_page = ++item_manager.current_page;
+        item_manager.renderItems();
+
+        if(item_manager.current_page === item_manager.total_pages){
+        $(this).prop('disabled', 'true');
+        $(this).text('Больше нет новостей');
+       }
+    })
+</script>
+{% endblock %}

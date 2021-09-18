@@ -85,7 +85,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-2 d-lg-none">
-                    <div class="mobile-menu-button d-lg-none d-block"><img src="img/menu.svg" alt="alt"></div>
+                    <div class="mobile-menu-button d-lg-none d-block"><img src="url_for('static', filename='public/img/menu.svg')" alt="alt"></div>
                 </div>
                 <div class="col-xl-4 col-lg-3 col-8 align-self-center">
 
@@ -174,7 +174,7 @@
                             <a href="#">Оптовым и корпоративным клиентам</a>
                         </li>
                         <li>
-                            <a href="#">Новости и статьи</a>
+                            <a href="{{ url_for('public.news_page') }}">Новости и статьи</a>
                         </li>
                         <li>
                             <a href="#">Контакты</a>

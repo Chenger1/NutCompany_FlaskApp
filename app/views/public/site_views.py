@@ -1,10 +1,12 @@
 from . import public
 from flask.views import MethodView
-from flask import render_template, jsonify, request
+from flask import render_template
 
 from app._db.models import Product
 from app._db.site_models import NewsItem, AboutCompany, MainPageGallery
 from app.utils.generic import DetailInstanceMixin, ListMixinApi
+
+from .filters import truncate_html_filter
 
 
 class IndexPageView(MethodView):
@@ -47,8 +49,30 @@ class GalleryView(MethodView, ListMixinApi):
                 'url': item.url}
 
 
+class NewsApiView(MethodView, ListMixinApi):
+    model = NewsItem
+    paginate_by = 4
+
+    def get_serialized_item(self, item):
+        return {'id': item.id,
+                'title': item.title,
+                'text': truncate_html_filter(item.text, 250),
+                'photo': item.photo,
+                'publication_date': item.publication_date.strftime('%d.%m.%Y')}
+
+
+class NewsPageView(MethodView):
+    template_name = 'public/news_page.html'
+
+    def get(self):
+        gallery_image = MainPageGallery.query.first()
+        return render_template(self.template_name, gallery_image=gallery_image)
+
+
 public.add_url_rule('/', view_func=IndexPageView.as_view('main_page'))
 public.add_url_rule('/about', view_func=AboutCompanyView.as_view('about_page'), defaults={'obj_id': 1})
 public.add_url_rule('/gallery_page', view_func=GalleryPageView.as_view('gallery_page'))
+public.add_url_rule('/news', view_func=NewsPageView.as_view('news_page'))
 
 public.add_url_rule('/gallery', view_func=GalleryView.as_view('gallery_view'))
+public.add_url_rule('/news_api', view_func=NewsApiView.as_view('news_api_view'))
