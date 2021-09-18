@@ -91,12 +91,20 @@ class CorporateClientsView(MethodView, ListViewMixin):
     paginate_by = 5
 
 
+class ContactsPageView(MethodView):
+    template_name = 'public/contacts_page.html'
+
+    def get(self):
+        return render_template(self.template_name)
+
+
 public.add_url_rule('/', view_func=IndexPageView.as_view('main_page'))
 public.add_url_rule('/about', view_func=AboutCompanyView.as_view('about_page'), defaults={'obj_id': 1})
 public.add_url_rule('/gallery_page', view_func=GalleryPageView.as_view('gallery_page'))
 public.add_url_rule('/news', view_func=NewsPageView.as_view('news_page'))
 public.add_url_rule('/news/<obj_id>', view_func=DetailNewsItemView.as_view('news_detail'))
 public.add_url_rule('/customers', view_func=CorporateClientsView.as_view('customers_page'))
+public.add_url_rule('/contacts', view_func=ContactsPageView.as_view('contacts_page'))
 
 public.add_url_rule('/gallery', view_func=GalleryView.as_view('gallery_view'))
 public.add_url_rule('/news_api', view_func=NewsApiView.as_view('news_api_view'))
