@@ -63,7 +63,8 @@
                                class="{% if 'info/ur' in request.path %}active{% endif %}">Контактная информация</a>
                             {% endif %}
                         </li>
-                        <li><a href="#">Пароль</a></li>
+                        <li><a href="{{ url_for('public.change_password_page', obj_id=instance.id) }}"
+                        class="{% if '/change_password' in request.path %}active{% endif %}">Пароль</a></li>
                         <li>
                             {% if instance.type.name == 'physical_person' %}
                             <a href="{{ url_for('public.personal_address_fop', obj_id=instance.id) }}"

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, RadioField
+from wtforms import StringField, SelectField, RadioField, ValidationError
 from wtforms.validators import DataRequired, Email, Optional
 
 from app._db.choices import CountryChoice, UserTypeChoice
@@ -34,3 +34,17 @@ class ClientRegistrationForm(FlaskForm):
 class ClientLoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = StringField('Пароль', validators=[DataRequired()])
+
+
+class ChangePasswordForm(FlaskForm):
+    old_password = StringField('Текущий пароль', validators=[DataRequired()])
+    password = StringField('Новый пароль', validators=[DataRequired()])
+    new_password = StringField('Повторите пароль', validators=[DataRequired()])
+
+    def validate_old_password(self, field):
+        if not self.instance.verify_password(field.data):
+            raise ValidationError('Текущий пароль введен неправильно')
+
+    def validate_password(self, field):
+        if field.data != self.new_password.data:
+            raise ValidationError('Пароли не совпадают')
