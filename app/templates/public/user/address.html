@@ -9,6 +9,11 @@
 {% block profile_content %}
 <div class="row">
     <div class="col-lg-6">
+        {% if form.errors %}
+        {% for key, value in form.errors.items() %}
+        <h5>{{ key }}: {{ value }}</h5>
+        {% endfor %}
+        {% endif %}
         <form method="post">
             {{ form.csrf_token }}
             <div class="form__title">

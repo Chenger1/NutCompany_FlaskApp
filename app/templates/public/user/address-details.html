@@ -10,6 +10,11 @@
 {% block profile_content %}
 <div class="row">
     <div class="col-md-6">
+        {% if form.errors %}
+        {% for key, value in form.errors.items() %}
+        <h5>{{ key }}: {{ value }}</h5>
+        {% endfor %}
+        {% endif %}
         <form method="post">
             {{ form.csrf_token }}
             <div class="form__title">
@@ -33,7 +38,8 @@
         </form>
     </div>
     <div class="col-md-6 align-self-end">
-        <div class="address__img overlay" style="background-image: url({{ url_for('static', filename='public/img/28.jpg') }})">
+        <div class="address__img overlay"
+             style="background-image: url({{ url_for('static', filename='public/img/28.jpg') }})">
             <div class="wrap">
                 <h2>Орех Причерноморья</h2>
                 <p>Единственный в Украине сад совместного выращивания фундука и грецкого ореха</p>

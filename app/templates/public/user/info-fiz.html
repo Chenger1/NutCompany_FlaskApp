@@ -15,6 +15,11 @@
 <form method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-6">
+            {% if form.errors %}
+            {% for key, value in form.errors.items() %}
+            <h5>{{ key }}: {{ value }}</h5>
+            {% endfor %}
+            {% endif %}
             {{ form.csrf_token }}
             {{ form.fio(placeholder="ФИО*") }}
             {{ form.email(placeholder="Email*") }}
@@ -45,6 +50,7 @@
     $('#file').on('change', function(){
         setPreview(this, '.file__wrap', '.label__photo', true);
     })
+
 
 </script>
 {% endblock %}
