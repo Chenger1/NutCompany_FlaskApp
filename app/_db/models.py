@@ -38,11 +38,11 @@ class User(UserMixin, db.Model):
 
     orders = db.relationship('Order')
 
-    #  Information if user is FOP
+    #  Information if user is a company presenter
     index = db.Column(db.String(20), nullable=True)
-    country_fop = db.Column(db.Enum(CountryChoice), nullable=True)
-    city_fop = db.Column(db.String(100), nullable=True)
-    address_fop = db.Column(db.String(100), nullable=True)
+    country_ur = db.Column(db.Enum(CountryChoice), nullable=True)
+    city_ur = db.Column(db.String(100), nullable=True)
+    address_ur = db.Column(db.String(100), nullable=True)
     company = db.Column(db.String(100), nullable=True)
 
     def verify_password(self, password):
