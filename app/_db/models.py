@@ -43,6 +43,7 @@ class User(UserMixin, db.Model):
     country_fop = db.Column(db.Enum(CountryChoice), nullable=True)
     city_fop = db.Column(db.String(100), nullable=True)
     address_fop = db.Column(db.String(100), nullable=True)
+    company = db.Column(db.String(100), nullable=True)
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
