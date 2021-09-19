@@ -1,0 +1,48 @@
+{% extends "public/base.html" %}
+
+
+{% block content %}
+<section class="first-section no-bg">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul>
+                <li>
+                    <a href="/">Главная</a>
+                </li>
+                <li>
+                    Вход
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="registration">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6">
+                <h1 class="text-center py-4">Войти в личный кабинет</h1>
+                {% with messages=get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <h5 class="text-center py-1">{{ message }}</h5>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form method="post">
+                    {{ form.csrf_token }}
+                    {{ form.email(type="email", placeholder="Email*") }}
+                    {{ form.password(type="password", placeholder="Пароль*") }}
+                    <div class="mini_link">
+                        <a href="#">Забыли пароль?</a>
+                    </div>
+                    <button class="button" type="submit">Войти</button>
+                    <div class="mini_link">
+                        <a href="{{ url_for('public.registration') }}">Регистрация</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

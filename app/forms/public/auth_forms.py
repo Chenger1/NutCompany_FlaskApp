@@ -29,3 +29,8 @@ class ClientRegistrationForm(FlaskForm):
 
     type = RadioField('Тип', choices=UserTypeChoice.choices(), coerce=UserTypeChoice.coerce,
                       validators=[Optional()])
+
+
+class ClientLoginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = StringField('Пароль', validators=[DataRequired()])

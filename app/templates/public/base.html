@@ -61,12 +61,17 @@
                 <div class="col-lg-4 col-12">
                     <div class="wrap">
                         <ul class="log_in d-lg-flex d-none">
+                            {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('public.logout_page') }}"><span>Выход</span></a></li>
+                            <li><a href=""><span>Личный кабинет</span></a></li>
+                            {% else %}
                             <li>
-                                <a href="#"><i class="nut-icon icons-man-user"></i><span>Вход</span></a>
+                                <a href="{{ url_for('public.login_page') }}"><i class="nut-icon icons-man-user"></i><span>Вход</span></a>
                             </li>
                             <li>
                                 <a href="{{ url_for('public.registration') }}"><span>Регистрация</span></a>
                             </li>
+                            {% endif %}
                         </ul>
                         <div id="lang-menu" class="lang-menu">
                             <span class="title">Ru</span>
