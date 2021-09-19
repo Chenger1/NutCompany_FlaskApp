@@ -6,7 +6,7 @@ from flask_login import login_user, logout_user
 
 from app._db.models import User, OrderItem
 from app.forms.public.auth_forms import ClientRegistrationForm, ClientLoginForm
-from app.forms.public.profile_forms import ClientPersonalInfoForm
+from app.forms.public.profile_forms import ClientPersonalInfoForm, ClientProfileAddressForm
 from app.utils.generic import CreateViewMixin, TemplateMixin, UpdateViewMixin, DetailInstanceMixin
 
 
@@ -59,7 +59,12 @@ class ShowClientOrdersHistory(MethodView, DetailInstanceMixin):
         return context
 
 
-class ShowClientContactsInfoForPhysicalPerson(MethodView, UpdateViewMixin):
+class ClientProfileMixin(MethodView, UpdateViewMixin):
+    def make_request(self):
+        return url_for(self.redirect_url, obj_id=self.instance.id)
+
+
+class ShowClientContactsInfoForPhysicalPerson(ClientProfileMixin):
     """
     Render info if client is not a part of some company
     """
@@ -68,11 +73,8 @@ class ShowClientContactsInfoForPhysicalPerson(MethodView, UpdateViewMixin):
     form_class = ClientPersonalInfoForm
     redirect_url = 'public.personal_info'
 
-    def make_request(self):
-        return url_for(self.redirect_url, obj_id=self.instance.id)
 
-
-class ShowClientContactsInfoForLegalPerson(MethodView, UpdateViewMixin):
+class ShowClientContactsInfoForLegalPerson(ClientProfileMixin):
     """
     Render info if client is a part of some company
     """
@@ -81,8 +83,19 @@ class ShowClientContactsInfoForLegalPerson(MethodView, UpdateViewMixin):
     form_class = ClientPersonalInfoForm
     redirect_url = 'public.personal_info_ur'
 
-    def make_request(self):
-        return url_for(self.redirect_url, obj_id=self.instance.id)
+
+class ShowClientAddressForPhysicalPerson(ClientProfileMixin):
+    model = User
+    template_name = 'public/user/address.html'
+    form_class = ClientProfileAddressForm
+    redirect_url = 'public.personal_address_fop'
+
+
+class ShowClientAddressForLegalPerson(ClientProfileMixin):
+    model = User
+    template_name = 'public/user/address-details.html'
+    form_class = ClientProfileAddressForm
+    redirect_url = 'public.personal_address_ur'
 
 
 public.add_url_rule('/registration', view_func=ClientRegistrationView.as_view('registration'))
@@ -95,3 +108,7 @@ public.add_url_rule('/profile/<obj_id>/info/fop',
                     view_func=ShowClientContactsInfoForPhysicalPerson.as_view('personal_info'))
 public.add_url_rule('/profile/<obj_id>/info/ur',
                     view_func=ShowClientContactsInfoForLegalPerson.as_view('personal_info_ur'))
+public.add_url_rule('/profile/<obj_id>/address/fop',
+                    view_func=ShowClientAddressForPhysicalPerson.as_view('personal_address_rop'))
+public.add_url_rule('/profile/<obj_id>/address/ur',
+                    view_func=ShowClientAddressForLegalPerson.as_view('personal_address_ur'))

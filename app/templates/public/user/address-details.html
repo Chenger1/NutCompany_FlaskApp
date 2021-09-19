@@ -1,0 +1,44 @@
+{% extends "public/user/account_base.html" %}
+
+{% block profile_breadcrumb %}
+<li>
+    Адрес и реквизиты
+</li>
+{% endblock %}
+
+
+{% block profile_content %}
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            {{ form.csrf_token }}
+            <div class="form__title">
+                1. Реквизиты
+            </div>
+            {{ form.credentials(placeholder="ОКПО") }}
+            <div class="form__title">
+                2. Адрес
+            </div>
+            {{ form.country }}
+            {{ form.city(placeholder="Город*") }}
+            {{ form.address(placeholder="Адрес") }}
+            <div class="form__title">
+                2. Юридический адрес
+            </div>
+            {{ form.country_ur }}
+            {{ form.city_ur(placeholder="Город*") }}
+            {{ form.address_ur(placeholder="Адрес") }}
+            {{ form.index(placeholder="Индекс") }}
+            <button class="button" type="submit">Сохранить</button>
+        </form>
+    </div>
+    <div class="col-md-6 align-self-end">
+        <div class="address__img overlay" style="background-image: url({{ url_for('static', filename='public/img/28.jpg') }})">
+            <div class="wrap">
+                <h2>Орех Причерноморья</h2>
+                <p>Единственный в Украине сад совместного выращивания фундука и грецкого ореха</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileRequired
-from wtforms import StringField
+from wtforms import StringField, SelectField
 from wtforms.validators import Email, Optional
 
 from ..custom_field import CustomFileField
+
+from app._db.choices import CountryChoice
 
 
 class ClientPersonalInfoForm(FlaskForm):
@@ -13,3 +14,15 @@ class ClientPersonalInfoForm(FlaskForm):
     company = StringField('Компания', validators=[Optional()])
 
     photo = CustomFileField('Фото', validators=[Optional()])
+
+
+class ClientProfileAddressForm(FlaskForm):
+    country = SelectField('Страна', choices=CountryChoice.choices(), coerce=CountryChoice.coerce)
+    city = StringField('Город', validators=[Optional()])
+    address = StringField('Адрес', validators=[Optional()])
+
+    country_ur = SelectField('Страна', choices=CountryChoice.choices(), coerce=CountryChoice.coerce)
+    city_ur = StringField('Город', validators=[Optional()])
+    address_ur = StringField('Адрес', validators=[Optional()])
+    index = StringField('Индекс', validators=[Optional()])
+    credentials = StringField('Реквизиты', validators=[Optional()])

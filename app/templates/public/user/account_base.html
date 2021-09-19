@@ -57,14 +57,22 @@
                         <li>
                             {% if instance.type.name == 'physical_person' %}
                             <a href="{{ url_for('public.personal_info', obj_id=instance.id) }}"
-                            class="{% if 'info/fop' in request.path %}active{% endif %}">Контактная информация</a>
+                               class="{% if 'info/fop' in request.path %}active{% endif %}">Контактная информация</a>
                             {% else %}
                             <a href="{{ url_for('public.personal_info_ur', obj_id=instance.id) }}"
-                            class="{% if 'info/ur' in request.path %}active{% endif %}">Контактная информация</a>
+                               class="{% if 'info/ur' in request.path %}active{% endif %}">Контактная информация</a>
                             {% endif %}
                         </li>
                         <li><a href="#">Пароль</a></li>
-                        <li><a href="#">Адрес</a></li>
+                        <li>
+                            {% if instance.type.name == 'physical_person' %}
+                            <a href="{{ url_for('public.personal_address_fop', obj_id=instance.id) }}"
+                               class="{% if 'address/fop' in request.path %}active{% endif %}">Адрес</a>
+                            {% else %}
+                            <a href="{{ url_for('public.personal_address_ur', obj_id=instance.id) }}"
+                               class="{% if 'address/ur' in request.path %}active{% endif %}">Адрес</a>
+                            {% endif %}
+                        </li>
                     </ul>
                 </nav>
             </div>
