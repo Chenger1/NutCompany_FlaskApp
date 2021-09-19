@@ -1,0 +1,36 @@
+{% extends "public/user/account_base.html" %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='admin/plugins/fontawesome-free/all.min.css') }}">
+{% endblock %}
+
+{% block profile_content %}
+<table>
+    <thead>
+        <tr>
+            <th>№ Заказа</th>
+            <th>Дата</th>
+            <th>Кол-во товаров</th>
+            <th>Статус</th>
+            <th>Стоимость</th>
+            <th>Функции</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in instance.orders %}
+            <tr>
+                <td>{{ order.number }}</td>
+                <td>{{ order.date.strftime('%d-%m-%Y') }}</td>
+                <td>{{ order_item.amount_for_order(order.id)}}</td>
+                <td>{{ order.status.value }}</td>
+                <td>{{ order.sum }}</td>
+                <td><a href=""><i class="far fa-eye"></i></a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Вы ещё не делали заказы</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

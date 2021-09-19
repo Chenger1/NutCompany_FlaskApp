@@ -33,6 +33,7 @@
 
     <link rel="stylesheet" href="css/main.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='public/css/main.min.css') }}">
+    {% block style %}{% endblock %}
 
 </head>
 
@@ -63,7 +64,7 @@
                         <ul class="log_in d-lg-flex d-none">
                             {% if current_user.is_authenticated %}
                             <li><a href="{{ url_for('public.logout_page') }}"><span>Выход</span></a></li>
-                            <li><a href=""><span>Личный кабинет</span></a></li>
+                            <li><a href="{{ url_for('public.profile', obj_id=current_user.id) }}"><span>Личный кабинет</span></a></li>
                             {% else %}
                             <li>
                                 <a href="{{ url_for('public.login_page') }}"><i class="nut-icon icons-man-user"></i><span>Вход</span></a>

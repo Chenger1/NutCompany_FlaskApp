@@ -1,0 +1,68 @@
+{% extends "public/base.html" %}
+
+
+{% block content %}
+<section class="first-section no-bg">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul>
+                <li>
+                    <a href="/">Главная</a>
+                </li>
+                <li>
+                    Личный кабинет
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="accaunt">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <h1>Учетная запись</h1>
+            </div>
+            <div class="col-lg-9 col-md-6">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="accaunt__manager">
+                            <ul>
+                                <li>
+                                    <p>Ваш личный менеджер Олег</p>
+                                </li>
+                                <li><i class="nut-icon icons-phone"></i> <a href="tel:+380677771412">+38 067 777 14
+                                    12</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+        <span class="discount">
+            Ваша персональная скидка - 5%
+        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <nav class="navigation">
+                    <p>Мои заказы</p>
+                    <ul>
+                        <li><a href="#" class="active">История заказов</a></li>
+                        <li><a href="#">История транзакций</a></li>
+                    </ul>
+                    <p>Моя учетная запись</p>
+                    <ul>
+                        <li><a href="#">Контактная информация</a></li>
+                        <li><a href="#">Пароль</a></li>
+                        <li><a href="#">Адрес</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-9">
+                {% block profile_content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
