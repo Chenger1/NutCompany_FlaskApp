@@ -1,9 +1,13 @@
 from . import public
 from flask.views import MethodView
+from flask import request
+from flask_login import current_user, AnonymousUserMixin
 
-from app._db.models import Product
+from app._db.models import Product, Request
 from app._db.site_models import NewsItem, AboutCompany, MainPageGallery, CorporateClients
-from app.utils.generic import DetailInstanceMixin, ListMixinApi, ListViewMixin, TemplateMixin
+from app._db.choices import RequestStatusChoice
+from app.utils.generic import DetailInstanceMixin, ListMixinApi, ListViewMixin, TemplateMixin, CreateViewMixin
+from app.forms.public.common_forms import RequestForm
 
 from .filters import truncate_html_filter
 
@@ -99,6 +103,22 @@ class PaymentView(MethodView, TemplateMixin):
     template_name = 'public/payment.html'
 
 
+class RequestPageView(MethodView, CreateViewMixin):
+    model = Request
+    template_name = 'public/user/request.html'
+    form_class = RequestForm
+    redirect_url = 'public.main_page'
+
+    def get_form(self, instance=None):
+        form = super().get_form(instance)
+        form.date.data = datetime.datetime.now()
+        form.status.data = RequestStatusChoice.in_progress
+        if request.method == 'GET' and not isinstance(current_user, AnonymousUserMixin):
+            form.fio.data = current_user.fio
+            form.phone.data = current_user.phone
+        return form
+
+
 public.add_url_rule('/', view_func=IndexPageView.as_view('main_page'))
 public.add_url_rule('/about', view_func=AboutCompanyView.as_view('about_page'), defaults={'obj_id': 1})
 public.add_url_rule('/gallery_page', view_func=GalleryPageView.as_view('gallery_page'))
@@ -107,6 +127,7 @@ public.add_url_rule('/news/<obj_id>', view_func=DetailNewsItemView.as_view('news
 public.add_url_rule('/customers', view_func=CorporateClientsView.as_view('customers_page'))
 public.add_url_rule('/contacts', view_func=ContactsPageView.as_view('contacts_page'))
 public.add_url_rule('/payments', view_func=PaymentView.as_view('payments_page'))
+public.add_url_rule('/request', view_func=RequestPageView.as_view('request_page'))
 
 public.add_url_rule('/gallery', view_func=GalleryView.as_view('gallery_view'))
 public.add_url_rule('/news_api', view_func=NewsApiView.as_view('news_api_view'))
