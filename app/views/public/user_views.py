@@ -22,7 +22,7 @@ class ClientLoginView(MethodView):
     def post(self):
         form = self.form()
         if form.validate_on_submit():
-            user = self.model.query.filter_by(email=form.email.data).first()
+            user = self.model.query.filter_by(email=form.email.data, is_admin=False).first()
             if user and user.verify_password(form.password.data):
                 login_user(user)
                 return redirect(url_for('public.main_page'))
