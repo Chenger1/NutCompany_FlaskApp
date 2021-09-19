@@ -3,6 +3,7 @@ from wtforms import StringField, SelectField, RadioField, ValidationError
 from wtforms.validators import DataRequired, Email, Optional
 
 from app._db.choices import CountryChoice, UserTypeChoice
+from app._db.models import User
 from ..custom_field import CustomFileField
 
 
@@ -29,6 +30,10 @@ class ClientRegistrationForm(FlaskForm):
 
     type = RadioField('Тип', choices=UserTypeChoice.choices(), coerce=UserTypeChoice.coerce,
                       validators=[Optional()])
+
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data).first():
+            raise ValidationError('Пользователем с таким адресом почты уже существует')
 
 
 class ClientLoginForm(FlaskForm):

@@ -23,8 +23,8 @@
             <div class="col-12">
                 <h1>Регистрация</h1>
                 {% if form.errors %}
-                {% for key, value in form.errors %}
-                <h5>{{key}} - {{ value }}</h5>
+                {% for key, value in form.errors.items() %}
+                <h5>{{key}} - {{ value[0] }}</h5>
                 {% endfor %}
                 {% endif %}
             </div>
