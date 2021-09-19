@@ -60,19 +60,19 @@ class UpdateViewMixin(ViewMixin, FormViewMixin):
     redirect_url = None
 
     def get(self, *args, **kwargs):
-        instance = self.get_instance(*args, **kwargs)
-        form = self.get_form(instance)
-        context = self.get_context(form, instance)
+        self.instance = self.get_instance(*args, **kwargs)
+        form = self.get_form(self.instance)
+        context = self.get_context(form, self.instance)
         return self.render_template(context)
 
     def post(self, *args, **kwargs):
-        instance = self.get_instance(*args, **kwargs)
+        self.instance = self.get_instance(*args, **kwargs)
         form = self.get_form()
         if form.validate_on_submit():
-            self.handle_form(form, instance)
+            self.handle_form(form, self.instance)
             self.save_instance()
-            return redirect(url_for(self.redirect_url))
-        context = self.get_context(form, instance)
+            return redirect(self.make_request())
+        context = self.get_context(form, self.instance)
         return self.render_template(context)
 
     def get_instance(self, obj_id):
@@ -80,6 +80,9 @@ class UpdateViewMixin(ViewMixin, FormViewMixin):
 
     def get_context(self, form, instance):
         return {'form': form, 'instance': instance}
+
+    def make_request(self):
+        return url_for(self.redirect_url)
 
 
 class CreateViewMixin(ViewMixin, FormViewMixin):
