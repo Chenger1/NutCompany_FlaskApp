@@ -1,0 +1,50 @@
+{% extends "public/user/account_base.html" %}
+
+
+{% block profile_breadcrumb %}
+<li>
+    <a href="{{ url_for('public.profile', obj_id=instance.id) }}">Личный кабинет</a>
+</li>
+
+<li>
+    Контактная информация
+</li>
+{% endblock %}
+
+{% block profile_content %}
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            {{ form.csrf_token }}
+            {{ form.fio(placeholder="ФИО*") }}
+            {{ form.email(placeholder="Email*") }}
+            {{ form.phone(placeholder="Телефон*") }}
+            <button class="button float-left" type="submit">Сохранить</button>
+
+        </div>
+        <div class="col-md-6 align-self-center">
+            <div class="wrapper">
+                <div class="file__wrap">
+                    {{ form.photo(="file", class="inputfile") }}
+                    {% if current_user.photo %}
+                    <label for="file" class="label__photo"
+                           style="background-image: url({{ url_for('common.download_file', name=current_user.photo) }});"><span>Загрузить фото</span></label>
+                    {% else %}
+                    <label for="file" class="label__photo"
+                           style="background-image: url({{ url_for('static', filename='public/img/istockphoto-674199444-612x612.jpg') }});"><span>Загрузить фото</span></label>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script src="{{ url_for('static', filename='admin/plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/update_img_after_upload.js') }}"></script>
+<script>
+    $('#file').on('change', function(){
+        setPreview(this, '.file__wrap', '.label__photo', true);
+    })
+
+</script>
+{% endblock %}

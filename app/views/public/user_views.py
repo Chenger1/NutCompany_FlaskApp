@@ -6,7 +6,8 @@ from flask_login import login_user, logout_user
 
 from app._db.models import User, OrderItem
 from app.forms.public.auth_forms import ClientRegistrationForm, ClientLoginForm
-from app.utils.generic import CreateViewMixin, TemplateMixin, UpdateViewMixin
+from app.forms.public.profile_forms import ClientPersonalInfoForm
+from app.utils.generic import CreateViewMixin, TemplateMixin, UpdateViewMixin, DetailInstanceMixin
 
 
 class ClientLoginView(MethodView):
@@ -48,15 +49,40 @@ class TermOfUserView(MethodView, TemplateMixin):
     template_name = 'public/terms-of-use.html'
 
 
-class ShowClientOrdersHistory(MethodView, UpdateViewMixin):
+class ShowClientOrdersHistory(MethodView, DetailInstanceMixin):
     model = User
     template_name = 'public/user/orders_history.html'
-    form_class = ClientLoginForm
 
-    def get_context(self, form, instance):
-        context = super().get_context(form, instance)
+    def get_context(self, **kwargs):
+        context = super().get_context(**kwargs)
         context['order_item'] = OrderItem
         return context
+
+
+class ShowClientContactsInfoForPhysicalPerson(MethodView, UpdateViewMixin):
+    """
+    Render info if client is not a part of some company
+    """
+    model = User
+    template_name = 'public/user/info-fiz.html'
+    form_class = ClientPersonalInfoForm
+    redirect_url = 'public.personal_info'
+
+    def make_request(self):
+        return url_for(self.redirect_url, obj_id=self.instance.id)
+
+
+class ShowClientContactsInfoForLegalPerson(MethodView, UpdateViewMixin):
+    """
+    Render info if client is a part of some company
+    """
+    model = User
+    template_name = 'public/user/info-ur.html'
+    form_class = ClientPersonalInfoForm
+    redirect_url = 'public.personal_info_ur'
+
+    def make_request(self):
+        return url_for(self.redirect_url, obj_id=self.instance.id)
 
 
 public.add_url_rule('/registration', view_func=ClientRegistrationView.as_view('registration'))
@@ -64,4 +90,8 @@ public.add_url_rule('/terms-of-use', view_func=TermOfUserView.as_view('term_of_u
 public.add_url_rule('/login', view_func=ClientLoginView.as_view('login_page'))
 public.add_url_rule('/logout', view_func=ClientLogoutView.as_view('logout_page'))
 
-public.add_url_rule('/profile/<obj_id>', view_func=ShowClientOrdersHistory.as_view('profile'))
+public.add_url_rule('/profile/<obj_id>/orders', view_func=ShowClientOrdersHistory.as_view('profile'))
+public.add_url_rule('/profile/<obj_id>/info/fop',
+                    view_func=ShowClientContactsInfoForPhysicalPerson.as_view('personal_info'))
+public.add_url_rule('/profile/<obj_id>/info/ur',
+                    view_func=ShowClientContactsInfoForLegalPerson.as_view('personal_info_ur'))

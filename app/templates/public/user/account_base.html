@@ -7,11 +7,13 @@
         <div class="breadcrumbs">
             <ul>
                 <li>
-                    <a href="/">Главная</a>
+                    <a href="{{ url_for('public.main_page') }}">Главная</a>
                 </li>
                 <li>
                     Личный кабинет
                 </li>
+                {% block profile_breadcrumb %}
+                {% endblock %}
             </ul>
         </div>
     </div>
@@ -47,11 +49,20 @@
                 <nav class="navigation">
                     <p>Мои заказы</p>
                     <ul>
-                        <li><a href="#" class="active">История заказов</a></li>
+                        <li><a href="{{ url_for('public.profile', obj_id=instance.id ) }}"
+                               class=" {% if '/orders' in request.path %} active{% endif %}">История заказов</a></li>
                     </ul>
                     <p>Моя учетная запись</p>
                     <ul>
-                        <li><a href="#">Контактная информация</a></li>
+                        <li>
+                            {% if instance.type.name == 'physical_person' %}
+                            <a href="{{ url_for('public.personal_info', obj_id=instance.id) }}"
+                            class="{% if 'info/fop' in request.path %}active{% endif %}">Контактная информация</a>
+                            {% else %}
+                            <a href="{{ url_for('public.personal_info_ur', obj_id=instance.id) }}"
+                            class="{% if 'info/ur' in request.path %}active{% endif %}">Контактная информация</a>
+                            {% endif %}
+                        </li>
                         <li><a href="#">Пароль</a></li>
                         <li><a href="#">Адрес</a></li>
                     </ul>
