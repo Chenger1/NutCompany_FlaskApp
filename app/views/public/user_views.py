@@ -4,9 +4,9 @@ from flask.views import MethodView
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user
 
-from app._db.models import User
+from app._db.models import User, OrderItem
 from app.forms.public.auth_forms import ClientRegistrationForm, ClientLoginForm
-from app.utils.generic import CreateViewMixin, TemplateMixin
+from app.utils.generic import CreateViewMixin, TemplateMixin, UpdateViewMixin
 
 
 class ClientLoginView(MethodView):
@@ -48,7 +48,20 @@ class TermOfUserView(MethodView, TemplateMixin):
     template_name = 'public/terms-of-use.html'
 
 
+class ShowClientOrdersHistory(MethodView, UpdateViewMixin):
+    model = User
+    template_name = 'public/user/orders_history.html'
+    form_class = ClientLoginForm
+
+    def get_context(self, form, instance):
+        context = super().get_context(form, instance)
+        context['order_item'] = OrderItem
+        return context
+
+
 public.add_url_rule('/registration', view_func=ClientRegistrationView.as_view('registration'))
 public.add_url_rule('/terms-of-use', view_func=TermOfUserView.as_view('term_of_use'))
 public.add_url_rule('/login', view_func=ClientLoginView.as_view('login_page'))
 public.add_url_rule('/logout', view_func=ClientLogoutView.as_view('logout_page'))
+
+public.add_url_rule('/profile/<obj_id>', view_func=ShowClientOrdersHistory.as_view('profile'))
