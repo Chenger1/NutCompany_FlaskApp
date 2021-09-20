@@ -121,3 +121,8 @@ class EditOrderForm(FlaskForm):
     sum = FloatField('Сумма заказа', validators=[Optional()])
 
     date = DateTimeField('Дата создания', validators=[Optional()])
+
+
+class CommonSiteSettings(FlaskForm):
+    url_about_manufacturing = StringField('Видео о производстве', validators=[URL(), Optional()])
+    url_about_company = StringField('Видео о компании', validators=[URL(), Optional()])

@@ -63,3 +63,11 @@ class AboutCompanyGallery(db.Model):
     entity_id = db.Column(db.Integer(), db.ForeignKey('about_company.id'))
     entity = db.relationship(AboutCompany, backref=backref('gallery', cascade='all, delete-orphan'))
     photo = db.Column(db.String())
+
+
+class CommonSiteSetting(db.Model):
+    __tablename__ = 'common_site_settings'
+
+    id = db.Column(db.Integer, primary_key=True)
+    url_about_company = db.Column(db.String(), nullable=True)
+    url_about_manufacturing = db.Column(db.String(), nullable=True)

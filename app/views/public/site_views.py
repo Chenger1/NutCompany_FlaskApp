@@ -4,7 +4,7 @@ from flask import request
 from flask_login import current_user, AnonymousUserMixin
 
 from app._db.models import Product, Request
-from app._db.site_models import NewsItem, AboutCompany, MainPageGallery, CorporateClients
+from app._db.site_models import NewsItem, AboutCompany, MainPageGallery, CorporateClients, CommonSiteSetting
 from app._db.choices import RequestStatusChoice
 from app.utils.generic import DetailInstanceMixin, ListMixinApi, ListViewMixin, TemplateMixin, CreateViewMixin
 from app.forms.public.common_forms import RequestForm
@@ -22,7 +22,8 @@ class IndexPageView(MethodView, TemplateMixin):
         context.update({
             'products': Product.query.all(),
             'news': NewsItem.query.limit(6),
-            'about': AboutCompany.query.first()
+            'about': AboutCompany.query.first(),
+            'site_settings': CommonSiteSetting.query.first()
         })
         return context
 
@@ -37,6 +38,7 @@ class AboutCompanyView(MethodView, DetailInstanceMixin):
     def get_context(self, **kwargs):
         context = super().get_context(**kwargs)
         context['news'] = NewsItem.query.limit(6)
+        context['site_settings'] = CommonSiteSetting.query.first()
         return context
 
 

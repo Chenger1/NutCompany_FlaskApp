@@ -3,7 +3,7 @@
 <section class="first-section overlay" style="background-image: url({{ url_for('static', filename='public/img/header-home.jpg') }})">
     <div class="container">
         <div class="row align-items-center justify-content-center">
-            <a href="#">
+            <a href="{{ site_settings.url_about_company }}">
                 <h1>Орех Причерноморья</h1>
                 <p>Единственный в Украине сад совместного<br> выращивание фундука и грецкого ореха</p>
                 <span><i class="nut-icon icons-play-icon"></i></span>
@@ -211,7 +211,7 @@
              data-scrollax="properties: { translateY: '30%' }">
         <div class="container">
             <div class="row align-items-center justify-content-center">
-                <a href="#" data-scrollax="properties: { 'translateY': '5%', 'opacity': 1 }">
+                <a href="{{ site_settings.url_about_manufacturing }}" data-scrollax="properties: { 'translateY': '5%', 'opacity': 1 }">
                     <h2>Наша главная цель - получить максимальную<br> прибыль с одного гектара</h2>
                     <span><i class="nut-icon icons-play-icon"></i></span>
                     <p><i>Cмотреть видео о производстве</i></p>

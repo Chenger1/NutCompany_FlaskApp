@@ -56,9 +56,23 @@ class ContactsView(AdminMethodView, UpdateViewMixin):
         return instance
 
 
+class CommonSiteSettingsView(AdminMethodView, UpdateViewMixin):
+    template_name = 'admin/pages/common_site_settings.html'
+    model = site_models.CommonSiteSetting
+    form_class = common.CommonSiteSettings
+    redirect_url = 'main.common_site_settings'
+
+    def get_instance(self, obj_id=None):
+        instance = self.model.query.first()
+        if not instance:
+            return self.model()
+        return instance
+
+
 main.add_url_rule('/admin/gallery', view_func=GalleryPageView.as_view('gallery_page'))
 main.add_url_rule('/admin/corporate_clients', view_func=CorporateClientsView.as_view('corporate_clients_page'))
 main.add_url_rule('/admin/about_company', view_func=AboutCompanyView.as_view('about_company_page'))
 main.add_url_rule('/admin/about_company/detail/<obj_id>', view_func=AboutCompanyViewDetail.as_view('about_company_detail'),
                   defaults={'obj_id': 1})
 main.add_url_rule('/admin/contacts', view_func=ContactsView.as_view('contacts_page'))
+main.add_url_rule('/admin/common', view_func=CommonSiteSettingsView.as_view('common_site_settings'))
