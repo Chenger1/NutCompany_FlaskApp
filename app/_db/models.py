@@ -173,9 +173,3 @@ class Request(db.Model):
         if form_data.get('fio') and form_data.get('fio') != '':
             queryset = queryset.filter(cls.fio.contains(form_data.get('fio')))
         return queryset
-
-
-class Token(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_email = db.Column(db.String(), nullable=False)
-    token = db.Column(db.String(), nullable=False)
