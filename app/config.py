@@ -14,6 +14,13 @@ render_as_batch = bool(int(env.str('RENDER_BATCH')))
 
 class Config:
     SECRET_KEY = env.str('SECRET_KEY') or 'test string'
+    MAIL_SERVER = env.str('MAIL_SERVER')
+    MAIL_USERNAME = env.str('MAIL_USERNAME')
+    MAIL_PASSWORD = env.str('MAIL_PASSWORD')
+    MAIL_FROM = env.str('MAIL_FROM')
+    MAIL_PORT = env.str('MAIL_PORT')
+    MAIL_USE_TLS = bool(int(env.str('MAIL_USE_TLS')))
+    MAIL_SENDER = env.str('MAIL_SENDER')
     UPLOAD_FOLDER = upload_folder
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
