@@ -95,6 +95,9 @@ class NewsItemManager extends BaseManager{
         new_block.css('display', 'flex');
 
         $(`.${parent_block}`).append(new_block);
+        if(item.url){
+            $(`.${parent_block}`).find('.news__item').addClass('news__item_video');
+        }
     }
 }
 

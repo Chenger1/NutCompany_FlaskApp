@@ -21,6 +21,7 @@ class NewsItemForm(FlaskForm):
     text = TextAreaField('Text', validators=[DataRequired()])
     photo = CustomFileField('Photo', validators=[InputRequired()])
     publication_date = DateTimeLocalHTML5FormatField('Date', validators=[DataRequired()])
+    url = StringField('URL', validators=[Optional(), URL()])
 
 
 class NewsItemEditForm(NewsItemForm):

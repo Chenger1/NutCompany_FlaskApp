@@ -64,7 +64,8 @@ class NewsApiView(MethodView, ListMixinApi):
                 'title': item.title,
                 'text': truncate_html_filter(item.text, 250),
                 'photo': item.photo,
-                'publication_date': item.publication_date.strftime('%d.%m.%Y')}
+                'publication_date': item.publication_date.strftime('%d.%m.%Y'),
+                'url': item.url}
 
     def get_instances(self):
         """ Return new that are published """

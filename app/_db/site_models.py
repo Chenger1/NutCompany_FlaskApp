@@ -19,6 +19,7 @@ class NewsItem(db.Model):
     text = db.Column(db.Text())
     photo = db.Column(db.String())
     publication_date = db.Column(db.DateTime())
+    url = db.Column(db.String(), nullable=True)
 
 
 class CorporateClients(db.Model):

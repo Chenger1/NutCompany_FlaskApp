@@ -43,6 +43,11 @@
                         <div class="text">
                             {{ instance.text|safe }}
                         </div>
+                        {% if instance.url %}
+                        <div>
+                            <a href="{{ instance.url }}">Ссылка</a>
+                        </div>
+                        {% endif %}
                     </div>
                     <div class="card-footer">
                         <a href="{{ url_for('main.edit_news', obj_id=instance.id) }}" class="btn btn-primary">Редактировать</a>
