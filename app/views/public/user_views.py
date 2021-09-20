@@ -150,10 +150,10 @@ class RecoveryPassword(MethodView):
     def get(self, token):
         data = self.deserialize(token)
         if not data:
-            return render_template('public/404.html')
+            return render_template('public/error.html', code=400,  desc='Неверный токен')
         token_obj = Token.query.filter_by(token=token, user_email=data.get('token')).first()
         if not token_obj:
-            return redirect('public/404.html')
+            return render_template('public/error.html', code=400, desc='Неверный токен')
         form = self.form_class()
         form.user_email = token_obj.user_email
         return render_template(self.template_name, form=self.form_class())
