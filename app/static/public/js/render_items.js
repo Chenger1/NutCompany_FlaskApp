@@ -156,6 +156,10 @@ class GalleryManager extends BaseManager{
         $(new_block).removeClass(original_block_class);
         $(new_block).find('.wrap').append(block_item);
         
+        if(item.text != ''){
+            $(new_block).find('.wrap').append(this.renderDivWithText(item));
+        }
+
         this.gallery_container.append(new_block);
    }    
 
@@ -173,6 +177,13 @@ class GalleryManager extends BaseManager{
     let photo_url = `/uploads/${item.photo}`;
     let block = $(`<div class="benefit__item" style="background-image: url(${photo_url})"></div>`)
     return block;
+   }
+
+   renderDivWithText(item){
+    let text_block = $(`<div class="benefit__item item_hover overlay_green overlay_green_bg">
+        <p>${item.text}</p>
+        </div>`);
+    return text_block;
    }
 
 } 

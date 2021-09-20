@@ -7,7 +7,8 @@ class MainPageGallery(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     photo = db.Column(db.String())
-    url = db.Column(db.String())
+    url = db.Column(db.String(), nullable=True)
+    text = db.Column(db.String(), nullable=True)
 
 
 class NewsItem(db.Model):

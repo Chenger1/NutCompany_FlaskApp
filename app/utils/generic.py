@@ -144,7 +144,7 @@ class FormsetGenericMixin(ViewMixin):
         formset_state = self.get_formset_post_state()
         errors = self.formset_class.save()
         if errors:
-            context = self.get_context(**formset_state)
+            context = self.get_context(**{'errors': errors}, **formset_state)
             return self.render_template(context)
         return redirect(url_for(self.redirect_url))
 

@@ -30,6 +30,11 @@ class NewsItemEditForm(NewsItemForm):
 class GalleryForm(FlaskForm):
     photo = CustomFileField('Photo', validators=[validate_photo])
     url = StringField('URL', validators=[URL(), Optional()])
+    text = TextAreaField('Текст', validators=[Optional()])
+
+    def validate_text(self, field):
+        if field.data and self.url.data:
+            raise ValidationError('Нельзя одновременно указывать и текст и ссылку')
 
 
 class FormsetManagementForm(FlaskForm):

@@ -1,9 +1,8 @@
+<!--Macro render errors from list-->
+{% macro errors_list(errors) %}
 <script src="{{ url_for('static', filename='admin/jquery/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ url_for('static', filename='admin/js/adminlte.min.js') }}"></script>
-
-<!--Macro render errors from list-->
-{% macro errors_list(errors) %}
     {% for err_dict in errors %}
         {{ error_dict(err_dict) }}
     {% endfor %}
@@ -12,7 +11,9 @@
 
 <!--Macro render dict of errors-->
 {% macro error_dict(errors) %}
-
+<script src="{{ url_for('static', filename='admin/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='admin/js/adminlte.min.js') }}"></script>
 {% for tag, error in errors.items() %}
     {{ render_error(tag, error) }}
 {% endfor %}
@@ -21,6 +22,9 @@
 
 <!--Macro render one error-->
 {% macro render_error(tag, error) %}
+<script src="{{ url_for('static', filename='admin/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='admin/js/adminlte.min.js') }}"></script>
 <script>
     $(document).Toasts('create', {
         class: 'bg-danger',

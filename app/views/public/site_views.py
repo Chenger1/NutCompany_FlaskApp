@@ -51,7 +51,8 @@ class GalleryView(MethodView, ListMixinApi):
     def get_serialized_item(self, item):
         return {'id': item.id,
                 'photo': item.photo,
-                'url': item.url}
+                'url': item.url,
+                'text': item.text}
 
 
 class NewsApiView(MethodView, ListMixinApi):

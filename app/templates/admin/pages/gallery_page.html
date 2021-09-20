@@ -37,6 +37,10 @@
                             {{ empty_form.url.label(class="form-label") }}
                             {{ empty_form.url(class="form-control", placeholder="http://example.com") }}
                         </div>
+                        <div class="form-group">
+                            {{ empty_form.text.label(class="form-label") }}
+                            {{ empty_form.text(class="form-control") }}
+                        </div>
                         {{ empty_form.delete(style="display:none;") }}
                         {{ empty_form.csrf_token }}
                     </div>
@@ -68,6 +72,10 @@
                             <div class="form-group">
                                 {{ form.url.label(class="form-label") }}
                                 {{ form.url(class="form-control", placeholder="http://example.com") }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.text.label(class="form-label") }}
+                                {{ form.text(class="form-control", rows=5) }}
                             </div>
                             {{ form.delete(style="display:none;") }}
                         </div>
