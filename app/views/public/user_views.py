@@ -4,11 +4,17 @@ from flask.views import MethodView
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user
 
-from app._db.models import User, OrderItem
+from app._db.models import User, OrderItem, Token
 from app.forms.public.auth_forms import (ClientRegistrationForm, ClientLoginForm, ChangePasswordForm,
-                                         RestorePasswordMailForm)
+                                         RestorePasswordMailForm, RestorePasswordForm)
 from app.forms.public.profile_forms import ClientPersonalInfoForm, ClientProfileAddressForm
 from app.utils.generic import CreateViewMixin, TemplateMixin, UpdateViewMixin, DetailInstanceMixin
+from app.config import Config
+from app import db
+
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+
+from app.utils.funcs import send_mail
 
 
 class ClientLoginView(MethodView):
@@ -122,6 +128,55 @@ class RestorePasswordPage(MethodView):
     def get(self):
         return render_template(self.template_name, form=self.form_class())
 
+    def post(self):
+        form = self.form_class()
+        if form.validate_on_submit():
+            serializer = Serializer(Config.SECRET_KEY, 3600)
+            token = serializer.dumps({'token': form.email.data}).decode('utf-8')
+            token_obj = Token(user_email=form.email.data, token=token)
+            db.session.add(token_obj)
+            db.session.commit()
+            send_mail(form.email.data, 'Password Recovery', 'public/user/restore_mail', token=token,
+                      email=form.email.data)
+            return redirect(url_for('public.main_page'))
+        return render_template(self.template_name, form=form)
+
+
+class RecoveryPassword(MethodView):
+    template_name = 'public/user/password_recovery.html'
+    form_class = RestorePasswordForm
+    redirect_url = 'public.main_page'
+
+    def get(self, token):
+        data = self.deserialize(token)
+        if not data:
+            return render_template('public/404.html')
+        token_obj = Token.query.filter_by(token=token, user_email=data.get('token')).first()
+        if not token_obj:
+            return redirect('public/404.html')
+        form = self.form_class()
+        form.user_email = token_obj.user_email
+        return render_template(self.template_name, form=self.form_class())
+
+    def post(self, token):
+        form = self.form_class()
+        if form.validate_on_submit():
+            data = self.deserialize(token)
+            user = User.query.filter_by(email=data.get('token')).first()
+            user.password = form.password.data
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('public.main_page'))
+        return render_template(self.template_name, form=form)
+
+    def deserialize(self, token):
+        serializer = Serializer(Config.SECRET_KEY)
+        try:
+            data = serializer.loads(token.encode('utf-8'))
+            return data
+        except:
+            return False
+
 
 public.add_url_rule('/registration', view_func=ClientRegistrationView.as_view('registration'))
 public.add_url_rule('/terms-of-use', view_func=TermOfUserView.as_view('term_of_use'))
@@ -129,6 +184,7 @@ public.add_url_rule('/login', view_func=ClientLoginView.as_view('login_page'))
 public.add_url_rule('/logout', view_func=ClientLogoutView.as_view('logout_page'))
 public.add_url_rule('/change_password/<obj_id>', view_func=ChangePasswordPageView.as_view('change_password_page'))
 public.add_url_rule('/restore_password', view_func=RestorePasswordPage.as_view('restore_password_page'))
+public.add_url_rule('/password_recovery/<token>', view_func=RecoveryPassword.as_view('password_recovery'))
 
 public.add_url_rule('/profile/<obj_id>/orders', view_func=ShowClientOrdersHistory.as_view('profile'))
 public.add_url_rule('/profile/<obj_id>/info/fop',

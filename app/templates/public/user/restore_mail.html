@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="container">
+        <h5>Hello, {{ email }}</h5>
+        <p>This is message to restore your password</p>
+        <p>Please, click below to continue this procedure</p>
+        {{ url_for('public.password_recovery', token=token, _external=True) }}
+    </div>
+</body>
+</html>
