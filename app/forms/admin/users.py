@@ -64,3 +64,8 @@ class ClientAdminPageForm(FlaskForm):
     type = fields.SelectField('Тип', choices=UserTypeChoice.choices(), coerce=UserTypeChoice.coerce)
     credentials = fields.TextAreaField('Реквизиты')
     photo = CustomFileField('Фото', validators=[FileAllowed({'png', 'jpg', 'jpeg'})])
+
+    country_ur = fields.SelectField('Страна компании', choices=CountryChoice.choices(), coerce=CountryChoice.coerce)
+    city_ur = fields.StringField('Город компании')
+    address_ur = fields.StringField('Адрес компании')
+    company = fields.StringField('Компания')

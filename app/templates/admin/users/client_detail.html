@@ -68,11 +68,30 @@
                     {{ form.address(class="form-control", placeholder="Адрес") }}
                 </div>
             </div>
+            <hr>
             {% if instance.type.name == 'legal_person' %}
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 col-sm-12">
+                    {{ form.country_ur.label }}
+                    {{ form.country_ur(class="form-control", placeholder="Страна") }}
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    {{ form.city_ur.label }}
+                    {{ form.city_ur(class="form-control", placeholder="Город") }}
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    {{ form.address_ur.label }}
+                    {{ form.address_ur(class="form-control", placeholder="Адрес") }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-12">
                     {{ form.index.label }}
                     {{ form.index(class="form-control", placeholder="Индекс") }}
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    {{ form.company.label }}
+                    {{ form.company(class="form-control", placeholder="Индекс") }}
                 </div>
             </div>
             {% endif %}
