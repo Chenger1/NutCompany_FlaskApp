@@ -53,3 +53,12 @@ class ChangePasswordForm(FlaskForm):
     def validate_password(self, field):
         if field.data != self.new_password.data:
             raise ValidationError('Пароли не совпадают')
+
+
+class RestorePasswordMailForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+
+
+class RestorePasswordForm(FlaskForm):
+    password = StringField('Password', validators=[DataRequired()])
+    confirm_password = StringField('Confirm Password', validators=[DataRequired()])

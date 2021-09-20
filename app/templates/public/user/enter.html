@@ -34,7 +34,7 @@
                     {{ form.email(type="email", placeholder="Email*") }}
                     {{ form.password(type="password", placeholder="Пароль*") }}
                     <div class="mini_link">
-                        <a href="#">Забыли пароль?</a>
+                        <a href="{{ url_for('public.restore_password_page') }}">Забыли пароль?</a>
                     </div>
                     <button class="button" type="submit">Войти</button>
                     <div class="mini_link">

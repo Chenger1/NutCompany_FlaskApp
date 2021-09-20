@@ -5,7 +5,8 @@ from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user
 
 from app._db.models import User, OrderItem
-from app.forms.public.auth_forms import ClientRegistrationForm, ClientLoginForm, ChangePasswordForm
+from app.forms.public.auth_forms import (ClientRegistrationForm, ClientLoginForm, ChangePasswordForm,
+                                         RestorePasswordMailForm)
 from app.forms.public.profile_forms import ClientPersonalInfoForm, ClientProfileAddressForm
 from app.utils.generic import CreateViewMixin, TemplateMixin, UpdateViewMixin, DetailInstanceMixin
 
@@ -114,11 +115,20 @@ class ChangePasswordPageView(MethodView, UpdateViewMixin):
         return super().make_request()
 
 
+class RestorePasswordPage(MethodView):
+    template_name = 'public/user/restore_password_send_page.html'
+    form_class = RestorePasswordMailForm
+
+    def get(self):
+        return render_template(self.template_name, form=self.form_class())
+
+
 public.add_url_rule('/registration', view_func=ClientRegistrationView.as_view('registration'))
 public.add_url_rule('/terms-of-use', view_func=TermOfUserView.as_view('term_of_use'))
 public.add_url_rule('/login', view_func=ClientLoginView.as_view('login_page'))
 public.add_url_rule('/logout', view_func=ClientLogoutView.as_view('logout_page'))
 public.add_url_rule('/change_password/<obj_id>', view_func=ChangePasswordPageView.as_view('change_password_page'))
+public.add_url_rule('/restore_password', view_func=RestorePasswordPage.as_view('restore_password_page'))
 
 public.add_url_rule('/profile/<obj_id>/orders', view_func=ShowClientOrdersHistory.as_view('profile'))
 public.add_url_rule('/profile/<obj_id>/info/fop',
