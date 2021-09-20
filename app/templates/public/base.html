@@ -57,7 +57,9 @@
                     </ul>
                 </div>
                 <div class="col-lg-4 col-12 d-lg-flex d-none justify-content-center">
-                    <p>Ваша персональная скидка - 5%</p>
+                    {% if current_user.id and current_user.personal_discount %}
+                    <p>Ваша персональная скидка - {{ current_user.personal_discount }}%</p>
+                    {% endif %}
                 </div>
                 <div class="col-lg-4 col-12">
                     <div class="wrap">

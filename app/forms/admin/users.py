@@ -69,3 +69,5 @@ class ClientAdminPageForm(FlaskForm):
     city_ur = fields.StringField('Город компании')
     address_ur = fields.StringField('Адрес компании')
     company = fields.StringField('Компания')
+
+    personal_discount = fields.IntegerField('Персональная скидка, %', validators=[Optional()])

@@ -45,6 +45,8 @@ class User(UserMixin, db.Model):
     address_ur = db.Column(db.String(100), nullable=True)
     company = db.Column(db.String(100), nullable=True)
 
+    personal_discount = db.Column(db.Integer(), default=0)
+
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 

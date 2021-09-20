@@ -39,6 +39,10 @@
                         {{ form.type.label }}
                         {{ form.type(class="form-control") }}
                     </div>
+                    <div class="form-group">
+                        {{ form.personal_discount.label }}
+                        {{ form.personal_discount(class="form-control", placeholder="0") }}
+                    </div>
                 </div>
                 <div class="col-md-4 col-sm-12">
                     {% if instance and instance.photo %}
