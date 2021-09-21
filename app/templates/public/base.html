@@ -170,7 +170,7 @@
                     <div class="mobile-line d-lg-none d-flex"></div>
                     <ul class="menu_main_ul">
                         <li>
-                            <a href="#">Магазин</a>
+                            <a href="{{ url_for('public.shop_page') }}">Магазин</a>
                         </li>
                         <li>
                             <a href="{{ url_for('public.about_page') }}">О производстве</a>
@@ -419,7 +419,9 @@
 <script src="{{ url_for('static', filename='public/js/scripts.min.js') }}"></script>
 <script>
 		$('iframe').css('width', '100%');
-
 </script>
+{% block script %}
+
+{% endblock %}
 </body>
 </html>

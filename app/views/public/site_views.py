@@ -123,6 +123,30 @@ class RequestPageView(MethodView, CreateViewMixin):
         return form
 
 
+class ShopPageView(MethodView, TemplateMixin):
+    template_name = 'public/shop/shop.html'
+
+    def get_context(self, *args, **kwargs):
+        context = super().get_context(*args, **kwargs)
+        context['about'] = AboutCompany.query.first()
+        return context
+
+
+class ListProductsView(MethodView, ListMixinApi):
+    model = Product
+    paginate_by = 6
+
+    def get_serialized_item(self, item):
+        return {'id': item.id,
+                'type': item.type,
+                'name': item.name,
+                'weight': item.weight,
+                'price': item.price,
+                'is_promo': item.is_promo,
+                'promo_price': item.promo_price,
+                'gallery': [gal_item.photo for gal_item in item.gallery[:4]]}
+
+
 public.add_url_rule('/', view_func=IndexPageView.as_view('main_page'))
 public.add_url_rule('/about', view_func=AboutCompanyView.as_view('about_page'), defaults={'obj_id': 1})
 public.add_url_rule('/gallery_page', view_func=GalleryPageView.as_view('gallery_page'))
@@ -133,5 +157,8 @@ public.add_url_rule('/contacts', view_func=ContactsPageView.as_view('contacts_pa
 public.add_url_rule('/payments', view_func=PaymentView.as_view('payments_page'))
 public.add_url_rule('/request', view_func=RequestPageView.as_view('request_page'))
 
+public.add_url_rule('/shop', view_func=ShopPageView.as_view('shop_page'))
+
 public.add_url_rule('/gallery', view_func=GalleryView.as_view('gallery_view'))
 public.add_url_rule('/news_api', view_func=NewsApiView.as_view('news_api_view'))
+public.add_url_rule('/shop_api', view_func=ListProductsView.as_view('products_api_view'))

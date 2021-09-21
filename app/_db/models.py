@@ -88,9 +88,9 @@ class Product(db.Model):
 
     @property
     def is_new(self):
-        created = datetime.datetime.strptime(self.date, '%Y-%m-%d')
+        # created = datetime.datetime.strptime(self.date, '%Y-%m-%d')
         now = datetime.datetime.today()
-        delta = created - now
+        delta = self.date - now
         if delta.days <= 14:
             return True
         return False

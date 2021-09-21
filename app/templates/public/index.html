@@ -1,6 +1,7 @@
 {% extends "public/base.html" %}
 {% block content %}
-<section class="first-section overlay" style="background-image: url({{ url_for('static', filename='public/img/header-home.jpg') }})">
+<section class="first-section overlay"
+         style="background-image: url({{ url_for('static', filename='public/img/header-home.jpg') }})">
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <a href="{{ site_settings.url_about_company }}">
@@ -23,9 +24,9 @@
             </div>
         </div>
         <div class="row justify-content-center">
+            {% for item in products %}
             <div class="col-lg-4 col-md-6	col-12">
                 <div class="wrap">
-                    {% for item in products %}
                     <div class="production__item">
                         {% if item.is_promo %}
                         <div class="sticker">
@@ -108,15 +109,16 @@
                             </div>
                         </div>
                     </div>
-                    {% else %}
-                    <div><h4>Нет продуктов</h4></div>
-                    {% endfor %}
+
                 </div>
             </div>
+            {% else %}
+            <div><h4>Нет продуктов</h4></div>
+            {% endfor %}
         </div>
         <div class="row">
             <div class="wrapper">
-                <a href="#" class="button button_transparent">Перейти в магазин</a>
+                <a href="{{ url_for('public.shop_page') }}" class="button button_transparent">Перейти в магазин</a>
             </div>
         </div>
     </div>
@@ -211,7 +213,8 @@
              data-scrollax="properties: { translateY: '30%' }">
         <div class="container">
             <div class="row align-items-center justify-content-center">
-                <a href="{{ site_settings.url_about_manufacturing }}" data-scrollax="properties: { 'translateY': '5%', 'opacity': 1 }">
+                <a href="{{ site_settings.url_about_manufacturing }}"
+                   data-scrollax="properties: { 'translateY': '5%', 'opacity': 1 }">
                     <h2>Наша главная цель - получить максимальную<br> прибыль с одного гектара</h2>
                     <span><i class="nut-icon icons-play-icon"></i></span>
                     <p><i>Cмотреть видео о производстве</i></p>
@@ -232,7 +235,8 @@
         <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6	col-12">
                 <div class="wrap">
-                    <div class="benefit__item overlay" style="background-image: url({{ url_for('static', filename='public/img/walnuts.jpg') }})">
+                    <div class="benefit__item overlay"
+                         style="background-image: url({{ url_for('static', filename='public/img/walnuts.jpg') }})">
                         <i class="nut-icon icons-group4"></i>
                         <h3>Грецкий орех</h3>
                     </div>
@@ -248,7 +252,8 @@
             </div>
             <div class="col-lg-4 col-md-6	col-12">
                 <div class="wrap">
-                    <div class="benefit__item overlay" style="background-image: url({{ url_for('static', filename='public/img/nut.jpg') }})">
+                    <div class="benefit__item overlay"
+                         style="background-image: url({{ url_for('static', filename='public/img/nut.jpg') }})">
                         <i class="nut-icon icons-vector4"></i>
                         <h3>Фундук</h3>
                     </div>
@@ -264,7 +269,8 @@
             </div>
             <div class="col-lg-4 col-md-6	col-12">
                 <div class="wrap">
-                    <div class="benefit__item overlay" style="background-image: url({{ url_for('static', filename='public/img/berry.jpg') }})">
+                    <div class="benefit__item overlay"
+                         style="background-image: url({{ url_for('static', filename='public/img/berry.jpg') }})">
                         <i class="nut-icon icons-group5"></i>
                         <h3>Шиповник</h3>
                     </div>
