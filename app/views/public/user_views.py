@@ -29,7 +29,8 @@ class ClientLoginView(MethodView):
     def post(self):
         form = self.form()
         if form.validate_on_submit():
-            user = self.model.query.filter_by(email=form.email.data, is_admin=False).first()
+            # user = self.model.query.filter_by(email=form.email.data, is_admin=False).first()
+            user = self.model.query.filter_by(email=form.email.data).first()  # Commented only for prod
             if user and user.verify_password(form.password.data):
                 login_user(user)
                 return redirect(url_for('public.main_page'))
@@ -162,9 +163,11 @@ class RecoveryPassword(MethodView):
         form = self.form_class()
         if form.validate_on_submit():
             data = self.deserialize(token)
+            token_obj = Token.query.filter_by(token=token, user_email=data.get('token')).first()
             user = User.query.filter_by(email=data.get('token')).first()
             user.password = form.password.data
             db.session.add(user)
+            db.session.delete(token_obj)
             db.session.commit()
             return redirect(url_for('public.main_page'))
         return render_template(self.template_name, form=form)
