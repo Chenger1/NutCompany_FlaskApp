@@ -143,6 +143,7 @@ class ListProductsView(MethodView, ListMixinApi):
                 'weight': item.weight,
                 'price': item.price,
                 'is_promo': item.is_promo,
+                'is_new': item.is_new,
                 'promo_price': item.promo_price,
                 'gallery': [gal_item.photo for gal_item in item.gallery[:4]]}
 

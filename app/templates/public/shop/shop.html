@@ -1,7 +1,8 @@
 {% extends "public/base.html" %}
 
 {% block content %}
-<section class="first-section overlay" style="background-image: url({{ url_for('static', filename='public/img/Untitled-20.jpg') }})">
+<section class="first-section overlay"
+         style="background-image: url({{ url_for('static', filename='public/img/Untitled-20.jpg') }})">
     <div class="container">
         <div class="breadcrumbs">
             <ul>
@@ -84,7 +85,6 @@
             <div class="col-lg-4 col-md-6 col-12 product_base" style="display: none;">
                 <div class="wrap">
                     <div class="production__item">
-                        <!-- Slider main container -->
                         <div class="products-container swiper-container">
                             <!-- Additional required wrapper -->
                             <div class="swiper-wrapper">
@@ -177,22 +177,22 @@
             </div>
             <div class="col-md-7">
                 <!-- Swiper -->
-					<div class="manufacturer-container swiper-container">
-						<div class="swiper-wrapper">
-							{% for image in about.gallery %}
-                            <div class="swiper-slide">
-								<div class="manufacturer__item">
-									<img src="{{ url_for('common.download_file', name=image.photo) }}" alt="alt">
-								</div>
-							</div>
-                            {% endfor %}
-						</div>
-						<!-- Add Arrows -->
-						<div class="wrap">
-							<div class="swiper-button-next"></div>
-							<div class="swiper-button-prev"></div>
-						</div>
-					</div>
+                <div class="manufacturer-container swiper-container">
+                    <div class="swiper-wrapper">
+                        {% for image in about.gallery %}
+                        <div class="swiper-slide">
+                            <div class="manufacturer__item">
+                                <img src="{{ url_for('common.download_file', name=image.photo) }}" alt="alt">
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!-- Add Arrows -->
+                    <div class="wrap">
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -259,6 +259,7 @@ $(document).ready(function() {
         }
     })
 })
+
 
 </script>
 {% endblock %}

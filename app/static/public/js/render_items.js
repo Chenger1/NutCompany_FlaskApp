@@ -223,9 +223,20 @@ class ProductManager extends BaseManager {
         new_block.find('.apt').text(item.id);
         new_block.find('.weight').text(item.weight);
 
+        if(item.is_new){
+            let sticker_block = $('<div class="sticker"></div>');
+            sticker_block.append($('<i class="nut-icon icons-novinka"></i>')).append($('<p>Новинка</p>'));
+            $(new_block).find('.production__item').prepend(sticker_block);
+        }
+
         if (item.is_promo) {
             new_block.find('.sum_new').text(item.promo_price);
             new_block.find('.sum_old').text(item.price);
+
+            let sticker_block = $('<div class="sticker"></div>');
+            sticker_block.append($('<i class="nut-icon icons-actciya"></i>')).append($('<p>Акция</p>'));
+            $(new_block).find('.production__item').prepend(sticker_block);
+
         } else {
             new_block.find('.sum_new').text(item.price);
         }
