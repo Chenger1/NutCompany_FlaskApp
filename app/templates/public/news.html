@@ -20,7 +20,7 @@
                     <div class="swiper-wrapper">
                         {% for item in news %}
                         <div class="swiper-slide">
-                            <div class="news__item news__item_video">
+                            <div class="news__item {% if item.url %}news__item_video{% endif %}">
 									<span class="video_wrap">
 										<img src="{{ url_for('common.download_file', name=item.photo) }}" alt="alt">
 									</span>

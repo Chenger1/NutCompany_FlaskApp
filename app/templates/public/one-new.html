@@ -33,6 +33,9 @@
             <div class="col-lg-9 col-md-8 col-12">
                 <main class="main">
                     <img src="{{ url_for('common.download_file', name=instance.photo) }}" alt="alt">
+                    {% if instance.url %}
+                        <h4>Перейти >> по <a href="{{ instance.url }}" style="font-weight:bold; text-decoration: underline;">ссылке</a></h4>
+                    {% endif %}
                     {{ instance.text|safe }}
                 </main>
             </div>
