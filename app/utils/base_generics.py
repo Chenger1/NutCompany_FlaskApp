@@ -37,7 +37,7 @@ class FormViewMixin:
     def handle_field(self, field_name):
         field = getattr(self.form, field_name)
 
-        if field.data:
+        if field.data or field.data is False:  # Check False for 'checkboxes'
             setattr(self.instance, field_name, field.data)
 
     def save_instance(self):
