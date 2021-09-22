@@ -1,0 +1,272 @@
+{% extends "public/base.html" %}
+
+{% block content %}
+<section class="first-section no-bg">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul>
+                <li>
+                    <a href="{{ url_for('public.main_page') }}">Главная</a>
+                </li>
+                <li>
+                    Карточка товара
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="product">
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-lg-5 col-md-6">
+                <div class="wrap">
+                    <div class="product__item">
+                        {% if instance.is_promo %}
+                        <div class="sticker">
+                            <i class="nut-icon icons-actciya"></i>
+                            <p>Акция</p>
+                        </div>
+                        {% endif %}
+                        {% if instance.is_new %}
+                        <div class="sticker" style="top: 60px;">
+                            <i class="nut-icon icons-novinka"></i>
+                            <p>Новинка</p>
+                        </div>
+                        {% endif %}
+                        <!-- Slider main container -->
+                        <div class="products-container swiper-container">
+                            <!-- Additional required wrapper -->
+                            <div class="swiper-wrapper">
+                                <!-- Slides -->
+                                {% for image in instance.gallery %}
+                                <div class="swiper-slide">
+                                    <a href="#"><img src="{{ url_for('common.download_file', name=image.photo) }}"
+                                                     alt="alt"/></a>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- If we need navigation buttons -->
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                            <img class="zoom" src="img/zoom.svg" alt="alt">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-6">
+                <div class="product__content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="product__content_name">
+                                {{ instance.type }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="product__content_art">
+                                Арт:<span> {{ instance.id }}</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <h1>{{ instance.name }}</h1>
+                        </div>
+                        <div class="col-lg-3"></div>
+                        <div class="col-12">
+                            <div class="product__content_descr">
+                                <ul>
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <strong>Состав:</strong>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span>{{ instance.composition }}</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <strong>Масса нетто:</strong>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span>{{ instance.weight }}г.</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <strong>Энергетическая ценность:</strong>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span>{{ instance.energy }} Ккал.</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <strong>Срок годности:</strong>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span>{{ instance.life }}</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="warning">
+                                <i class="nut-icon icons-warning-sigh"></i>
+                                <p>{{ instance.condition }}</p>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="product__content_sum">
+                                <div class="sum_item">
+                                    <div class="sum_item_title">
+                                        <p>Ваша цена: </p>
+                                    </div>
+                                    <div class="sum_item_new">
+                                        <p>{{ instance.current_sum }} <i>грн.</i></p>
+                                    </div>
+                                    {% if instance.is_promo %}
+                                    <div class="sum_item_old">
+                                        <p>{{ instance.price }} <i>грн.</i></p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="sum_item">
+                                    <div class="sum_item_button">
+                                        <a href="#" class="button">Заказать</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="payment payment__product">
+    <div class="tabs">
+        <div class="tabs__wrap">
+            <div class="container">
+                <div class="row">
+                    <ul class="tabs__caption">
+                        <li class="active"><span>Описание</span></li>
+                        <li><span>Упаковка</span></li>
+                        <li><span>Оплата</span></li>
+                        <li><span>Доставка</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="tabs__content active">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <img src="{{ url_for('common.download_file', name=instance.desc_image) }}"
+                                     class="tabs__content_img" alt="alt">
+                            </div>
+                            <div class="col-lg-8 col-md-6 col-12 align-self-center">
+                                <div class="tabs__content_product">
+                                    {{ instance.desc|safe }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabs__content">
+                        <div class="row text-center">
+                            <div class="col-12">
+                                <h4>Фото упаковки</h4>
+                                <img src="{{ url_for('common.download_file', name=instance.package) }}" alt="alt"
+                                     width="700" height="700">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabs__content">
+                        <div class="row">
+                            <div class="col-md-5 col-12 align-self-center">
+                                <div class="tabs__content_block">
+                                    <p class="tabs__content_title">
+                                        Способы оплаты
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            <span><img src="{{ url_for('static', filename='public/img/icon.png') }}"
+                                                       alt="alt">Безналичный расчет</span>
+                                            <p>Вы можете выбрать “получить реквизиты” для дальнейшей оплаты на карту,
+                                                или в терминалах.</p>
+                                        </li>
+                                        <li>
+                                            <span><img src="{{ url_for('static', filename='public/img/icon2.png') }}"
+                                                       alt="alt">Оплата с помощью банковской карты</span>
+                                            <p>Оплатите Ваш заказ картой любого банка онлайн (LiqPay/Приват24)</p>
+                                        </li>
+                                        <li>
+                                            <span><img src="{{ url_for('static', filename='public/img/icon3.png') }}"
+                                                       alt="alt">Наличный расчет</span>
+                                            <p>Оплата заказов наложенным платежом в отделении Новой Почты, или наличными
+                                                курьерами</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-12">
+                                <img src="{{ url_for('static', filename='public/img/Untitled-2.jpg') }}"
+                                     class="tabs__content_img" alt="alt">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabs__content">
+                        <div class="row">
+                            <div class="col-md-5 col-12 align-self-center">
+                                <div class="tabs__content_block">
+                                    <p class="tabs__content_title">
+                                        Способы оплаты
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            <span><img
+                                                    src="{{ url_for('static', filename='public/img/new_posta.png') }}"
+                                                    alt="alt">Новая почта (по Украине)</span>
+                                            <p>Служба "Новая почта" может доставить ваш заказ в любую точку страны.
+                                                (Доставка по Украине за счет Клиента)</p>
+                                        </li>
+                                        <li>
+                                            <span><img
+                                                    src="{{ url_for('static', filename='public/img/moto_icon.jpg') }}"
+                                                    alt="alt">Курьер по Одессе</span>
+                                            <p>Наши курьеры способны быстро и безопасно доставить ваши товары по любому
+                                                адресу
+                                                в пределах города Одесса. </p>
+                                        </li>
+                                        <li>
+                                            <span><img src="{{ url_for('static', filename='public/img/men_icon.jpg') }}"
+                                                       alt="alt">Самовывоз со склада</span>
+                                            <p>Вы можете самостоятельно забрать товары с наших складов в любое время в
+                                                пределах рабочего дня</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-12">
+                                <img src="{{ url_for('static', filename='public/img/delivery.jpg') }}"
+                                     class="tabs__content_img" alt="alt">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -151,6 +151,11 @@ class ListProductsView(MethodView, ListMixinApi):
                 'gallery': [gal_item.photo for gal_item in item.gallery[:4]]}
 
 
+class ProductDetailView(MethodView, DetailInstanceMixin):
+    model = Product
+    template_name = 'public/shop/product.html'
+
+
 public.add_url_rule('/', view_func=IndexPageView.as_view('main_page'))
 public.add_url_rule('/about', view_func=AboutCompanyView.as_view('about_page'), defaults={'obj_id': 1})
 public.add_url_rule('/gallery_page', view_func=GalleryPageView.as_view('gallery_page'))
@@ -162,6 +167,7 @@ public.add_url_rule('/payments', view_func=PaymentView.as_view('payments_page'))
 public.add_url_rule('/request', view_func=RequestPageView.as_view('request_page'))
 
 public.add_url_rule('/shop', view_func=ShopPageView.as_view('shop_page'))
+public.add_url_rule('/shop/product/<obj_id>', view_func=ProductDetailView.as_view('product_page'))
 
 public.add_url_rule('/gallery', view_func=GalleryView.as_view('gallery_view'))
 public.add_url_rule('/news_api', view_func=NewsApiView.as_view('news_api_view'))

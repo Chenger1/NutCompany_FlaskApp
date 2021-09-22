@@ -46,7 +46,8 @@
                                 <!-- Slides -->
                                 {% for image in item.gallery %}
                                 <div class="swiper-slide">
-                                    <a href=""><img src="{{ url_for('common.download_file', name=image.photo) }}"
+                                    <a href="{{ url_for('public.product_page', obj_id=item.id) }}">
+                                        <img src="{{ url_for('common.download_file', name=image.photo) }}"
                                                     alt="alt"></a>
                                 </div>
                                 {% endfor %}
