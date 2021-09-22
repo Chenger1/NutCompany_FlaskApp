@@ -75,7 +75,7 @@ class Product(db.Model):
     package = db.Column(db.String())
     desc_image = db.Column(db.String())
     price = db.Column(db.Float())
-    promo_price = db.Column(db.Integer())
+    promo_price = db.Column(db.Float())
     is_promo = db.Column(db.Boolean(), default=False)
     date = db.Column(db.DateTime())
 
@@ -84,7 +84,7 @@ class Product(db.Model):
     @property
     def current_sum(self):
         if self.is_promo:
-            return self.promo_price
+            return float(self.promo_price)
         return self.price
 
     @property
