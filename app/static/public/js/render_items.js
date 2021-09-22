@@ -17,7 +17,7 @@ class BaseManager {
         this.makeRequest(this.renderResponseItems);
     }
 
-    makeRequest(callback, callback_two) {
+    makeRequest(callback) {
         let $this = this;
 
         $.ajax({
@@ -25,7 +25,7 @@ class BaseManager {
             type: 'get',
             data: { 'page': this.current_page },
             success: function(data) {
-                return callback(data, $this, callback_two);
+                return callback(data, $this);
             }
         });
     }
@@ -198,21 +198,27 @@ class ProductManager extends BaseManager {
         this.parent_block = '.items_row';
     }
 
-    renderItems(swiper_callback) {
-        this.makeRequest(this.renderResponseItems, swiper_callback);
+    renderItems(swiper_callback, data) {
+        this.makeRequest(this.renderResponseItems, swiper_callback, data);
     }
 
     renderResponseItems(response, $this, swiper_callback) {
         let items = response.items;
+
+        if (items.length === 0) {
+            alert('Больше не продуктов');
+            return
+        }
 
         for (let item of items) {
             $this.renderBlock(item, $this);
         }
 
         $this.total_pages = response.total_pages;
-        if(swiper_callback){
+        if (swiper_callback) {
             swiper = swiper_callback();
         }
+
     }
 
     renderBlock(item, $this) {
@@ -223,7 +229,7 @@ class ProductManager extends BaseManager {
         new_block.find('.apt').text(item.id);
         new_block.find('.weight').text(item.weight);
 
-        if(item.is_new){
+        if (item.is_new) {
             let sticker_block = $('<div class="sticker"></div>');
             sticker_block.append($('<i class="nut-icon icons-novinka"></i>')).append($('<p>Новинка</p>'));
             $(new_block).find('.production__item').prepend(sticker_block);
@@ -239,6 +245,7 @@ class ProductManager extends BaseManager {
 
         } else {
             new_block.find('.sum_new').text(item.price);
+            new_block.find('.sum_item_old').css('display', 'none');
         }
         $this.renderGallery(item.gallery, new_block, item.id);
 
@@ -260,5 +267,19 @@ class ProductManager extends BaseManager {
             new_image.find('img').prop('src', `/uploads/${image}`);
             $(gallery_parent).append(new_image);
         }
+    }
+
+
+    makeRequest(callback, callback_two, data = {}) {
+        let $this = this;
+        data['page'] = this.current_page;
+        $.ajax({
+            url: this.url,
+            type: 'get',
+            data: data,
+            success: function(data) {
+                return callback(data, $this, callback_two);
+            }
+        });
     }
 }

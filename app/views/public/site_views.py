@@ -136,6 +136,9 @@ class ListProductsView(MethodView, ListMixinApi):
     model = Product
     paginate_by = 6
 
+    def get_instances(self):
+        return self.model.search(request.args, self.model.query)
+
     def get_serialized_item(self, item):
         return {'id': item.id,
                 'type': item.type,

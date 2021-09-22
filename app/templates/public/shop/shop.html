@@ -1,5 +1,4 @@
 {% extends "public/base.html" %}
-
 {% block content %}
 <section class="first-section overlay"
          style="background-image: url({{ url_for('static', filename='public/img/Untitled-20.jpg') }})">
@@ -34,25 +33,17 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-5">
-                                    <select>
-                                        <option value="hide">Вкус</option>
-                                        <option value="lorem">lorem</option>
-                                        <option value="lorem">lorem</option>
-                                        <option value="lorem">lorem</option>
-                                        <option value="lorem">lorem</option>
-                                        <option value="lorem">lorem</option>
-                                        <option value="lorem">lorem</option>
+                                    <select name="product_status" id="product_status">
+                                        <option value="all">Все</option>
+                                        <option value="new">Новые</option>
+                                        <option value="promo">Акционные</option>
                                     </select>
                                 </div>
                                 <div class="col-lg-4">
-                                    <select>
-                                        <option value="hide">Масса</option>
-                                        <option value="lorem">lorem</option>
-                                        <option value="lorem">lorem</option>
-                                        <option value="lorem">lorem</option>
-                                        <option value="lorem">lorem</option>
-                                        <option value="lorem">lorem</option>
-                                        <option value="lorem">lorem</option>
+                                    <select name="weight" id="weight">
+                                        <option value="all">Все</option>
+                                        <option value="<40">Меньше 40 граммов</option>
+                                        <option value=">40">Больше 40 граммов</option>
                                     </select>
                                 </div>
                             </div>
@@ -61,17 +52,19 @@
                             <div class="row">
                                 <div class="col-lg-5 align-self-center">
                                     <div class="production__filter_price">
-                                        <span>
-                                            Стоимость
-                                        </span>
-                                        <i class="nut-icon icons-arrow-down"></i>
-                                        <i class="nut-icon icons-right-top accent"></i>
+                                            <span>
+                                                Стоимость
+                                            </span>
+                                        <i class="nut-icon icons-arrow-down" id="icons-arrow-down"></i>
+                                        <i class="nut-icon icons-right-top accent" id="icons-right-top"></i>
+                                        <input type="checkbox" id="price_up" style="display: none;">
+                                        <input type="checkbox" id="price_down" style="display: none;">
                                     </div>
                                 </div>
                                 <div class="col-lg-7">
                                     <div class="production__filter_button">
-                                        <a href="#" class="button">Применить</a>
-                                        <a href="#" class="button_close"><i
+                                        <button type="button" class="button" id="confirm_filter">Применить</button>
+                                        <a href="{{ url_for('public.shop_page') }}" class="button_close"><i
                                                 class="nut-icon icons-close-button"></i><span> Сбросить</span></a>
                                     </div>
                                 </div>
@@ -135,7 +128,7 @@
                                         <p><span class="sum_new"></span> <i>грн.</i></p>
                                     </div>
                                     <div class="sum_item_old">
-                                        <p><span class="span_old"></span> <i>грн.</i></p>
+                                        <p><span class="sum_old"></span> <i>грн.</i></p>
                                     </div>
                                 </div>
                                 <div class="sum_item">
@@ -197,7 +190,6 @@
         </div>
     </div>
 </section>
-
 <script src="{{ url_for('static', filename='admin/plugins/jquery/jquery.min.js') }}"></script>
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 <script src="{{ url_for('static', filename='public/js/render_items.js') }}"></script>
@@ -206,14 +198,10 @@ const SCRIPT_ROOT = {{ request.url_root | tojson }};
 const url = `${SCRIPT_ROOT}/shop_api`;
 let manager = new ProductManager(url);
 manager.renderItems(initSwiper);
-if(manager.total_pages === manager.current_page){
-    $('#more_items').prop('disabled', 'true');
-    $('#more_items').text('Больше нет продуктов');
-}
 
 var swiper;
 
-function initSwiper(){
+function initSwiper() {
     return new Swiper('.products-container', {
         slidesPerView: 1,
         spaceBetween: 30,
@@ -248,18 +236,56 @@ function initSwiper(){
 $(document).ready(function() {
     swiper = initSwiper();
 
+    $('html, body').animate({
+        scrollTop: $('.items_row').offset().top
+    }, 'slow');
+
     $('#more_items').on('click', function() {
         this.blur();
-        manager.current_page = ++manager.current_page;
-        manager.renderItems(initSwiper);
 
-        if (manager.current_page === manager.total_pages) {
-            $(this).prop('disabled', 'true');
-            $(this).text('Больше нет продуктов');
+        let data = {
+            'product_status': $('#product_status').find(':selected').val(),
+            'weight': $('#weight').find(':selected').val(),
+            'price_up': $('#price_up').prop('checked'),
+            'price_down': $('#price_down').prop('checked')
         }
+
+        manager.current_page = ++manager.current_page;
+        manager.renderItems(initSwiper, data);
+    })
+    
+
+    $('#confirm_filter').on('click', function(){
+        this.blur();
+        let data = {
+            'product_status': $('#product_status').find(':selected').val(),
+            'weight': $('#weight').find(':selected').val(),
+            'price_up': $('#price_up').prop('checked'),
+            'price_down': $('#price_down').prop('checked')
+        }
+        $('.items_row').find('.col-lg-4.col-md-6.col-12').not('.product_base').remove();
+        manager.current_page = 1;
+        manager.renderItems(initSwiper, data);
     })
 })
 
+</script>
+<script>
+$('#icons-arrow-down').on('click', function() {
+    $('#price_down').attr('checked', 'true');
+    $('#price_up').removeAttr('checked');
+
+    $(this).css('font-size', '20px').addClass('accent');
+    $('#icons-right-top').css('font-size', '12.5px').removeClass('accent');
+
+})
+$('#icons-right-top').on('click', function() {
+    $('#price_up').attr('checked', 'true');
+    $('#price_down').removeAttr('checked', 'false');
+
+    $(this).css('font-size', '20px').addClass('accent');
+    $('#icons-arrow-down').css('font-size', '12.5px').removeClass('accent');
+})
 
 </script>
 {% endblock %}

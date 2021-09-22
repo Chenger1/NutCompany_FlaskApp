@@ -2,6 +2,7 @@ from app import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import backref
 from sqlalchemy.sql import func
+from sqlalchemy.ext.hybrid import hybrid_property
 
 from flask_login import UserMixin
 
@@ -94,6 +95,27 @@ class Product(db.Model):
         if delta.days <= 14:
             return True
         return False
+
+    @hybrid_property
+    def is_new_check(self):
+        return self.is_new
+
+    @classmethod
+    def search(cls, form_data, queryset):
+        if form_data.get('product_status') == 'new':
+            now = datetime.datetime.today()
+            queryset = queryset.filter((cls.date-now) <= 14)
+        if form_data.get('product_status') == 'promo':
+            queryset = queryset.filter(cls.is_promo == True)
+        if form_data.get('weight') == '<40':
+            queryset = queryset.filter(cls.weight <= 40)
+        if form_data.get('weight') == '>40':
+            queryset = queryset.filter(cls.weight > 40)
+        if form_data.get('price_up') == 'true':
+            queryset = queryset.order_by(cls.price)
+        if form_data.get('price_down') == 'true':
+            queryset = queryset.order_by(cls.price.desc())
+        return queryset
 
 
 class ProductGallery(db.Model):
