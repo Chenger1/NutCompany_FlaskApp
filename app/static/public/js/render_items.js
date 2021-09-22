@@ -233,7 +233,7 @@ class ProductManager extends BaseManager {
             new_block.find('.sum_new').text(item.promo_price);
             new_block.find('.sum_old').text(item.price);
 
-            let sticker_block = $('<div class="sticker"></div>');
+            let sticker_block = $('<div class="sticker"></div>').css('top', '60px');
             sticker_block.append($('<i class="nut-icon icons-actciya"></i>')).append($('<p>Акция</p>'));
             $(new_block).find('.production__item').prepend(sticker_block);
 
