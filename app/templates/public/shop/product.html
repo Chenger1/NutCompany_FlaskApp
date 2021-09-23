@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="sum_item">
                                     <div class="sum_item_button">
-                                        <a href="#" class="button">Заказать</a>
+                                        <button type="button" class="button" id="buy">Заказать</button>
                                     </div>
                                 </div>
                             </div>
@@ -269,4 +269,14 @@
         </div>
     </div>
 </section>
+{% endblock %}
+{% block script %}
+<script>
+    const instance_id = '{{ instance.id }}';
+    $('#buy').on('click', function(){
+        this.blur();
+        let binded_method = cart_manager.addItemToCart.bind(cart_manager);
+        binded_method(instance_id);
+    })
+</script>
 {% endblock %}

@@ -198,48 +198,13 @@
 
 <div class="container pr">
     <div class="popup__cart">
-        <div class="wrap">
-            <div class="popup__cart_item">
+        <div class="wrap cart_items_row">
+            <div class="popup__cart_item base_cart_item_block" style="display: none;">
+                <input type="hidden" class="item_id">
                 <div class="row align-items-center no-gutters item_row">
                     <div class="col-md-5 col-12">
                         <div class="item_title">
-                            <p>Орех соленый 80г.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-7 col-12">
-                        <div class="row align-items-center no-gutters">
-                            <div class="col-6">
-                                <div class="item_quantity">
-                                    <button type="button" class="quantity_minus">
-                                        <i class="nut-icon icons-qty-left"></i>
-                                    </button>
-                                    <input type="text" name="quantity" value="4" class="quantity_input">
-                                    <button type="button" class="quantity_plus">
-                                        <i class="nut-icon icons-qty-right"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-5">
-                                <div class="item_sum">
-                                    <p>100 <span>грн.</span></p>
-                                </div>
-                            </div>
-                            <div class="col-1">
-                                <div class="item_close">
-                                    <a href="#">
-                                        <i class="nut-icon icons-close-button"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="popup__cart_item">
-                <div class="row align-items-center no-gutters item_row">
-                    <div class="col-md-5 col-12">
-                        <div class="item_title">
-                            <p>Орех сладкий 80г.</p>
+                            <p></p>
                         </div>
                     </div>
                     <div class="col-md-7 col-12">
@@ -257,12 +222,12 @@
                             </div>
                             <div class="col-5">
                                 <div class="item_sum">
-                                    <p>80 <span>грн.</span></p>
+                                    <p><span class="item_total_sum"></span> <span>грн.</span></p>
                                 </div>
                             </div>
                             <div class="col-1">
                                 <div class="item_close">
-                                    <a href="#">
+                                    <a href="#" class="button_close">
                                         <i class="nut-icon icons-close-button"></i>
                                     </a>
                                 </div>
@@ -271,13 +236,13 @@
                     </div>
                 </div>
             </div>
-            <div class="popup__cart_sum">
+            <div class="popup__cart_sum" style="display: none;">
                 <div class="sum_item">
                     <div class="sum_item_title">
                         <p>Всего </p>
                     </div>
                     <div class="sum_item_new">
-                        <p>175 <i>грн.</i></p>
+                        <p><span id="cart_sum"></span> <i>грн.</i></p>
                     </div>
                 </div>
                 <div class="sum_item">
@@ -287,9 +252,9 @@
                 </div>
             </div>
             <!-- Если корзина пуста -->
-            <!-- <div class="popup__cart_clean">
+            <div class="popup__cart_clean">
                 <p>Ваша корзина пуста</p>
-            </div> -->
+            </div>
         </div>
     </div>
 </div>
@@ -417,8 +382,13 @@
 </footer>
 
 <script src="{{ url_for('static', filename='public/js/scripts.min.js') }}"></script>
+<script src="{{ url_for('static', filename='public/js/cart.js') }}"></script>
 <script>
 		$('iframe').css('width', '100%');
+</script>
+<script>
+    const cart_manager = new CartManager();
+    cart_manager.restoreCartItems();
 </script>
 {% block script %}
 

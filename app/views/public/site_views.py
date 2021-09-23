@@ -1,6 +1,6 @@
 from . import public
 from flask.views import MethodView
-from flask import request
+from flask import request, jsonify
 from flask_login import current_user, AnonymousUserMixin
 
 from app._db.models import Product, Request
@@ -156,6 +156,19 @@ class ProductDetailView(MethodView, DetailInstanceMixin):
     template_name = 'public/shop/product.html'
 
 
+class ProductCartDetailApi(MethodView):
+    model = Product
+
+    def get(self, obj_id):
+        instance = self.model.query.get_or_404(obj_id)
+        return jsonify(self.serialize(instance))
+
+    def serialize(self, instance):
+        return {'id': instance.id,
+                'name': instance.name,
+                'price': instance.current_sum}
+
+
 public.add_url_rule('/', view_func=IndexPageView.as_view('main_page'))
 public.add_url_rule('/about', view_func=AboutCompanyView.as_view('about_page'), defaults={'obj_id': 1})
 public.add_url_rule('/gallery_page', view_func=GalleryPageView.as_view('gallery_page'))
@@ -172,3 +185,4 @@ public.add_url_rule('/shop/product/<obj_id>', view_func=ProductDetailView.as_vie
 public.add_url_rule('/gallery', view_func=GalleryView.as_view('gallery_view'))
 public.add_url_rule('/news_api', view_func=NewsApiView.as_view('news_api_view'))
 public.add_url_rule('/shop_api', view_func=ListProductsView.as_view('products_api_view'))
+public.add_url_rule('/product/<obj_id>', view_func=ProductCartDetailApi.as_view('product_cart_api'))
