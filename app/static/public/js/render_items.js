@@ -253,6 +253,8 @@ class ProductManager extends BaseManager {
         new_block.css('display', '');
         new_block.find('.products-container').addClass('for_swiper');
 
+        new_block.find('.sum_item_button').find('.button').attr('href', `shop/product/${item.id}`);
+
         $($this.parent_block).append(new_block);
         $(new_block).find('.gallery_base').remove();
     }
